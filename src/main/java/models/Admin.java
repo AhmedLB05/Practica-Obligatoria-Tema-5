@@ -53,7 +53,7 @@ public class Admin {
 
     //Metodo login
     public static boolean login(String email, String pass) {
-        return (email.equals("admin") && pass.equals("admin"));
+        return (email.equals("admin") && pass.equals("1234"));
     }
 
 }
