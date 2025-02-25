@@ -22,6 +22,6 @@ public class main {
     }
 
     private static void menuUsuario(Controlador controlador, Object user) {
-
+        return;
     }
 }
