@@ -74,7 +74,8 @@ public class Trabajador {
     //Otros metodos
 
     public boolean login(String email, String pass) {
-        return false;
+        if (email == null || pass == null || this.email == null || this.pass == null) return false;
+        return (email.equalsIgnoreCase(this.email) && pass.equals(this.pass));
     }
 
     public Pedido buscaPedidoAsignadoPendiente(int idPedido) {
