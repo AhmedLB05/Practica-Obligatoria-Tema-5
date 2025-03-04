@@ -18,10 +18,16 @@ public class main {
     }
 
     private static Object menuInicio(Controlador controlador) {
-        return null;
+        System.out.println("         Bienvenidos a nuestra tienda online         ");
+        System.out.println("=====================================================");
+        System.out.println(" 1. Ver el catálogo");
+        System.out.println(" 2. Registrarse");
+        System.out.println(" 3. Iniciar sesión");
+        System.out.print(" Marque su opción: ");
+
     }
 
     private static void menuUsuario(Controlador controlador, Object user) {
-        return;
+
     }
 }
