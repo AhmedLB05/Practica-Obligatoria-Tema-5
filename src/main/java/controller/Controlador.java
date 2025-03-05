@@ -151,7 +151,7 @@ public class Controlador {
         return null;
     }
 
-    public ArrayList<PedidoClienteDataClass> getPedidosAsignadosTrabajador(int idTrabajador) {
+    /*public ArrayList<PedidoClienteDataClass> getPedidosAsignadosTrabajador(int idTrabajador) {
         return new ArrayList<>();
     }
 
@@ -161,7 +161,7 @@ public class Controlador {
 
     public ArrayList<PedidoClienteDataClass> getPedidosAsignadosYCompletados(int idTrabajador) {
         return new ArrayList<>();
-    }
+    }*/
 
     private int generaIdCliente() {
         return 0;

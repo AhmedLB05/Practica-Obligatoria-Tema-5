@@ -17,7 +17,7 @@ public class Cliente {
     private ArrayList<Producto> carro;
 
     //Constructor
-    public Cliente(int id, String email, String clave, String nombre, String localidad, String provincia, String direccion, int movil, ArrayList<Pedido> pedidos, ArrayList<Producto> carro) {
+    public Cliente(String email, String clave, String nombre, String localidad, String provincia, String direccion, int movil, ArrayList<Pedido> pedidos, ArrayList<Producto> carro) {
         this.id = id;
         this.email = email;
         this.clave = clave;
