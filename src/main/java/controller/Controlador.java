@@ -80,6 +80,9 @@ public class Controlador {
     }
 
     public Cliente buscaClienteById(int idCliente) {
+        for (Cliente c : clientes) {
+            if (c.getId() == idCliente) return c;
+        }
         return null;
     }
 
@@ -143,11 +146,21 @@ public class Controlador {
         return false;
     }
 
+    //Metodo que busca el trabajador por ID
     public Trabajador buscaTrabajadorByID(int idTrabajador) {
+        for (Trabajador t : trabajadores) {
+            if (t.getId() == idTrabajador) return t;
+        }
         return null;
     }
 
+    //Metodo que busca un pedido en los pedidos asignados de un trabajador
     public Pedido buscaPedidoAsignadoTrabajador(int idTrabajador, int idPedido) {
+        Trabajador t = buscaTrabajadorByID(idTrabajador);
+        if (t == null || t.getPedidosAsignados() == null) return null;
+        for (Pedido p : t.getPedidosAsignados()) {
+            if (p.getId() == idPedido) return p;
+        }
         return null;
     }
 
@@ -164,7 +177,12 @@ public class Controlador {
     }*/
 
     private int generaIdCliente() {
-        return 0;
+        int idCliente;
+        do {
+            idCliente = (int) ((Math.random() * 90000) + 10000);
+        } while (buscaClienteById(idCliente) != null);
+        idCliente = Integer.parseInt(("2" + idCliente));
+        return idCliente;
     }
 
     private int generaIdProducto() {
@@ -180,7 +198,12 @@ public class Controlador {
     }
 
     private int generaIdTrabajador() {
-        return 0;
+        int idTrabajador;
+        do {
+            idTrabajador = (int) ((Math.random() * 90000) + 10000);
+        } while (buscaTrabajadorByID(idTrabajador) != null);
+        idTrabajador = Integer.parseInt(("1" + idTrabajador));
+        return idTrabajador;
     }
 
 }

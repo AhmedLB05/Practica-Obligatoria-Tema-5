@@ -73,33 +73,58 @@ public class Trabajador {
 
     //Otros metodos
 
+    //Metodo para el login del Cliente
     public boolean login(String email, String pass) {
-        if (email == null || pass == null || this.email == null || this.pass == null) return false;
+        if (email == null || pass == null) return false;
         return (email.equalsIgnoreCase(this.email) && pass.equals(this.pass));
     }
 
+    //Metodo que busca en los pedidos asignados pendientes un pedido por ID
     public Pedido buscaPedidoAsignadoPendiente(int idPedido) {
+        ArrayList<Pedido> pedidosPendientes = getPedidosPendientes();
+        for (Pedido p : pedidosPendientes) {
+            if (p.getId() == idPedido) return p;
+        }
         return null;
     }
 
+    //Metodo que busca en los pedidos asignados completados un pedido por ID
     public Pedido buscaPedidoAsignadoCompletado(int idPedido) {
+        ArrayList<Pedido> pedidosCompletados = getPedidosCompletados();
+        for (Pedido p : pedidosCompletados) {
+            if (p.getId() == idPedido) return p;
+        }
         return null;
     }
 
+    //Metodo que agrega un pedido a los pedidosAsignados
     public boolean asignaPedido(Pedido p) {
-        return false;
+        if (p == null || pedidosAsignados.contains(p) || pedidosAsignados == null) return false;
+        pedidosAsignados.add(p);
+        return true;
     }
 
-    public ArrayList<Pedido> getPendidosPendientes() {
-        return new ArrayList<>();
+    //Metodo que agrega los pedidos EN PREPARACION a un Array (según el estado = 1 En preparacion) y lo devuelve
+    public ArrayList<Pedido> getPedidosPendientes() {
+        ArrayList<Pedido> pedidosPendientes = new ArrayList<>();
+        for (Pedido p : pedidosAsignados) {
+            if (p.getEstado() == 1) pedidosPendientes.add(p);
+        }
+        return pedidosPendientes;
     }
 
+    //Metodo que agrega los pedidos ENTREGADOS a un Array (segun el estado = 1 En preparacion) y lo devuelve
     public ArrayList<Pedido> getPedidosCompletados() {
-        return new ArrayList<>();
+        ArrayList<Pedido> pedidosCompletados = new ArrayList<>();
+        for (Pedido p : pedidosAsignados) {
+            if (p.getEstado() == 3) pedidosCompletados.add(p);
+        }
+        return pedidosCompletados;
     }
 
+    //Metodo que devuelve el número de pedidos pendientes
     public int numPedidosPendientes() {
-        return 0;
+        return getPedidosPendientes().size();
     }
 
 }

@@ -83,35 +83,60 @@ public class Pedido {
     }
 
     //Otros metodos
+
+    //Metodo que cambia el estado del pedido
     public boolean cambiaEstado(int nuevoEstado) {
-        return false;
+        if (!(nuevoEstado >= 1 && nuevoEstado <= 4)) return false;
+        setEstado(nuevoEstado);
+        return true;
     }
 
+    //Metodo para cambiar la fecha de entrega deliveryDate
     public boolean cambiaFechaEntrega(LocalDate nuevaFecha) {
-        return false;
+        if (nuevaFecha.isBefore(fechaPedido) || nuevaFecha.isEqual(fechaPedido)) return false;
+        setDeliveryDate(nuevaFecha);
+        return true;
     }
 
+    //Metodo que calcula el total del pedido SIN IVA
     public float calculaTotalPedidoSinIVA() {
-        return 0.0f;
+        float precioTotalPedido = 0;
+        for (Producto p : productos) {
+            precioTotalPedido += p.getPrecio();
+        }
+        return precioTotalPedido;
     }
 
+    //Metodo que calcula el precio del IVA del pedido
     public float calculaIVAPedido(int IVA) {
-        return 0.0f;
+        float precioIVAPedido = 0;
+        for (Producto p : productos) {
+            precioIVAPedido += p.getPrecio() * (IVA / 100f);
+        }
+        return precioIVAPedido;
     }
 
+    //Metodo que calcula el total del pedido
     public float calculaTotalPedidoConIVA(int IVA) {
-        return 0.0f;
+        return calculaTotalPedidoSinIVA() + calculaIVAPedido(IVA);
     }
 
+    //Metodo que devuelve el número de articulos en un pedido
     public int numArticulos() {
-        return 0;
+        if (productos == null) return 0;
+        return productos.size();
     }
 
+    //Metodo que busca un producto en el pedido por ID
     public Producto buscaProducto(int idProducto) {
+        for (Producto p : productos) {
+            if (p.getId() == idProducto) return p;
+        }
         return null;
     }
 
+    //Metodo para agregar un producto al pedido
     public void addProducto(Producto p) {
-
+        productos.add(p);
     }
 }

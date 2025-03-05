@@ -49,11 +49,12 @@ public class Admin {
         this.email = email;
     }
 
-    //Otros métodos
+    //Otros metodos
 
     //Metodo login
-    public static boolean login(String email, String pass) {
-        return (email.equals("admin") && pass.equals("1234"));
+    public boolean login(String email, String clave) {
+        if (email == null || clave == null) return false;
+        return (email.equalsIgnoreCase(this.email) && clave.equals(this.clave));
     }
 
 }

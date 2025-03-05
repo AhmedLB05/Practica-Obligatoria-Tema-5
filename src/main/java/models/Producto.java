@@ -70,8 +70,10 @@ public class Producto {
     }
 
     //Otros métodos
-    public void calculaRelevancia() {
 
+    //Metodo que calcula la relevancia
+    public void calculaRelevancia() {
+        return;
     }
 
 

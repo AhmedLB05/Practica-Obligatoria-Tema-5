@@ -113,44 +113,71 @@ public class Cliente {
 
     //Otros metodos
 
-    public boolean login(String email, String pass) {
-        if (email == null || pass == null || this.email == null || this.clave == null) return false;
-        return (email.equalsIgnoreCase(this.email) && pass.equals(this.clave));
+    //Metodo para el login del cliente
+    public boolean login(String email, String clave) {
+        if (email == null || clave == null) return false;
+        return (email.equalsIgnoreCase(this.email) && clave.equals(this.clave));
     }
 
+    //Metodo para agregar un producto al carro
     public void addProductoCarro(Producto p) {
-
+        carro.add(p);
     }
 
+    //Metodo para quitar un producto por ID
     public boolean quitaProductoCarro(int idProducto) {
+        for (Producto p : carro) {
+            if (p.getId() == idProducto) {
+                carro.remove(p);
+                return true;
+            }
+        }
         return false;
     }
 
+    //Metodo que devuelve la cantidad de productos en el carro
     public int numProductosCarro() {
-        return 0;
+        return carro.size();
     }
 
+    //Metodo para vaciar el carro
     public void vaciaCarro() {
-
+        carro.clear();
     }
 
+    //Metodo para agregar un pedido a los pedidos del cliente
     public void addPedido(Pedido p) {
-
+        pedidos.add(p);
     }
 
-    public float precioCarroSinIVA(int IVA) {
-        return 0.0f;
+    //Metodo que calcula el precio del carro sin IVA
+    public float precioCarroSinIVA() {
+        float precioCarroSinIva = 0;
+        for (Producto p : carro) {
+            precioCarroSinIva += p.getPrecio();
+        }
+        return precioCarroSinIva;
     }
 
+    //Metodo que calcula el IVA total del carro
     public float precioIVACarro(int IVA) {
-        return 0.0f;
+        float precioIVACarro = 0;
+        for (Producto p : carro) {
+            precioIVACarro += p.getPrecio() * (IVA / 100f);
+        }
+        return precioIVACarro;
     }
 
+    //Metodo que calcula el precio del carro CON IVA
     public float precioCarroConIVA(int IVA) {
-        return 0.0f;
+        return (precioCarroSinIVA() + precioIVACarro(IVA));
     }
 
+    //Metodo para ver si existe un producto en el carro buscado por ID
     public boolean existeProductoCarro(int idProducto) {
+        for (Producto p : carro) {
+            if (idProducto == p.getId()) return true;
+        }
         return false;
     }
 
