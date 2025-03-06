@@ -81,8 +81,8 @@ public class Trabajador {
 
     //Metodo que busca en los pedidos asignados pendientes un pedido por ID
     public Pedido buscaPedidoAsignadoPendiente(int idPedido) {
-        ArrayList<Pedido> pedidosPendientes = getPedidosPendientes();
-        for (Pedido p : pedidosPendientes) {
+        ArrayList<Pedido> pedidosAsignadosPendientes = getPedidosPendientes();
+        for (Pedido p : pedidosAsignadosPendientes) {
             if (p.getId() == idPedido) return p;
         }
         return null;
@@ -90,8 +90,8 @@ public class Trabajador {
 
     //Metodo que busca en los pedidos asignados completados un pedido por ID
     public Pedido buscaPedidoAsignadoCompletado(int idPedido) {
-        ArrayList<Pedido> pedidosCompletados = getPedidosCompletados();
-        for (Pedido p : pedidosCompletados) {
+        ArrayList<Pedido> pedidosAsignadosCompletados = getPedidosCompletados();
+        for (Pedido p : pedidosAsignadosCompletados) {
             if (p.getId() == idPedido) return p;
         }
         return null;
@@ -106,20 +106,20 @@ public class Trabajador {
 
     //Metodo que agrega los pedidos EN PREPARACION a un Array (según el estado = 1 En preparacion) y lo devuelve
     public ArrayList<Pedido> getPedidosPendientes() {
-        ArrayList<Pedido> pedidosPendientes = new ArrayList<>();
+        ArrayList<Pedido> pedidosAsignadosPendientes = new ArrayList<>();
         for (Pedido p : pedidosAsignados) {
-            if (p.getEstado() == 1) pedidosPendientes.add(p);
+            if (p.getEstado() == 1) pedidosAsignadosPendientes.add(p);
         }
-        return pedidosPendientes;
+        return pedidosAsignadosPendientes;
     }
 
-    //Metodo que agrega los pedidos ENTREGADOS a un Array (segun el estado = 1 En preparacion) y lo devuelve
+    //Metodo que agrega los pedidos ENVIADO a un Array (según el estado = 2 ENVIADO) y lo devuelve
     public ArrayList<Pedido> getPedidosCompletados() {
-        ArrayList<Pedido> pedidosCompletados = new ArrayList<>();
+        ArrayList<Pedido> pedidosAsignadosCompletados = new ArrayList<>();
         for (Pedido p : pedidosAsignados) {
-            if (p.getEstado() == 3) pedidosCompletados.add(p);
+            if (p.getEstado() == 2) pedidosAsignadosCompletados.add(p);
         }
-        return pedidosCompletados;
+        return pedidosAsignadosCompletados;
     }
 
     //Metodo que devuelve el número de pedidos pendientes
