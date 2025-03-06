@@ -73,6 +73,7 @@ public class Producto {
 
     //Metodo que calcula la relevancia
     public void calculaRelevancia() {
+
     }
 
 

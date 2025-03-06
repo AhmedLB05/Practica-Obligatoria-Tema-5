@@ -55,7 +55,17 @@ public class Controlador {
 
     //Otros metodos
 
+    //Metodo para el login que devuelve el tipo de objeto
     public Object login(String email, String clave) {
+        for (Cliente c : clientes) {
+            if (c.login(email, clave)) return c;
+        }
+        for (Trabajador t : trabajadores) {
+            if (t.login(email, clave)) return t;
+        }
+        for (Admin a : admins) {
+            if (a.login(email, clave)) return a;
+        }
         return null;
     }
 
