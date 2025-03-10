@@ -91,7 +91,7 @@ public class main {
         int cont = 0;
         for (Producto p : DataProductos.getProductosMock()) {
             if (cont == 5) {
-                Utils.PulsaParaContinuar();
+                Utils.pulsaParaContinuar();
                 cont = 0;
             }
             System.out.println(p.pintaProductoADetalle());
