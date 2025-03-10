@@ -1,5 +1,6 @@
 package controller;
 
+import data.DataProductos;
 import models.*;
 
 import java.util.ArrayList;
@@ -7,10 +8,10 @@ import java.util.ArrayList;
 public class Controlador {
 
     //Atributos
-    private ArrayList<Cliente> clientes;
-    private ArrayList<Trabajador> trabajadores;
-    private ArrayList<Admin> admins;
-    private ArrayList<Producto> catalogo;
+    public ArrayList<Cliente> clientes;
+    public ArrayList<Trabajador> trabajadores;
+    public ArrayList<Admin> admins;
+    public ArrayList<Producto> catalogo;
 
     //Constructor
     public Controlador() {
@@ -215,5 +216,4 @@ public class Controlador {
         idTrabajador = Integer.parseInt(("1" + idTrabajador));
         return idTrabajador;
     }
-
 }
