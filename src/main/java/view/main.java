@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class main {
 
+    public static final Scanner S = new Scanner(System.in);
+
     public static void main(String[] args) {
         Controlador controlador = new Controlador();
         do {
@@ -43,32 +45,7 @@ public class main {
                 pintaCatalogo();
                 break;
             case 2: //Registrarse
-                String emailIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, claveIntro;
-                int movilIntro;
-                System.out.println();
-                System.out.println("        Bienvenido al registro de clientes");
-                System.out.println("===================================================");
-                System.out.println(" - Introduzca email: ");
-                emailIntro = s.nextLine();
-                System.out.println(" - Introduzca nombre: ");
-                nombreIntro = s.nextLine();
-                System.out.println(" - Introduzca localidad: ");
-                localidadIntro = s.nextLine();
-                System.out.println(" - Introduzca provincia: ");
-                provinciaIntro = s.nextLine();
-                System.out.println(" - Introduzca direccion: ");
-                direccionIntro = s.nextLine();
-                do {
-                    try {
-                        System.out.println(" - Introduzca número de telefono: ");
-                        movilIntro = Integer.parseInt(s.nextLine());
-                        break;
-                    } catch (NumberFormatException e) {
-                        System.out.println("ERROR AL INTRODUCIR NUMERO DE TELEFONO");
-                    }
-                } while (true);
-                System.out.println(" - Introduzca clave: ");
-                claveIntro = s.nextLine();
+                registroCliente(controlador);
                 break;
             case 3: //Iniciar sesión
                 System.out.println(" - Introduzca su email: ");
@@ -79,6 +56,35 @@ public class main {
             default:
         }
         return null;
+    }
+
+    private static void registroCliente(Controlador controlador) {
+        String emailIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, claveIntro;
+        int movilIntro;
+        System.out.println();
+        System.out.println("        Bienvenido al registro de clientes");
+        System.out.println("===================================================");
+        System.out.println(" - Introduzca email: ");
+        emailIntro = S.nextLine();
+        System.out.println(" - Introduzca nombre: ");
+        nombreIntro = S.nextLine();
+        System.out.println(" - Introduzca localidad: ");
+        localidadIntro = S.nextLine();
+        System.out.println(" - Introduzca provincia: ");
+        provinciaIntro = S.nextLine();
+        System.out.println(" - Introduzca direccion: ");
+        direccionIntro = S.nextLine();
+        do {
+            try {
+                System.out.println(" - Introduzca número de telefono: ");
+                movilIntro = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR AL INTRODUCIR NUMERO DE TELEFONO");
+            }
+        } while (true);
+        System.out.println(" - Introduzca clave: ");
+        claveIntro = S.nextLine();
     }
 
     private static void pintaCatalogo() {
