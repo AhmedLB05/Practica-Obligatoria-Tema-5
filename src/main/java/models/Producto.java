@@ -20,6 +20,10 @@ public class Producto {
         this.relevancia = relevancia;
     }
 
+    //Contructor vacío
+    public Producto() {
+    }
+
     //Getters y Setters
     public int getId() {
         return id;
@@ -76,5 +80,28 @@ public class Producto {
 
     }
 
+    public String pintaProductoADetalle() {
+        if (relevancia >= 9) {
+            return "\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +
+                    "                         ⭐Id: " + id + "⭐\n" +
+                    "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + "\n" +
+                    " Marca:  " + marca + "\n" +
+                    " Modelo: " + modelo + "\n\n" +
+
+                    " Descripción: " + descripcion + "\n" + "\n" +
+                    "                                               Precio: " + precio + "€" + "\n" +
+                    "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+        }
+        return
+                "\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +
+                        "                            Id: " + id + "\n" +
+                        "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + "\n" +
+                        " Marca:  " + marca + "\n" +
+                        " Modelo: " + modelo + "\n\n" +
+
+                        " Descripción: " + descripcion + "\n" + "\n" +
+                        "                                               Precio: " + precio + "€" + "\n" +
+                        "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+    }
 
 }

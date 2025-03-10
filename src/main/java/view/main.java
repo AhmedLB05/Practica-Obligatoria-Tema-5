@@ -1,6 +1,9 @@
 package view;
 
 import controller.Controlador;
+import data.DataProductos;
+import models.Producto;
+import utils.Utils;
 
 import java.util.Scanner;
 
@@ -37,6 +40,7 @@ public class main {
 
         switch (op) {
             case 1: //Ver el catálogo
+                pintaCatalogo();
                 break;
             case 2: //Registrarse
                 String emailIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, claveIntro;
@@ -75,6 +79,19 @@ public class main {
             default:
         }
         return null;
+    }
+
+    private static void pintaCatalogo() {
+        int cont = 0;
+        for (Producto p : DataProductos.getProductosMock()) {
+            if (cont == 5) {
+                Utils.PulsaParaContinuar();
+                cont = 0;
+            }
+            System.out.println(p.pintaProductoADetalle());
+            cont++;
+        }
+
     }
 
     private static void menuUsuario(Controlador controlador, Object user) {

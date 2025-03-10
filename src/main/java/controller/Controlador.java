@@ -215,5 +215,4 @@ public class Controlador {
         idTrabajador = Integer.parseInt(("1" + idTrabajador));
         return idTrabajador;
     }
-
 }
