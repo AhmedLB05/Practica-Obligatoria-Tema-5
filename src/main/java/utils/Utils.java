@@ -1,5 +1,7 @@
 package utils;
 
+import comunications.EnvioMail;
+
 import java.util.Scanner;
 
 public class Utils {
@@ -40,6 +42,8 @@ public class Utils {
 
     //TODO Metodo que se encarga de enviar y recibir un codigo de verificacion al registrar un cliente
     public static boolean CorreoVerificacion(String emailIntro) {
-        return false;
+        String destino = emailIntro;
+        String asunto =
+        EnvioMail.enviarMensaje()
     }
 }
