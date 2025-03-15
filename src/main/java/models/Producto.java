@@ -20,6 +20,16 @@ public class Producto {
         this.relevancia = relevancia;
     }
 
+    // Constructor copia
+    public Producto(Producto otroProducto) {
+        this.id = otroProducto.id;
+        this.marca = otroProducto.marca;
+        this.modelo = otroProducto.modelo;
+        this.descripcion = otroProducto.descripcion;
+        this.precio = otroProducto.precio;
+        this.relevancia = otroProducto.relevancia;
+    }
+
     //Contructor vacío
     public Producto() {
     }

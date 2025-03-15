@@ -25,6 +25,22 @@ public class Pedido {
         this.productos = productos;
     }
 
+    // Constructor copia
+    public Pedido(Pedido otroPedido) {
+        this.id = otroPedido.id;
+        this.fechaPedido = otroPedido.fechaPedido;
+        this.fechaEntregaEstimada = otroPedido.fechaEntregaEstimada;
+        this.deliveryDate = otroPedido.deliveryDate;
+        this.estado = otroPedido.estado;
+        this.comentario = otroPedido.comentario;
+
+        // Copiamos los productos
+        this.productos = new ArrayList<>();
+        for (Producto producto : otroPedido.productos) {
+            this.productos.add(new Producto(producto));
+        }
+    }
+
     //Getters y Setters
     public int getId() {
         return id;

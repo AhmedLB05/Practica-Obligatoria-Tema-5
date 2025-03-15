@@ -30,6 +30,29 @@ public class Cliente {
         carro = new ArrayList<>();
     }
 
+    // Constructor con copia profunda
+    public Cliente(Cliente otroCliente) {
+        this.id = otroCliente.id;
+        this.email = otroCliente.email;
+        this.clave = otroCliente.clave;
+        this.nombre = otroCliente.nombre;
+        this.localidad = otroCliente.localidad;
+        this.provincia = otroCliente.provincia;
+        this.direccion = otroCliente.direccion;
+        this.movil = otroCliente.movil;
+        // Copiamos los pedidos
+        this.pedidos = new ArrayList<>();
+        for (Pedido pedido : otroCliente.pedidos) {
+            this.pedidos.add(new Pedido(pedido));
+        }
+        // Copiamos los productos
+        this.carro = new ArrayList<>();
+        for (Producto producto : otroCliente.carro) {
+            this.carro.add(new Producto(producto));
+        }
+    }
+
+
     //Getters y Setters
     public int getId() {
         return id;

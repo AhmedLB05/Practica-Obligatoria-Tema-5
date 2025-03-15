@@ -15,7 +15,7 @@ public class EnvioMail {
 
 
     // Metodo para enviar el mensaje
-    public static boolean enviaTokenRegistro(String destino) {
+    public static boolean enviaTokenRegistro(String destino, int token) {
 
         String asunto = "VERIFICACIÓN FERNANSHOP";
 
@@ -80,7 +80,7 @@ public class EnvioMail {
             message.setSubject(asunto);
 
             // Generamos un número aleatorio
-            String numAleatorio = Utils.generaTokenRegistroCliente();
+            String numAleatorio = String.valueOf(token);
 
             // Reemplazamos el marcador ${numAleatorio} en el mensaje HTML
             mensaje = mensaje.replace("${numAleatorio}", numAleatorio);
@@ -100,11 +100,12 @@ public class EnvioMail {
         return false;
     }
 
-    // Metodo principal para probar el envío
+    //Metodo principal para probar el envío
     public static void main(String[] args) {
         String destinatario = "ahmedlb26205@gmail.com";  // Dirección de destino
+        int num = Utils.generaTokenRegistroCliente();
 
         // Llamamos al metodo para enviar el correo
-        enviaTokenRegistro(destinatario);
+        enviaTokenRegistro(destinatario, num);
     }
 }

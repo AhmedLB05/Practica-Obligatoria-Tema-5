@@ -40,11 +40,10 @@ public class Utils {
     }
 
     // Metodo para generar un número aleatorio de 6 dígitos
-    public static String generaTokenRegistroCliente() {
+    public static int generaTokenRegistroCliente() {
         Random random = new Random();
-        // Generar un número aleatorio entre 100000 y 999999
         int numAleatorio = 100000 + random.nextInt(900000);
-        return String.valueOf(numAleatorio);  // Convertir el número a string
+        return numAleatorio;
     }
 
 /*

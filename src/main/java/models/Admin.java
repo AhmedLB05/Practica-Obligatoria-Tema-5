@@ -16,6 +16,14 @@ public class Admin {
         this.email = email;
     }
 
+    // Constructor copia
+    public Admin(Admin otroAdmin) {
+        this.id = otroAdmin.id;
+        this.nombre = otroAdmin.nombre;
+        this.clave = otroAdmin.clave;
+        this.email = otroAdmin.email;
+    }
+
     //Getters y setters
     public int getId() {
         return id;

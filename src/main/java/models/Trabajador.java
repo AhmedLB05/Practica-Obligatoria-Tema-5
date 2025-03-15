@@ -22,6 +22,21 @@ public class Trabajador {
         this.pedidosAsignados = pedidosAsignados;
     }
 
+    // Constructor copia
+    public Trabajador(Trabajador otroTrabajador) {
+        this.id = otroTrabajador.id;
+        this.nombre = otroTrabajador.nombre;
+        this.pass = otroTrabajador.pass;
+        this.email = otroTrabajador.email;
+        this.movil = otroTrabajador.movil;
+
+        // Hacemos una copia de los pedidos asignados
+        this.pedidosAsignados = new ArrayList<>();
+        for (Pedido pedido : otroTrabajador.pedidosAsignados) {
+            this.pedidosAsignados.add(new Pedido(pedido));
+        }
+    }
+
     //Getters y Setters
     public int getId() {
         return id;

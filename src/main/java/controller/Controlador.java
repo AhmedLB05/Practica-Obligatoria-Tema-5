@@ -1,5 +1,6 @@
 package controller;
 
+import data.DataProductos;
 import models.*;
 
 import java.util.ArrayList;
@@ -14,10 +15,11 @@ public class Controlador {
 
     //Constructor
     public Controlador() {
-        this.clientes = clientes;
-        this.trabajadores = trabajadores;
-        this.admins = admins;
-        this.catalogo = catalogo;
+        clientes = new ArrayList<>();
+        trabajadores = new ArrayList<>();
+        admins = new ArrayList<>();
+        catalogo = new ArrayList<>();
+        catalogo.addAll(DataProductos.getProductosMock());//TODO REVISAR
     }
 
     //Getters y Setters
@@ -231,4 +233,11 @@ public class Controlador {
     }
 
 
+    public int getTotalPedidosPendientesEntregaCliente(Cliente cliente) {
+        int cont = 0;
+        for (Pedido p : cliente.getPedidos()) {
+            if (p.getEstado() == 2) cont++;
+        }
+        return cont;
+    }
 }
