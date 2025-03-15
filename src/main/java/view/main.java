@@ -57,6 +57,7 @@ public class main {
         return null;
     }
 
+    //Metodo login
     private static void login(Controlador controlador) {
         System.out.print(" - Introduzca su email: ");
         String emailIntro = S.nextLine();
@@ -64,7 +65,7 @@ public class main {
         String claveIntro = S.nextLine();
         Object usuario = controlador.login(emailIntro, claveIntro);
 
-        if (usuario == null) System.out.println("ERROR AL INICIAR SESIÓN, VOLVIENDO AL MENÚ PRINCIPAL");
+        if (usuario == null) System.out.println("\nERROR AL INICIAR SESIÓN, VOLVIENDO AL MENÚ PRINCIPAL\n");
         else menuUsuario(controlador, usuario);
     }
 
@@ -149,8 +150,8 @@ public class main {
             int opCliente = 0;
             Cliente cliente = new Cliente((Cliente) user);
             do {
-                System.out.println("Bienvenido " + ((Cliente) user).getNombre() + ". Tiene " +
-                        controlador.getTotalPedidosPendientesEntregaCliente(cliente) + " pedido/s pendiente/s de entrega");
+                System.out.println("Bienvenido " + cliente.getNombre() + ". Tiene " +
+                        controlador.getTotalPedidosPendientesEntregaCliente(cliente) + " pedido/s pendiente/s de entrega.");
                 System.out.println("""
                         1. Consultar el catálogo de productos
                         2. Realizar un pedido
@@ -174,14 +175,65 @@ public class main {
 
         if (user instanceof Trabajador) {
             Trabajador trabajador = new Trabajador((Trabajador) user);
-            System.out.println("menu trabajdor");
+            int opTrabajador = 0;
+            do {
+                System.out.println("Bienvenido Trabajador" + controlador.getPosicionTrabajadorArray(trabajador) + ". Tiene " +
+                        trabajador.numPedidosPendientes() + " pedido/s pendiente/s.");
+                System.out.println("""
+                        1. Consultar los pedidos que tengo asignados
+                        2. Modificar el estado de un pedido
+                        3. Consultar el catálogo de productos
+                        4. Modificar un producto
+                        5. Ver el histórico de pedidos terminados
+                        6. Ver mi perfil
+                        7. Modificar mis datos personales
+                        8. Salir""");
+                do {
+                    try {
+                        System.out.print("Introduzca una opción:");
+                        opTrabajador = Integer.parseInt(S.nextLine());
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                    }
+                } while (true);
+                menuTrabajador(controlador, opTrabajador);
+            } while (opTrabajador != 8);
         }
 
         if (user instanceof Admin) {
             Admin admin = new Admin((Admin) user);
+            int opAdmin = 0;
+            do {
+                //TODO
+                System.out.println("Bienvenido Administrador. Tenemos " + controlador.asi + " pedido/s pendiente/s.");
+                System.out.println("""
+                        1. Consultar los pedidos que tengo asignados
+                        2. Modificar el estado de un pedido
+                        3. Consultar el catálogo de productos
+                        4. Modificar un producto
+                        5. Ver el histórico de pedidos terminados
+                        6. Ver mi perfil
+                        7. Modificar mis datos personales
+                        8. Salir""");
+                do {
+                    try {
+                        System.out.print("Introduzca una opción:");
+                        opTrabajador = Integer.parseInt(S.nextLine());
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                    }
+                } while (true);
+                menuTrabajador(controlador, opTrabajador);
+            } while (opTrabajador != 8);
 
-            System.out.println("menu admin");
+
         }
+    }
+
+    private static void menuTrabajador(Controlador controlador, int opTrabajador) {
+
     }
 
     private static void menuCliente(Controlador controlador, int opCliente) {

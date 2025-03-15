@@ -240,4 +240,8 @@ public class Controlador {
         }
         return cont;
     }
+
+    public int getPosicionTrabajadorArray(Trabajador t) {
+        return trabajadores.indexOf(t);
+    }
 }
