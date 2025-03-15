@@ -1,7 +1,6 @@
 package utils;
 
-import comunications.EnvioMail;
-
+import java.util.Random;
 import java.util.Scanner;
 
 public class Utils {
@@ -40,10 +39,18 @@ public class Utils {
         }
     }
 
+    // Metodo para generar un número aleatorio de 6 dígitos
+    public static String generaTokenRegistroCliente() {
+        Random random = new Random();
+        // Generar un número aleatorio entre 100000 y 999999
+        int numAleatorio = 100000 + random.nextInt(900000);
+        return String.valueOf(numAleatorio);  // Convertir el número a string
+    }
+
+/*
     //TODO Metodo que se encarga de enviar y recibir un codigo de verificacion al registrar un cliente
     public static boolean CorreoVerificacion(String emailIntro) {
         String destino = emailIntro;
         String asunto =
-        EnvioMail.enviarMensaje()
-    }
+    }*/
 }

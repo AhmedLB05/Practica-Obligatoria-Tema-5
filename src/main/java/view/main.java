@@ -2,7 +2,6 @@ package view;
 
 import controller.Controlador;
 import data.DataProductos;
-import models.Cliente;
 import models.Producto;
 import utils.Utils;
 
@@ -96,11 +95,11 @@ public class main {
         claveIntro = S.nextLine();
 
         //TODO correo verificacion
-        if (Utils.CorreoVerificacion(emailIntro)) {
+        /*if (Utils.CorreoVerificacion(emailIntro)) {
             Cliente clienteRegistrado = new Cliente(emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro);
             if (controlador.agregaClienteSistema(clienteRegistrado)) System.out.println("REGISTRO EXISTOSO");
             else System.out.println("ERROR: REGISTRO ERRÓNEO");
-        }
+        }*/
     }
 
     private static void pintaCatalogo() {
