@@ -2,6 +2,7 @@ package view;
 
 import controller.Controlador;
 import data.DataProductos;
+import models.Cliente;
 import models.Producto;
 import utils.Utils;
 
@@ -58,33 +59,48 @@ public class main {
         return null;
     }
 
+    //Metodo para el registro de clientes
     private static void registroCliente(Controlador controlador) {
         String emailIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, claveIntro;
         int movilIntro;
         System.out.println();
         System.out.println("        Bienvenido al registro de clientes");
         System.out.println("===================================================");
-        System.out.println(" - Introduzca email: ");
-        emailIntro = S.nextLine();
-        System.out.println(" - Introduzca nombre: ");
+
+        //Aquí comprobamos que el email no exista ya
+        do {
+            System.out.println(" - Introduzca su email: ");
+            emailIntro = S.nextLine();
+            if (controlador.buscaClienteByEmail(emailIntro) != null)
+                System.out.println("ERROR: EMAIL INTRODUCIDO YA EXISTE");
+        } while (controlador.buscaClienteByEmail(emailIntro) != null);
+
+        System.out.println(" - Introduzca su nombre: ");
         nombreIntro = S.nextLine();
-        System.out.println(" - Introduzca localidad: ");
+        System.out.println(" - Introduzca su localidad: ");
         localidadIntro = S.nextLine();
-        System.out.println(" - Introduzca provincia: ");
+        System.out.println(" - Introduzca su provincia: ");
         provinciaIntro = S.nextLine();
-        System.out.println(" - Introduzca direccion: ");
+        System.out.println(" - Introduzca su direccion: ");
         direccionIntro = S.nextLine();
         do {
             try {
-                System.out.println(" - Introduzca número de telefono: ");
+                System.out.println(" - Introduzca su número de telefono: ");
                 movilIntro = Integer.parseInt(S.nextLine());
                 break;
             } catch (NumberFormatException e) {
                 System.out.println("ERROR AL INTRODUCIR NUMERO DE TELEFONO");
             }
         } while (true);
-        System.out.println(" - Introduzca clave: ");
+        System.out.println(" - Introduzca su clave: ");
         claveIntro = S.nextLine();
+
+        //TODO correo verificacion
+        if (Utils.CorreoVerificacion(emailIntro)) {
+            Cliente clienteRegistrado = new Cliente(emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro);
+            if (controlador.agregaClienteSistema(clienteRegistrado)) System.out.println("REGISTRO EXISTOSO");
+            else System.out.println("ERROR: REGISTRO ERRÓNEO");
+        }
     }
 
     private static void pintaCatalogo() {
@@ -95,6 +111,7 @@ public class main {
                 cont = 0;
             }
             System.out.println(p.pintaProductoADetalle());
+            Utils.tiempoEspera(500);
             cont++;
         }
 

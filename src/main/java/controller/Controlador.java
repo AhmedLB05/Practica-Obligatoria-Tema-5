@@ -89,11 +89,25 @@ public class Controlador {
         return false;
     }
 
+    //Metodo que busca a un cliente por su ID
     public Cliente buscaClienteById(int idCliente) {
         for (Cliente c : clientes) {
             if (c.getId() == idCliente) return c;
         }
         return null;
+    }
+
+    //Metodo que busca a un cliente por su ID (metodo inventado por Ahmed)
+    public Object buscaClienteByEmail(String emailIntro) {
+        for (Cliente c : clientes) {
+            if (c.getEmail().equalsIgnoreCase(emailIntro)) return c;
+        }
+        return null;
+    }
+
+    //Metodo que agrega un cliente al sistema (ArrayList) (metodo inventado por Ahmed)
+    public boolean agregaClienteSistema(Cliente c) {
+        return clientes.add(c);
     }
 
     public ArrayList<Producto> buscaProductosByMarca(String marca) {
@@ -215,4 +229,6 @@ public class Controlador {
         idTrabajador = Integer.parseInt(("1" + idTrabajador));
         return idTrabajador;
     }
+
+
 }

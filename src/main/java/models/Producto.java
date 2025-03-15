@@ -83,11 +83,10 @@ public class Producto {
     public String pintaProductoADetalle() {
         if (relevancia >= 9) {
             return "\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓" + "\n" +
-                    "                         ⭐Id: " + id + "⭐\n" +
+                    "                         ★★★★ Id: " + id + " ★★★★\n" +
                     "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + "\n" +
                     " Marca:  " + marca + "\n" +
-                    " Modelo: " + modelo + "\n\n" +
-
+                    " Modelo: " + modelo + "\n" +
                     " Descripción: " + descripcion + "\n" + "\n" +
                     "                                               Precio: " + precio + "€" + "\n" +
                     "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
@@ -97,8 +96,7 @@ public class Producto {
                         "                            Id: " + id + "\n" +
                         "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛" + "\n" +
                         " Marca:  " + marca + "\n" +
-                        " Modelo: " + modelo + "\n\n" +
-
+                        " Modelo: " + modelo + "\n" +
                         " Descripción: " + descripcion + "\n" + "\n" +
                         "                                               Precio: " + precio + "€" + "\n" +
                         "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";

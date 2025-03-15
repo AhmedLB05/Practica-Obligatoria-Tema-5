@@ -17,7 +17,7 @@ public class Cliente {
     private ArrayList<Producto> carro;
 
     //Constructor
-    public Cliente(String email, String clave, String nombre, String localidad, String provincia, String direccion, int movil, ArrayList<Pedido> pedidos, ArrayList<Producto> carro) {
+    public Cliente(String email, String clave, String nombre, String localidad, String provincia, String direccion, int movil) {
         this.id = id;
         this.email = email;
         this.clave = clave;
@@ -26,8 +26,8 @@ public class Cliente {
         this.provincia = provincia;
         this.direccion = direccion;
         this.movil = movil;
-        this.pedidos = pedidos;
-        this.carro = carro;
+        pedidos = new ArrayList<>();
+        carro = new ArrayList<>();
     }
 
     //Getters y Setters
