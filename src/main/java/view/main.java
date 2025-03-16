@@ -214,9 +214,9 @@ public class main {
                 System.out.println("Número de clientes: " + controlador.getClientes().size());
                 System.out.println("Número de trabajadores: " + controlador.getTrabajadores().size());
                 System.out.println("Numero de pedidos: " + controlador.numPedidosTotales());
-                System.out.println("Número de pedidos pendientes: " + "");
-                System.out.println("Número de pedidos completados o cancelados: " + "");
-                System.out.println("Número de pedidos sin asignar: " + "");
+                System.out.println("Número de pedidos pendientes: ");
+                System.out.println("Número de pedidos completados o cancelados: ");
+                System.out.println("Número de pedidos sin asignar: ");
                 System.out.println("===============================================");
                 System.out.println("\n\n");
 
