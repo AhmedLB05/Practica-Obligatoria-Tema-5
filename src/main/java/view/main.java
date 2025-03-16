@@ -173,6 +173,7 @@ public class main {
 
         }
 
+        //Pintamos el menu de trabajador y cogemos la opcion
         if (user instanceof Trabajador) {
             Trabajador trabajador = new Trabajador((Trabajador) user);
             int opTrabajador = 0;
@@ -201,39 +202,65 @@ public class main {
             } while (opTrabajador != 8);
         }
 
+        //Pintamos el menu de admin y cogemos la opcion
         if (user instanceof Admin) {
             Admin admin = new Admin((Admin) user);
             int opAdmin = 0;
             do {
                 //TODO
-                System.out.println("Bienvenido Administrador. Tenemos " + controlador.asi + " pedido/s pendiente/s.");
-                System.out.println("""
-                        1. Consultar los pedidos que tengo asignados
-                        2. Modificar el estado de un pedido
-                        3. Consultar el catálogo de productos
-                        4. Modificar un producto
-                        5. Ver el histórico de pedidos terminados
-                        6. Ver mi perfil
-                        7. Modificar mis datos personales
-                        8. Salir""");
+                System.out.println("Bienvenido Administrador. Tenemos " + controlador.totalPedidosSinAsignar() + " pedido/s sin asignar. " +
+                        "Debe asignarlos a un trabajador.");
+                System.out.println("===============================================");
+                System.out.println("Número de clientes: " + controlador.getClientes().size());
+                System.out.println("Número de trabajadores: " + controlador.getTrabajadores().size());
+                System.out.println("Numero de pedidos: " + controlador.numPedidosTotales());
+                System.out.println("Número de pedidos pendientes: " + "");
+                System.out.println("Número de pedidos completados o cancelados: " + "");
+                System.out.println("Número de pedidos sin asignar: " + "");
+                System.out.println("===============================================");
+                System.out.println("\n\n");
+
+
                 do {
                     try {
                         System.out.print("Introduzca una opción:");
-                        opTrabajador = Integer.parseInt(S.nextLine());
+                        opAdmin = Integer.parseInt(S.nextLine());
                         break;
                     } catch (NumberFormatException e) {
                         System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                     }
                 } while (true);
-                menuTrabajador(controlador, opTrabajador);
-            } while (opTrabajador != 8);
+                menuAdmin(controlador, opAdmin);
+            } while (opAdmin != 8);
 
 
         }
     }
 
-    private static void menuTrabajador(Controlador controlador, int opTrabajador) {
+    private static void menuAdmin(Controlador controlador, int opAdmin) {
 
+    }
+
+    private static void menuTrabajador(Controlador controlador, int opTrabajador) {
+        switch (opTrabajador) {
+            case 1: //Consultar los pedidos que tengo asignados
+                break;
+            case 2: //Modificar el estado de un pedido
+                break;
+            case 3: //Consultar el catálogo de productos
+                break;
+            case 4: //Modificar un producto
+                break;
+            case 5: //Ver el histórico de pedidos terminados
+                break;
+            case 6: //Ver mi perfil
+                break;
+            case 7: //Modificar mis datos personales
+                break;
+            case 8: //Salir
+                break;
+
+        }
     }
 
     private static void menuCliente(Controlador controlador, int opCliente) {
@@ -248,7 +275,7 @@ public class main {
                 break;
             case 5: //Modificar mis datos personales
                 break;
-            case 6: //Modificar mis datos personales
+            case 6: //Salir
                 break;
         }
     }
