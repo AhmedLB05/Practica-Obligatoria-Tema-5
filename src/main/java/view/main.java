@@ -178,7 +178,7 @@ public class main {
             Trabajador trabajador = new Trabajador((Trabajador) user);
             int opTrabajador = 0;
             do {
-                System.out.println("Bienvenido Trabajador" + controlador.getPosicionTrabajadorArray(trabajador) + ". Tiene " +
+                System.out.println("Bienvenido Trabajador" + controlador.getTrabajadores().indexOf(trabajador) + ". Tiene " +
                         trabajador.numPedidosPendientes() + " pedido/s pendiente/s.");
                 System.out.println("""
                         1. Consultar los pedidos que tengo asignados
@@ -208,7 +208,7 @@ public class main {
             int opAdmin = 0;
             do {
                 //TODO
-                System.out.println("Bienvenido Administrador. Tenemos " + controlador.totalPedidosSinAsignar() + " pedido/s sin asignar. " +
+                System.out.println("Bienvenido Administrador. Tenemos " + controlador.numPedidosSinTrabajador() + " pedido/s sin asignar. " +
                         "Debe asignarlos a un trabajador.");
                 System.out.println("===============================================");
                 System.out.println("Número de clientes: " + controlador.getClientes().size());

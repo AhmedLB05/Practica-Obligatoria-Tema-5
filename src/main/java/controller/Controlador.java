@@ -172,8 +172,19 @@ public class Controlador {
         return new ArrayList<>();
     }
 
+    /*Metodo que nos devuelve el total de pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
+    luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores*/
     public int numPedidosSinTrabajador() {
-        return 0;
+        ArrayList<Pedido> pedidosAsignados = new ArrayList<>();
+        ArrayList<Pedido> pedidosSinAsignar = new ArrayList<>();
+        for (Trabajador t : trabajadores) {
+            pedidosAsignados.addAll(t.getPedidosAsignados());
+        }
+        for (Cliente c : clientes) {
+            pedidosSinAsignar.addAll(c.getPedidos());
+        }
+        pedidosSinAsignar.removeAll(pedidosAsignados);
+        return pedidosSinAsignar.size();
     }
 
     public boolean asignaPedido(int idPedido, int idTrabajador) {
@@ -231,6 +242,7 @@ public class Controlador {
         return 0;
     }
 
+    //Metodo que genera el id del trabajador
     private int generaIdTrabajador() {
         int idTrabajador;
         do {
@@ -240,6 +252,7 @@ public class Controlador {
         return idTrabajador;
     }
 
+    //TODO metodo creado por Ahmed
     //Metodo que devuelve el total de pedidos pendientes de entrega a un cliente (se hace mirando el estado)
     public int getTotalPedidosPendientesEntregaCliente(Cliente cliente) {
         int cont = 0;
@@ -249,24 +262,9 @@ public class Controlador {
         return cont;
     }
 
-    //Metodo que devuelve la posicion de un trabajador en el array
+    //TODO metodo creado por Ahmed
+    /*//Metodo que devuelve la posicion de un trabajador en el array
     public int getPosicionTrabajadorArray(Trabajador t) {
         return trabajadores.indexOf(t);
-    }
-
-    //Metodo que nos devuelve el total de pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
-    // luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores
-    public int totalPedidosSinAsignar() {
-        ArrayList<Pedido> pedidosAsignados = new ArrayList<>();
-        ArrayList<Pedido> pedidosSinAsignar = new ArrayList<>();
-        for (Trabajador t : trabajadores) {
-            pedidosAsignados.addAll(t.getPedidosAsignados());
-        }
-        for (Cliente c : clientes) {
-            pedidosSinAsignar.addAll(c.getPedidos());
-        }
-        pedidosSinAsignar.removeAll(pedidosAsignados);
-        return pedidosSinAsignar.size();
-
-    }
+    }*/
 }
