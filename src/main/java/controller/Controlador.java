@@ -252,6 +252,9 @@ public class Controlador {
         return idTrabajador;
     }
 
+    //Metodos creados por nosotros
+
+
     //TODO metodo creado por Ahmed
     //Metodo que devuelve el total de pedidos pendientes de entrega a un cliente (se hace mirando el estado)
     public int getTotalPedidosPendientesEntregaCliente(Cliente cliente) {
@@ -261,10 +264,4 @@ public class Controlador {
         }
         return cont;
     }
-
-    //TODO metodo creado por Ahmed
-    /*//Metodo que devuelve la posicion de un trabajador en el array
-    public int getPosicionTrabajadorArray(Trabajador t) {
-        return trabajadores.indexOf(t);
-    }*/
 }
