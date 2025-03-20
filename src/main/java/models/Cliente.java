@@ -134,6 +134,34 @@ public class Cliente {
         this.carro = carro;
     }
 
+    //Metodo para pintar los datos personales del cliente TODO
+    @Override
+    public String toString() {
+        String resultado = "";
+
+        resultado = "╭───────────────────────────────────────────────────────────────────────╮\n";
+        resultado += """
+                                ╔╦╗┌─┐┌┬┐┌─┐┌─┐  ╔═╗┌─┐┬─┐┌─┐┌─┐┌┐┌┌─┐┬  ┌─┐┌─┐
+                                 ║║├─┤ │ │ │└─┐  ╠═╝├┤ ├┬┘└─┐│ ││││├─┤│  ├┤ └─┐
+                                ═╩╝┴ ┴ ┴ └─┘└─┘  ╩  └─┘┴└─└─┘└─┘┘└┘┴ ┴┴─┘└─┘└─┘
+                                           \s
+                """ + "\n";
+        resultado += " - Nombre: " + nombre + "\n";
+        resultado += " - Localidad: " + localidad + " - Provincia: " + provincia + "\n";
+        resultado += " - Dirección: " + direccion + "\n";
+        resultado += " - Telefono de contacto: " + movil + "\n";
+        resultado += " - Email: " + email + "\n";
+        resultado += " - Clave: ";
+        String asteriscosClave = "";
+        for (int i = 0; i < clave.length(); i++) {
+            asteriscosClave += "*";
+        }
+        resultado += asteriscosClave + "\n";
+        resultado += "╰───────────────────────────────────────────────────────────────────────╯\n";
+
+        return resultado;
+    }
+
     //Otros metodos
 
     //Metodo para el login del cliente

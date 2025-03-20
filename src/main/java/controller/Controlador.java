@@ -16,6 +16,8 @@ public class Controlador {
     //Constructor
     public Controlador() {
         clientes = new ArrayList<>();
+        Cliente clienteMock = new Cliente("ahmedlb26205@gmail.com", "ahmed", "Ahmed", "Torredelcampo", "Jaén", "C\\Ramón y Cajal 24A", 631088579);
+        clientes.add(clienteMock);
         trabajadores = new ArrayList<>();
         admins = new ArrayList<>();
         catalogo = new ArrayList<>();

@@ -17,6 +17,7 @@ public class main {
     public static void main(String[] args) {
         Controlador controlador = new Controlador();
         do {
+            System.out.println("\n");
             System.out.println("        Bienvenidos a nuestra tienda online");
             System.out.println("===================================================");
             Object user = menuInicio(controlador);
@@ -130,9 +131,13 @@ public class main {
     //Metodo que pinta el catálogo
     private static void pintaCatalogo(Controlador controlador) {
         int cont = 0;
+        String continuar = "";
         for (Producto p : controlador.getCatalogo()) {
             if (cont == 5) {
-                Utils.pulsaParaContinuar();
+                System.out.print("Pulsa ENTER para continuar o introduzca cualquier tecla para SALIR: ");
+                continuar = S.nextLine();
+                if (!continuar.isEmpty()) break;
+                //Utils.pulsaParaContinuar();
                 cont = 0;
             }
             System.out.println(p.pintaProductoADetalle());
@@ -168,7 +173,7 @@ public class main {
                         System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                     }
                 } while (true);
-                menuCliente(controlador, opCliente);
+                menuCliente(controlador, opCliente, cliente);
             } while (opCliente != 6);
 
         }
@@ -263,15 +268,17 @@ public class main {
         }
     }
 
-    private static void menuCliente(Controlador controlador, int opCliente) {
+    private static void menuCliente(Controlador controlador, int opCliente, Cliente cliente) {
         switch (opCliente) {
             case 1: //Consultar el catálogo de productos
+                pintaCatalogo(controlador);
                 break;
             case 2: //Realizar un pedido
                 break;
             case 3: //Ver mis pedidos
                 break;
             case 4: //Ver mis datos personales
+                System.out.println(cliente);
                 break;
             case 5: //Modificar mis datos personales
                 break;
