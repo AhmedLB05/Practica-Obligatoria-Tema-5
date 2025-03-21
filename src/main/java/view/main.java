@@ -185,7 +185,7 @@ public class main {
             Trabajador trabajador = new Trabajador((Trabajador) user);
             int opTrabajador = 0;
             do {
-                System.out.println("Bienvenido Trabajador" + controlador.getTrabajadores().indexOf(trabajador) + ". Tiene " + trabajador.numPedidosPendientes() + " pedido/s pendiente/s.");
+                System.out.println("\n\nBienvenido trabajador " + trabajador.getNombre() + ". Tiene " + trabajador.numPedidosPendientes() + " pedido/s pendiente/s.");
                 System.out.println("""
                         1. Consultar los pedidos que tengo asignados
                         2. Modificar el estado de un pedido
@@ -294,7 +294,9 @@ public class main {
         if (p == null) System.out.println(" * ERROR NO SE HA ENCONTRADO NINGÚN PRODUCTO");
         else {
             System.out.println("Has seleccionado este producto: ");
-            System.out.println(p);
+            System.out.println();
+            System.out.println(p.pintaProductoADetalle());
+            System.out.println();
             do {
                 System.out.println(" === MODIFICA PRODUCTO ===");
                 System.out.println("""
@@ -313,7 +315,6 @@ public class main {
                         System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                     }
                 } while (true);
-
                 if (op == 1 || op == 2) {
                     System.out.print("Introduzca nueva marca del producto: ");
                     String marca = S.nextLine();
@@ -351,7 +352,7 @@ public class main {
     //Metodo que pinta todos los pedidos terminados/completados de un trabajador
     private static void historicoPedidosTerminados(Trabajador trabajador, Controlador controlador) {
         if (controlador.getPedidosCompletadosTrabajador(trabajador.getId()).isEmpty())
-            System.out.println(" * ERROR NO TIENES PEDIDOS COMPLETADOS EN TU PERFIL");
+            System.out.println("\n * ERROR NO TIENES PEDIDOS COMPLETADOS EN TU PERFIL\n");
         else {
             System.out.println("""
                     ╔═╗╔═╗╔╦╗╦╔╦╗╔═╗╔═╗  ╔═╗╔═╗╔╦╗╔═╗╦  ╔═╗╔╦╗╔═╗╔╦╗╔═╗╔═╗
@@ -517,13 +518,14 @@ public class main {
     private static void modificaComentarioPedido(Controlador controlador, Trabajador trabajador) {
         System.out.println();
         System.out.println(" - BIENVENIDO A MODIFICAR EL COMENTARIO DE UN PEDIDO A TU CARGO");
+        System.out.println("===============================================================");
         System.out.println();
         int idPedido = 0;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
         //PedidoClienteDataClass temp = null;
         do {
             try {
-                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
+                System.out.print(" - Introduzca id del pedido (-1 para salir): ");
                 idPedido = Integer.parseInt(S.nextLine());
                 break;
             } catch (NumberFormatException e) {
@@ -632,7 +634,7 @@ public class main {
 
     //Metodo que consulta los pedidos que tengo asignados (siendo trabajador)
     private static void consultaPedidosAsignados(Controlador controlador, Trabajador trabajador) {
-        if (trabajador.numPedidosPendientes() == 0) System.out.println(" * NO TIENE PEDIDOS PENDIENTES");
+        if (trabajador.numPedidosPendientes() == 0) System.out.println("\n * NO TIENE PEDIDOS PENDIENTES");
         else {
             System.out.println();
             System.out.println(" - Tiene " + trabajador.numPedidosPendientes() + " pedidos pendientes");

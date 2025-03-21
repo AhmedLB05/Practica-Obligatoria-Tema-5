@@ -149,6 +149,7 @@ public class Trabajador {
         resultado += "Nombre: " + nombre + "\n";
         resultado += "Email: " + email + "\n";
         resultado += "Teléfono móvil: " + movil + "\n";
+        resultado += "Clave: ";
         String asteriscosClave = "";
         for (int i = 0; i < pass.length(); i++) {
             asteriscosClave += "*";

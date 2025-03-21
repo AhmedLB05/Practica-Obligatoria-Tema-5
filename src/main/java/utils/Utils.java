@@ -31,6 +31,7 @@ public class Utils {
                 throw new RuntimeException(e);
             }
         }
+        System.out.println();
     }
 
     //Metodo para agregar un tiempo de espera
