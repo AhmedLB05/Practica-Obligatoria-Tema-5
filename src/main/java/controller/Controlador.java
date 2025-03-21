@@ -252,7 +252,7 @@ public class Controlador {
         return null;
     }
 
-    /*public ArrayList<PedidoClienteDataClass> getPedidosAsignadosTrabajador(int idTrabajador) {
+    public ArrayList<PedidoClienteDataClass> getPedidosAsignadosTrabajador(int idTrabajador) {
         return new ArrayList<>();
     }
 
@@ -262,7 +262,7 @@ public class Controlador {
 
     public ArrayList<PedidoClienteDataClass> getPedidosAsignadosYCompletados(int idTrabajador) {
         return new ArrayList<>();
-    }*/
+    }
 
     //Metodo que genera el id del cliente
     private int generaIdCliente() {
@@ -323,7 +323,6 @@ public class Controlador {
 
     public boolean registraCliente(String emailIntro, String claveIntro, String nombreIntro, String localidadIntro, String provinciaIntro, String direccionIntro, int movilIntro) {
         Cliente cliente = new Cliente(generaIdCliente(), emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro);
-        if (agregaClienteSistema(cliente)) return true;
-        else return false;
+        return agregaClienteSistema(cliente);
     }
 }
