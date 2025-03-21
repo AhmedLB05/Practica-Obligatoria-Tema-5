@@ -14,14 +14,17 @@ public class Utils {
 
     //Mensaje que cierra un programa
     public static void mensajeCierraPrograma() {
-        System.out.println("Saliendo del programa");
+        System.out.print("""
+                ┏┓  ┓•     ┓    \s
+                ┗┓┏┓┃┓┏┓┏┓┏┫┏┓  \s
+                ┗┛┗┻┗┗┗ ┛┗┗┻┗┛""");
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         for (int i = 0; i < 3; i++) {
-            System.out.println(".");
+            System.out.print(" •");
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {

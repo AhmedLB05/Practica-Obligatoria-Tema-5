@@ -13,13 +13,13 @@ public class Trabajador {
     private ArrayList<Pedido> pedidosAsignados;
 
     //Constructor
-    public Trabajador(int id, String nombre, String pass, String email, int movil, ArrayList<Pedido> pedidosAsignados) {
+    public Trabajador(int id, String nombre, String pass, String email, int movil) {
         this.id = id;
         this.nombre = nombre;
         this.pass = pass;
         this.email = email;
         this.movil = movil;
-        this.pedidosAsignados = pedidosAsignados;
+        this.pedidosAsignados = new ArrayList<>();
     }
 
     // Constructor copia

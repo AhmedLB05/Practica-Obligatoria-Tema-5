@@ -139,14 +139,7 @@ public class Cliente {
     public String toString() {
         String resultado = "";
 
-        resultado = "╭───────────────────────────────────────────────────────────────────────╮\n";
-        resultado += """
-                                ╔╦╗┌─┐┌┬┐┌─┐┌─┐  ╔═╗┌─┐┬─┐┌─┐┌─┐┌┐┌┌─┐┬  ┌─┐┌─┐
-                                 ║║├─┤ │ │ │└─┐  ╠═╝├┤ ├┬┘└─┐│ ││││├─┤│  ├┤ └─┐
-                                ═╩╝┴ ┴ ┴ └─┘└─┘  ╩  └─┘┴└─└─┘└─┘┘└┘┴ ┴┴─┘└─┘└─┘
-                                           \s
-                """ + "\n";
-        resultado += " - Nombre: " + nombre + "\n";
+        resultado = " - Nombre: " + nombre + "\n";
         resultado += " - Localidad: " + localidad + " - Provincia: " + provincia + "\n";
         resultado += " - Dirección: " + direccion + "\n";
         resultado += " - Telefono de contacto: " + movil + "\n";
@@ -157,7 +150,6 @@ public class Cliente {
             asteriscosClave += "*";
         }
         resultado += asteriscosClave + "\n";
-        resultado += "╰───────────────────────────────────────────────────────────────────────╯\n";
 
         return resultado;
     }

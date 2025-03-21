@@ -16,10 +16,21 @@ public class Controlador {
     //Constructor
     public Controlador() {
         clientes = new ArrayList<>();
+
+        //TODO ELIMINAR
         Cliente clienteMock = new Cliente("ahmedlb26205@gmail.com", "ahmed", "Ahmed", "Torredelcampo", "Jaén", "C\\Ramón y Cajal 24A", 631088579);
         clientes.add(clienteMock);
+
         trabajadores = new ArrayList<>();
+        Trabajador trabajadorMock = new Trabajador(123, "Juan", "juan", "ahmed.lhaouchi.2602@fernando3martos.com", 631739385);
+        trabajadores.add(trabajadorMock);
+
         admins = new ArrayList<>();
+        Admin adminMock = new Admin(894, "admin", "admin", "admin@gmail.com");
+        admins.add(adminMock);
+        //
+
+
         catalogo = new ArrayList<>();
         catalogo.addAll(DataProductos.getProductosMock());//TODO REVISAR
     }
@@ -122,24 +133,53 @@ public class Controlador {
         return clientes.add(c);
     }
 
+    //Metodo que busca en el catálogo productos que tengan coincidencia en el nombre de la marca
     public ArrayList<Producto> buscaProductosByMarca(String marca) {
-        return new ArrayList<>();
+        ArrayList<Producto> productosCoincideMarca = new ArrayList<>();
+        for (Producto p : catalogo) {
+            if (p.getMarca().toLowerCase().contains(marca.toLowerCase())) productosCoincideMarca.add(p);
+        }
+        return productosCoincideMarca;
     }
 
+    //Metodo que busca en el catálogo productos que tengan coincidencia en el nombre del modelo
     public ArrayList<Producto> buscaProductosByModelo(String modelo) {
-        return new ArrayList<>();
+        ArrayList<Producto> productosCoincideModelo = new ArrayList<>();
+        for (Producto p : catalogo) {
+            if (p.getModelo().toLowerCase().contains(modelo.toLowerCase())) productosCoincideModelo.add(p);
+        }
+        return productosCoincideModelo;
     }
 
+    //Metodo que busca en el catálogo productos que tengan coincidencia en la descripcion
     public ArrayList<Producto> buscaProductosByDescripcion(String descripcion) {
-        return new ArrayList<>();
+        ArrayList<Producto> productosCoincideDescripcion = new ArrayList<>();
+        for (Producto p : catalogo) {
+            if (p.getDescripcion().toLowerCase().contains(descripcion.toLowerCase()))
+                productosCoincideDescripcion.add(p);
+        }
+        return productosCoincideDescripcion;
     }
 
+    //Metodo que busca en el catálogo producto un término que se encuentre en descripcion o marca o modelo
     public ArrayList<Producto> buscaProductosByTermino(String termino) {
-        return new ArrayList<>();
+        ArrayList<Producto> productosCoincideTermino = new ArrayList<>();
+        for (Producto p : catalogo) {
+            if (p.getDescripcion().toLowerCase().contains(termino.toLowerCase())) productosCoincideTermino.add(p);
+            if (p.getMarca().toLowerCase().contains(termino.toLowerCase())) productosCoincideTermino.add(p);
+            if (p.getModelo().toLowerCase().contains(termino.toLowerCase())) productosCoincideTermino.add(p);
+
+        }
+        return productosCoincideTermino;
     }
 
+    //Metodo que busca en el catálogo producto que esten entre un rango de precios
     public ArrayList<Producto> buscaProductosByPrecio(float precioMin, float precioMax) {
-        return new ArrayList<>();
+        ArrayList<Producto> productosCoincidePrecio = new ArrayList<>();
+        for (Producto p : catalogo) {
+            if (p != null && p.getPrecio() <= precioMax && p.getPrecio() >= precioMin) productosCoincidePrecio.add(p);
+        }
+        return productosCoincidePrecio;
     }
 
     public boolean editarProducto(Producto p) {
