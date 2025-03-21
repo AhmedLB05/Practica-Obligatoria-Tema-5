@@ -13,12 +13,13 @@ public class Controlador {
     private ArrayList<Admin> admins;
     private ArrayList<Producto> catalogo;
 
-    //Constructor
+    //Constructor TODO ELIMINAR COSAS
     public Controlador() {
         clientes = new ArrayList<>();
 
         //TODO ELIMINAR
-        Cliente clienteMock = new Cliente("ahmedlb26205@gmail.com", "ahmed", "Ahmed", "Torredelcampo", "Jaén", "C\\Ramón y Cajal 24A", 631088579);
+        Cliente clienteMock = new Cliente(generaIdCliente(), "ahmedlb26205@gmail.com", "ahmed", "Ahmed", "Torredelcampo", "Jaén", "C\\Ramón y Cajal 24A", 631088579);
+        clienteMock.setId(generaIdCliente());
         clientes.add(clienteMock);
 
         trabajadores = new ArrayList<>();
@@ -263,6 +264,7 @@ public class Controlador {
         return new ArrayList<>();
     }*/
 
+    //Metodo que genera el id del cliente
     private int generaIdCliente() {
         int idCliente;
         do {
@@ -296,7 +298,6 @@ public class Controlador {
 
     //Metodos creados por nosotros
 
-
     //TODO metodo creado por Ahmed
     //Metodo que devuelve el total de pedidos pendientes de entrega a un cliente (se hace mirando el estado)
     public int getTotalPedidosPendientesEntregaCliente(Cliente cliente) {
@@ -305,5 +306,24 @@ public class Controlador {
             if (p.getEstado() == 2) cont++;
         }
         return cont;
+    }
+
+    //TODO CREADO POR AHMED
+    //Metodo que se utiliza al cambiar los datos personales de un cliente
+    public boolean actualizaDatosCliente(Cliente cliente, Cliente clienteCambiaDatos) {
+        for (Cliente c : clientes) {
+            if (c.getId() == cliente.getId() && c.getEmail().equalsIgnoreCase(cliente.getEmail())) {
+                clientes.remove(c);
+                clientes.add(clienteCambiaDatos);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean registraCliente(String emailIntro, String claveIntro, String nombreIntro, String localidadIntro, String provinciaIntro, String direccionIntro, int movilIntro) {
+        Cliente cliente = new Cliente(generaIdCliente(), emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro);
+        if (agregaClienteSistema(cliente)) return true;
+        else return false;
     }
 }

@@ -20,35 +20,101 @@ public class EnvioMail {
         String asunto = "VERIFICACIÓN FERNANSHOP";
 
         // Contenido HTML con el marcador ${numAleatorio}
-        String mensaje = "<!DOCTYPE html>" +
-                "<html lang='es'>" +
-                "<head>" +
-                "<meta charset='UTF-8'>" +
-                "<meta name='viewport' content='width=device-width, initial-scale=1.0'>" +
-                "<title>Código de Verificación</title>" +
-                "<style>" +
-                "body { font-family: Arial, sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }" +
-                ".container { width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; }" +
-                ".email-header { background-color: #007BFF; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0; }" +
-                ".email-header h1 { margin: 0; font-size: 24px; }" +
-                ".email-content { background-color: #ffffff; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }" +
-                ".email-content p { font-size: 16px; line-height: 1.6; }" +
-                ".verification-code { display: inline-block; padding: 15px 30px; background-color: #007BFF; color: white; font-size: 30px; font-weight: bold; border-radius: 5px; margin-top: 20px; text-align: center; width: 100%; max-width: 250px; margin-left: auto; margin-right: auto; }" +
-                ".footer { text-align: center; margin-top: 30px; font-size: 14px; color: #888; }" +
-                "</style>" +
-                "</head>" +
-                "<body>" +
-                "<div class='container'>" +
-                "<div class='email-header'><h1>Bienvenido a nuestro servicio</h1></div>" +
-                "<div class='email-content'>" +
-                "<p>Gracias por registrarte en nuestro servicio.</p>" +
-                "<p>Para completar tu registro y verificar tu cuenta, por favor usa el siguiente código de verificación:</p>" +
-                "<div class='verification-code'>${numAleatorio}</div>" +
-                "<p>Este código es válido por 10 minutos. Si no solicitaste este código, ignora este mensaje.</p>" +
-                "</div>" +
-                "<div class='footer'><p>&copy; 2025 Nombre del servicio. Todos los derechos reservados.</p></div>" +
-                "</div>" +
-                "</body>" +
+        String mensaje = "<!DOCTYPE html>\n" +
+                "<html lang=\"es\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <title>Código de Verificación</title>\n" +
+                "    <style>\n" +
+                "        body {\n" +
+                "            font-family: 'Arial', sans-serif;\n" +
+                "            background-color: #f4f7fa;\n" +
+                "            color: #333;\n" +
+                "            margin: 0;\n" +
+                "            padding: 0;\n" +
+                "            display: flex;\n" +
+                "            justify-content: center;\n" +
+                "            align-items: center;\n" +
+                "            height: 100vh;\n" +
+                "        }\n" +
+                "        .container {\n" +
+                "            width: 100%;\n" +
+                "            max-width: 600px;\n" +
+                "            margin: 0 auto;\n" +
+                "            padding: 20px;\n" +
+                "        }\n" +
+                "        .email-header {\n" +
+                "            background-color: #007BFF;\n" +
+                "            color: white;\n" +
+                "            padding: 30px;\n" +
+                "            text-align: center;\n" +
+                "            border-radius: 10px 10px 0 0;\n" +
+                "        }\n" +
+                "        .email-header h1 {\n" +
+                "            margin: 0;\n" +
+                "            font-size: 28px;\n" +
+                "            font-weight: bold;\n" +
+                "        }\n" +
+                "        .email-content {\n" +
+                "            background-color: #ffffff;\n" +
+                "            padding: 30px;\n" +
+                "            border-radius: 0 0 10px 10px;\n" +
+                "            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n" +
+                "        }\n" +
+                "        .email-content p {\n" +
+                "            font-size: 16px;\n" +
+                "            line-height: 1.6;\n" +
+                "            color: #555;\n" +
+                "        }\n" +
+                "        .verification-code {\n" +
+                "            display: inline-block;\n" +
+                "            padding: 20px 40px;\n" +
+                "            background-color: #007BFF;\n" +
+                "            color: white;\n" +
+                "            font-size: 32px;\n" +
+                "            font-weight: bold;\n" +
+                "            border-radius: 10px;\n" +
+                "            margin: 20px 0;\n" +
+                "            text-align: center;\n" +
+                "            width: 100%;\n" +
+                "            max-width: 300px;\n" +
+                "            margin-left: auto;\n" +
+                "            margin-right: auto;\n" +
+                "            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n" +
+                "        }\n" +
+                "        .footer {\n" +
+                "            text-align: center;\n" +
+                "            margin-top: 30px;\n" +
+                "            font-size: 14px;\n" +
+                "            color: #888;\n" +
+                "        }\n" +
+                "        .footer a {\n" +
+                "            color: #007BFF;\n" +
+                "            text-decoration: none;\n" +
+                "        }\n" +
+                "        .footer a:hover {\n" +
+                "            text-decoration: underline;\n" +
+                "        }\n" +
+                "    </style>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "    <div class=\"container\">\n" +
+                "        <div class=\"email-header\">\n" +
+                "            <h1>Bienvenido a nuestro servicio</h1>\n" +
+                "        </div>\n" +
+                "        <div class=\"email-content\">\n" +
+                "            <p>Gracias por registrarte en nuestro servicio. Estamos emocionados de tenerte con nosotros.</p>\n" +
+                "            <p>Para completar tu registro y verificar tu cuenta, por favor usa el siguiente código de verificación:</p>\n" +
+                "            <div class=\"verification-code\">${numAleatorio}</div>\n" +
+                "            <p>Este código es válido por 10 minutos. Si no solicitaste este código, ignora este mensaje.</p>\n" +
+                "        </div>\n" +
+                "        <div class=\"footer\">\n" +
+                "            <p>&copy; 2025 Nombre del servicio. Todos los derechos reservados.</p>\n" +
+                "            <p><a href=\"#\">Política de privacidad</a> | <a href=\"#\">Términos de servicio</a></p>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "</body>\n" +
                 "</html>";
 
         // Configuramos las propiedades del servidor SMTP

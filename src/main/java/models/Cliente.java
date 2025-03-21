@@ -17,8 +17,8 @@ public class Cliente {
     private ArrayList<Producto> carro;
 
     //Constructor
-    public Cliente(String email, String clave, String nombre, String localidad, String provincia, String direccion, int movil) {
-        this.id = id;
+    public Cliente(int idGenerada, String email, String clave, String nombre, String localidad, String provincia, String direccion, int movil) {
+        this.id = idGenerada;
         this.email = email;
         this.clave = clave;
         this.nombre = nombre;
@@ -140,6 +140,7 @@ public class Cliente {
         String resultado = "";
 
         resultado = " - Nombre: " + nombre + "\n";
+        //resultado += " - ID: " + id + "\n";
         resultado += " - Localidad: " + localidad + " - Provincia: " + provincia + "\n";
         resultado += " - Dirección: " + direccion + "\n";
         resultado += " - Telefono de contacto: " + movil + "\n";

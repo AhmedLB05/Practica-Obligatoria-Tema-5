@@ -109,8 +109,8 @@ public class main {
         claveIntro = S.nextLine();
 
         if (verificacionCliente(emailIntro)) {
-            Cliente clienteRegistrado = new Cliente(emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro);
-            if (controlador.agregaClienteSistema(clienteRegistrado)) System.out.println("\nREGISTRO EXISTOSO\n");
+            if (controlador.registraCliente(emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro))
+                System.out.println("\nREGISTRO EXISTOSO\n");
             else System.out.println("\nERROR: REGISTRO ERRÓNEO\n");
         }
     }
@@ -270,7 +270,7 @@ public class main {
         }
     }
 
-    //Metodo que contiene el switch del menu cliente
+    //Metodo que contiene el switch del menu cliente TODO
     private static void menuCliente(Controlador controlador, int opCliente, Cliente cliente) {
         int opcion;
         switch (opCliente) {
@@ -381,6 +381,7 @@ public class main {
     //Metodo que modifica los datos del cliente
     private static void modificaDatosCliente(Controlador controlador, Cliente cliente) {
         int opcion;
+        Cliente clienteCambiaDatos = new Cliente(cliente);
         do {
             System.out.println();
             System.out.println("=================================");
@@ -407,19 +408,31 @@ public class main {
             } while (true);
             if (opcion == 1 || opcion == 2) {
                 System.out.print("Introduzca nuevo nombre: ");
-                cliente.setNombre(S.nextLine());
+                String nombre = S.nextLine();
+                clienteCambiaDatos.setNombre(nombre);
+                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setNombre(nombre);
             }
             if (opcion == 1 || opcion == 3) {
                 System.out.print("Introduzca nueva localidad: ");
-                cliente.setLocalidad(S.nextLine());
+                String localidad = S.nextLine();
+                clienteCambiaDatos.setLocalidad(localidad);
+                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setLocalidad(localidad);
             }
             if (opcion == 1 || opcion == 4) {
                 System.out.print("Introduzca nueva provincia: ");
-                cliente.setProvincia(S.nextLine());
+                String provincia = S.nextLine();
+                clienteCambiaDatos.setProvincia(provincia);
+                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setProvincia(provincia);
             }
             if (opcion == 1 || opcion == 5) {
                 System.out.print("Introduzca nueva dirección: ");
-                cliente.setDireccion(S.nextLine());
+                String direccion = S.nextLine();
+                clienteCambiaDatos.setDireccion(direccion);
+                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setDireccion(direccion);
             }
             if (opcion == 1 || opcion == 6) {
                 int movil;
@@ -434,8 +447,9 @@ public class main {
                 } while (true);
                 if (!(movil > 99999999 && movil <= 999999999))
                     System.out.println(" * ERROR: NUMERO INTRODUCIDO ERRÓNEO");
-                else cliente.setMovil(movil);
-
+                else clienteCambiaDatos.setMovil(movil);
+                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setMovil(movil);
             }
             if (opcion == 1 || opcion == 7) {
                 System.out.print("Introduzca nuevo email: ");
@@ -443,22 +457,34 @@ public class main {
 
                 if (controlador.buscaClienteByEmail(email) != null)
                     System.out.println(" * ERROR YA EXISTE UN CLIENTE CON ESTE EMAIL");
-                else if (verificacionCliente(email)) cliente.setEmail(email);
-
+                else if (verificacionCliente(email)) {
+                    clienteCambiaDatos.setEmail(email);
+                    System.out.println(" - SU EMAIL HA SIDO CAMBIADO CON ÉXITO");
+                } else System.out.println(" * ERROR AL VERTIFICAR EL NUEVO EMAIL");
+                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setEmail(email);
             }
             if (opcion == 1 || opcion == 8) {
                 String claveAnterior, claveNueva;
                 System.out.print("Introduzca clave anterior: ");
                 claveAnterior = S.nextLine();
-                if (!cliente.getClave().equals(claveAnterior)) System.out.println(" * ERROR CLAVE NO VÁLIDA");
-                if (cliente.getClave().equals(claveAnterior)) {
+
+                if (!clienteCambiaDatos.getClave().equals(claveAnterior))
+                    System.out.println(" * ERROR CLAVE NO VÁLIDA");
+                else {
                     System.out.println();
                     System.out.println(" * CLAVE CORRECTA");
                     System.out.print("Introduzca nueva clave: ");
                     claveNueva = S.nextLine();
-                    if (!claveNueva.equals(claveAnterior)) cliente.setClave(S.nextLine());
+
                     if (claveNueva.equals(claveAnterior))
                         System.out.println(" * ERROR LA NUEVA CLAVE ES IGUAL A LA ANTERIOR");
+                    else {
+                        clienteCambiaDatos.setClave(claveNueva);
+                        controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                        cliente.setClave(claveNueva);
+                        System.out.println(" - SU CLAVE HA SIDO CAMBIADA CON ÉXITO: " + claveNueva);
+                    }
                 }
             }
             if (opcion == 9) Utils.mensajeCierraPrograma();
