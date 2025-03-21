@@ -117,7 +117,7 @@ public class main {
 
     //Metodo que se encarga de verificar el token del cliente (inventado por Ahmed)
     private static boolean verificacionCliente(String email) {
-        int token = Utils.generaTokenRegistroCliente(), tokenIntro = 0;
+        int token = Utils.generaTokenRegistro(), tokenIntro = 0;
         System.out.println("\n\nA continuación se le va a enviar un código de verificación a su correo");
         EnvioMail.enviaTokenRegistro(email, token);
         try {
@@ -204,7 +204,7 @@ public class main {
                         System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                     }
                 } while (true);
-                menuTrabajador(controlador, opTrabajador);
+                menuTrabajador(controlador, opTrabajador, trabajador);
             } while (opTrabajador != 8);
         }
 
@@ -248,26 +248,406 @@ public class main {
     }
 
     //Metodo que contiene el switch del menu trabajador
-    private static void menuTrabajador(Controlador controlador, int opTrabajador) {
+    private static void menuTrabajador(Controlador controlador, int opTrabajador, Trabajador trabajador) {
         switch (opTrabajador) {
             case 1: //Consultar los pedidos que tengo asignados
+                consultaPedidosAsignados(controlador, trabajador);
                 break;
             case 2: //Modificar el estado de un pedido
+                modificaEstadoComentarioPedido(controlador, trabajador);
                 break;
             case 3: //Consultar el catálogo de productos
+                consultaCatalogoTrabajador(controlador);
                 break;
             case 4: //Modificar un producto
+                modificaProducto(controlador);
                 break;
             case 5: //Ver el histórico de pedidos terminados
+                historicoPedidosTerminados(trabajador, controlador);
                 break;
             case 6: //Ver mi perfil
+                pintaPerfilTrabajador(trabajador);
                 break;
             case 7: //Modificar mis datos personales
+                modificaDatosTrabajador(controlador, trabajador);
                 break;
             case 8: //Salir
+                Utils.mensajeCierraPrograma();
                 break;
 
         }
+    }
+
+    //Metodo que modifica un producto
+    private static void modificaProducto(Controlador controlador) {
+        int id, op;
+        do {
+            try {
+                System.out.print("Introduzca el ID del producto a modificar: ");
+                id = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println(" * ERROR AL INTRODUCIR EL ID DEL PRODUCTO");
+            }
+        } while (true);
+        Producto p = controlador.buscaProductoById(id);
+        if (p == null) System.out.println(" * ERROR NO SE HA ENCONTRADO NINGÚN PRODUCTO");
+        else {
+            System.out.println("Has seleccionado este producto: ");
+            System.out.println(p);
+            do {
+                System.out.println(" === MODIFICA PRODUCTO ===");
+                System.out.println("""
+                        1. - Modificar todos los campos
+                        2. - Modificar marca
+                        3. - Modificar modelo
+                        4. - Modificar descripción
+                        5. - Modificar precio
+                        6. - Salir""");
+                do {
+                    try {
+                        System.out.print("Introduzca una opción: ");
+                        op = Integer.parseInt(S.nextLine());
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                    }
+                } while (true);
+
+                if (op == 1 || op == 2) {
+                    System.out.print("Introduzca nueva marca del producto: ");
+                    String marca = S.nextLine();
+                    p.setMarca(marca);
+                }
+                if (op == 1 || op == 3) {
+                    System.out.print("Introduzca nuevo modelo del producto: ");
+                    String modelo = S.nextLine();
+                    p.setModelo(modelo);
+                }
+                if (op == 1 || op == 4) {
+                    System.out.print("Introduzca nueva descripción del producto: ");
+                    String descripcion = S.nextLine();
+                    p.setDescripcion(descripcion);
+                }
+                if (op == 1 || op == 5) {
+                    float precio;
+                    do {
+                        try {
+                            System.out.print("Introduzca nuevo precio: ");
+                            precio = Float.parseFloat(S.nextLine());
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println(" * ERROR AL INTRODUCIR NUEVO PRECIO");
+                        }
+                    } while (true);
+                    if (precio <= 0) System.out.println(" * ERROR EL PRECIO NO PUEDE SER NEGATIVO");
+                    else p.setPrecio(precio);
+                }
+                if (op == 6) Utils.mensajeCierraPrograma();
+            } while (op != 6);
+        }
+    }
+
+    //Metodo que pinta todos los pedidos terminados/completados de un trabajador
+    private static void historicoPedidosTerminados(Trabajador trabajador, Controlador controlador) {
+        if (controlador.getPedidosCompletadosTrabajador(trabajador.getId()).isEmpty())
+            System.out.println(" * ERROR NO TIENES PEDIDOS COMPLETADOS EN TU PERFIL");
+        else {
+            System.out.println("""
+                    ╔═╗╔═╗╔╦╗╦╔╦╗╔═╗╔═╗  ╔═╗╔═╗╔╦╗╔═╗╦  ╔═╗╔╦╗╔═╗╔╦╗╔═╗╔═╗
+                    ╠═╝║╣  ║║║ ║║║ ║╚═╗  ║  ║ ║║║║╠═╝║  ║╣  ║ ╠═╣ ║║║ ║╚═╗
+                    ╩  ╚═╝═╩╝╩═╩╝╚═╝╚═╝  ╚═╝╚═╝╩ ╩╩  ╩═╝╚═╝ ╩ ╩ ╩═╩╝╚═╝╚═╝
+                    """);
+            for (PedidoClienteDataClass p : controlador.getPedidosCompletadosTrabajador(trabajador.getId())) {
+                System.out.println(p);
+                System.out.println();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    //Metodo que se encarga de modificar los datos de un trabajador
+    private static void modificaDatosTrabajador(Controlador controlador, Trabajador trabajador) {
+        int opcion;
+        Trabajador trabajadorCambiaDatos = new Trabajador(trabajador);
+        do {
+            System.out.println();
+            System.out.println("=================================");
+            System.out.println("    MODIFICA DATOS PERSONALES");
+            System.out.println("=================================");
+            System.out.println("""
+                    1. - Modificar todos los datos del cliente
+                    2. - Modificar nombre
+                    3. - Modificar contraseña
+                    4. - Modificar email
+                    5. - Modificar movil
+                    6. - Salir""");
+            do {
+                try {
+                    System.out.print("Introduzca una opción: ");
+                    opcion = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                }
+            } while (true);
+            if (opcion == 1 || opcion == 2) { //NOMBRE
+                System.out.print("Introduzca nuevo nombre: ");
+                String nombre = S.nextLine();
+                trabajadorCambiaDatos.setNombre(nombre);
+                controlador.actualizaDatosTrabajador(trabajador, trabajadorCambiaDatos);
+                trabajador.setNombre(nombre);
+            }
+            if (opcion == 1 || opcion == 8) {
+                String claveAnterior, claveNueva;
+                System.out.print("Introduzca clave anterior: ");
+                claveAnterior = S.nextLine();
+
+                if (!trabajadorCambiaDatos.getPass().equals(claveAnterior))
+                    System.out.println(" * ERROR CLAVE NO VÁLIDA");
+                else {
+                    System.out.println();
+                    System.out.println(" * CLAVE CORRECTA");
+                    System.out.print("Introduzca nueva clave: ");
+                    claveNueva = S.nextLine();
+
+                    if (claveNueva.equals(claveAnterior))
+                        System.out.println(" * ERROR LA NUEVA CLAVE ES IGUAL A LA ANTERIOR");
+                    else {
+                        trabajadorCambiaDatos.setPass(claveNueva);
+                        controlador.actualizaDatosTrabajador(trabajador, trabajadorCambiaDatos);
+                        trabajador.setPass(claveNueva);
+                        System.out.println(" - SU CLAVE HA SIDO CAMBIADA CON ÉXITO: " + claveNueva);
+                    }
+                }
+            }
+            if (opcion == 1 || opcion == 4) { //EMAIL
+                System.out.print("Introduzca nuevo email: ");
+                String email = S.nextLine();
+
+                if (controlador.buscaTrabajadorByEmail(email) != null)
+                    System.out.println(" * ERROR YA EXISTE UN CLIENTE CON ESTE EMAIL");
+                else if (verificacionTrabajador(email)) {
+                    trabajadorCambiaDatos.setEmail(email);
+                    System.out.println(" - SU EMAIL HA SIDO CAMBIADO CON ÉXITO");
+                } else System.out.println(" * ERROR AL VERTIFICAR EL NUEVO EMAIL");
+                controlador.actualizaDatosTrabajador(trabajador, trabajadorCambiaDatos);
+                trabajador.setEmail(email);
+            }
+            if (opcion == 1 || opcion == 5) { //MOVIL
+                int movil;
+                do {
+                    try {
+                        System.out.print("Introduzca nuevo numero de teléfono: ");
+                        movil = Integer.parseInt(S.nextLine());
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DE TELÉFONO");
+                    }
+                } while (true);
+                if (!(movil > 99999999 && movil <= 999999999))
+                    System.out.println(" * ERROR: NUMERO INTRODUCIDO ERRÓNEO");
+                else trabajadorCambiaDatos.setMovil(movil);
+                controlador.actualizaDatosTrabajador(trabajador, trabajadorCambiaDatos);
+                trabajador.setMovil(movil);
+            }
+            if (opcion == 6) Utils.mensajeCierraPrograma();
+        } while (opcion != 6);
+    }
+
+    //Metodo que se encarga de toda la verificacion del email de un trabajador enviandole un token
+    private static boolean verificacionTrabajador(String email) {
+        int token = Utils.generaTokenRegistro(), tokenIntro = 0;
+        System.out.println("\n\nA continuación se le va a enviar un código de verificación a su correo");
+        EnvioMail.enviaTokenRegistro(email, token);
+        try {
+            System.out.print("\nIntroduzca el código recibido: ");
+            tokenIntro = Integer.parseInt(S.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("ERROR AL INTRODUCIR CODIGO");
+        }
+
+        return (token == tokenIntro);
+    }
+
+    //Metodo que se encarga de pinta el perfil del trabajador
+    private static void pintaPerfilTrabajador(Trabajador trabajador) {
+        System.out.println(trabajador);
+    }
+
+    //Metodo que se encarga de modificar el estado y el comentario de un pedido asignado a un trabajador
+    private static void modificaEstadoComentarioPedido(Controlador controlador, Trabajador trabajador) {
+        int op;
+        do {
+            System.out.println(" === MODIFICADOR DE ESTADO PEDIDOS === ");
+            System.out.println("""
+                    1. - Modificar el estado
+                    2. - Añadir o modificar un comentario
+                    3. - Salir
+                    =======================================""");
+            do {
+                try {
+                    System.out.print("Introduzca una opción: ");
+                    op = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                }
+            } while (true);
+            switch (op) {
+                case 1:
+                    modificaEstadoPedido(controlador, trabajador);
+                    break;
+                case 2:
+                    modificaComentarioPedido(controlador, trabajador);
+                    break;
+                case 3:
+                    Utils.mensajeCierraPrograma();
+                    break;
+            }
+        } while (op != 3);
+
+    }
+
+    //Metodo que se encarga de modificar el comentario de un pedido asignado a un trabajador
+    private static void modificaComentarioPedido(Controlador controlador, Trabajador trabajador) {
+        System.out.println();
+        System.out.println(" - BIENVENIDO A MODIFICAR EL COMENTARIO DE UN PEDIDO A TU CARGO");
+        System.out.println();
+        int idPedido = 0;
+        ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
+        //PedidoClienteDataClass temp = null;
+        do {
+            try {
+                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
+                idPedido = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+            }
+        } while (true);
+        if (idPedido == -1) {
+            Utils.mensajeCierraPrograma();
+        } else { //Si no ha seleccionado salir
+            int cont = 0;
+            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
+                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+                System.out.println(pedidoSeleccionado);
+                pedidosCopia.add(pedidoSeleccionado);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            int numPedido;
+
+            do {
+                try {
+                    System.out.print("Introduce el pedido: ");
+                    numPedido = Integer.parseInt(S.nextLine());
+                    numPedido--;
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
+                }
+            } while (true);
+            System.out.println("Este es el pedido seleccionado: ");
+            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+            System.out.println(p);
+            System.out.print("Introduzca el comentario a añadir: ");
+            String comentarioNuevo = S.nextLine();
+            p.setComentario(comentarioNuevo);
+        }
+    }
+
+    //Metodo que se encarga de modificar el estado de un pedido asignado a un trabajador
+    private static void modificaEstadoPedido(Controlador controlador, Trabajador trabajador) {
+        System.out.println();
+        System.out.println(" - BIENVENIDO A MODIFICAR EL ESTADO DE UN PEDIDO A TU CARGO");
+        System.out.println();
+        int idPedido = 0;
+        ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
+        do {
+            try {
+                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
+                idPedido = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+            }
+        } while (true);
+        if (idPedido == -1) {
+            Utils.mensajeCierraPrograma();
+        } else { //Si no ha seleccionado salir
+            int cont = 0;
+            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
+                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+                System.out.println(pedidoSeleccionado);
+                pedidosCopia.add(pedidoSeleccionado);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            int numPedido;
+
+            do {
+                try {
+                    System.out.print("Introduce el pedido: ");
+                    numPedido = Integer.parseInt(S.nextLine());
+                    numPedido--;
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
+                }
+            } while (true);
+            System.out.println("Este es el pedido seleccionado: ");
+            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+            System.out.println(p);
+            int numEstado;
+            System.out.println(" === Selecciona el nuevo estado === ");
+            System.out.print("""
+                    1. En preparación
+                    2. Enviado
+                    3. Entregado
+                    4. Cancelado""");
+            do {
+                try {
+                    System.out.print("Introduzca una opción: ");
+                    numEstado = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                }
+            } while (true);
+            p.setEstado(numEstado);
+        }
+    }
+
+    //Metodo que consulta los pedidos que tengo asignados (siendo trabajador)
+    private static void consultaPedidosAsignados(Controlador controlador, Trabajador trabajador) {
+        if (trabajador.numPedidosPendientes() == 0) System.out.println(" * NO TIENE PEDIDOS PENDIENTES");
+        else {
+            System.out.println();
+            System.out.println(" - Tiene " + trabajador.numPedidosPendientes() + " pedidos pendientes");
+            System.out.println();
+            for (PedidoClienteDataClass p : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
+                System.out.println(p);
+                System.out.println();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
     }
 
     //Metodo que contiene el switch del menu cliente TODO
@@ -275,7 +655,7 @@ public class main {
         int opcion;
         switch (opCliente) {
             case 1: //Consultar el catálogo de productos
-                consultaCatalogoCliente(controlador);
+                consultaCatalogoTrabajador(controlador);
                 break;
             case 2: //Realizar un pedido TODO
                 realizaPedidoCliente(cliente, controlador);
@@ -331,7 +711,7 @@ public class main {
     }
 
     //Metodo que nos indica varias maneras de consultar el catálogo siendo cliente
-    private static void consultaCatalogoCliente(Controlador controlador) {
+    private static void consultaCatalogoTrabajador(Controlador controlador) {
         int opcion;
         do {
             System.out.println();

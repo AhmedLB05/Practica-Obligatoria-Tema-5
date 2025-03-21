@@ -13,8 +13,8 @@ public class Trabajador {
     private ArrayList<Pedido> pedidosAsignados;
 
     //Constructor
-    public Trabajador(int id, String nombre, String pass, String email, int movil) {
-        this.id = id;
+    public Trabajador(int idGenerada, String nombre, String pass, String email, int movil) {
+        this.id = idGenerada;
         this.nombre = nombre;
         this.pass = pass;
         this.email = email;
@@ -142,4 +142,18 @@ public class Trabajador {
         return getPedidosPendientes().size();
     }
 
+    @Override
+    public String toString() {
+        String resultado = "";
+        resultado += "==================== TRABAJADOR ====================\n";
+        resultado += "Nombre: " + nombre + "\n";
+        resultado += "Email: " + email + "\n";
+        resultado += "Teléfono móvil: " + movil + "\n";
+        String asteriscosClave = "";
+        for (int i = 0; i < pass.length(); i++) {
+            asteriscosClave += "*";
+        }
+        resultado += asteriscosClave + "\n";
+        return resultado;
+    }
 }

@@ -43,7 +43,7 @@ public class Utils {
     }
 
     // Metodo para generar un número aleatorio de 6 dígitos
-    public static int generaTokenRegistroCliente() {
+    public static int generaTokenRegistro() {
         Random random = new Random();
         int numAleatorio = 100000 + random.nextInt(900000);
         return numAleatorio;

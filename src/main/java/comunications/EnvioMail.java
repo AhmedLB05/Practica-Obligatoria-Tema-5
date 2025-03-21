@@ -110,7 +110,7 @@ public class EnvioMail {
                 "            <p>Este código es válido por 10 minutos. Si no solicitaste este código, ignora este mensaje.</p>\n" +
                 "        </div>\n" +
                 "        <div class=\"footer\">\n" +
-                "            <p>&copy; 2025 Nombre del servicio. Todos los derechos reservados.</p>\n" +
+                "            <p>&copy; 2025 PRACTICA OBLIGATORIA AHMED LB. Todos los derechos reservados.</p>\n" +
                 "            <p><a href=\"#\">Política de privacidad</a> | <a href=\"#\">Términos de servicio</a></p>\n" +
                 "        </div>\n" +
                 "    </div>\n" +
@@ -169,7 +169,7 @@ public class EnvioMail {
     //Metodo principal para probar el envío
     public static void main(String[] args) {
         String destinatario = "ahmedlb26205@gmail.com";  // Dirección de destino
-        int num = Utils.generaTokenRegistroCliente();
+        int num = Utils.generaTokenRegistro();
 
         // Llamamos al metodo para enviar el correo
         enviaTokenRegistro(destinatario, num);

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PedidoClienteDataClass {
-    //Atributos Cliente
+
     private int idCliente;
     private String email;
     private String nombre;
@@ -12,7 +12,6 @@ public class PedidoClienteDataClass {
     private String provincia;
     private String direccion;
     private int movil;
-    //Atributos Pedido
     private int idPedido;
     private LocalDate fechaPedido;
     private LocalDate fechaEntregaEstimada;
@@ -145,13 +144,13 @@ public class PedidoClienteDataClass {
     // Otros metodos
     @Override
     public String toString() {
-        return " =============== " + idPedido + " =============== \n" +
-                "Estado: " + devuelveEstado(estado) + "\n" +
-                "Nombre: " + nombre + "\n" +
-                "Dirección: " + direccion + "\n" +
+        return " *************** " + idPedido + " *************** \n" +
+                "Estado del pedido: " + devuelveEstado(estado) + "\n" +
+                "Nombre del cliente: " + nombre + "\n" +
+                "Dirección de entrega: " + direccion + "\n" +
                 "Localidad: " + localidad + "\n" +
                 "Provincia: " + provincia + "\n" +
-                "Teléfono: " + movil + "\n" +
+                "Teléfono del cliente: " + movil + "\n" +
                 "Fecha del pedido: " + fechaPedido + "\n" +
                 "Fecha de entrega estimada: " + fechaEntregaEstimada + "\n" +
                 "Comentarios del pedido: " + comentario + "\n" +

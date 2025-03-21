@@ -103,7 +103,7 @@ public class Pedido {
     //Metodo que cambia el estado del pedido
     public boolean cambiaEstado(int nuevoEstado) {
         if (!(nuevoEstado >= 1 && nuevoEstado <= 4)) return false;
-        setEstado(nuevoEstado);
+        estado = nuevoEstado;
         return true;
     }
 

@@ -16,24 +16,18 @@ public class Controlador {
     //Constructor TODO ELIMINAR COSAS
     public Controlador() {
         clientes = new ArrayList<>();
-
-        //TODO ELIMINAR
-        Cliente clienteMock = new Cliente(generaIdCliente(), "ahmedlb26205@gmail.com", "ahmed", "Ahmed", "Torredelcampo", "Jaén", "C\\Ramón y Cajal 24A", 631088579);
-        clienteMock.setId(generaIdCliente());
-        clientes.add(clienteMock);
-
         trabajadores = new ArrayList<>();
-        Trabajador trabajadorMock = new Trabajador(123, "Juan", "juan", "ahmed.lhaouchi.2602@fernando3martos.com", 631739385);
-        trabajadores.add(trabajadorMock);
-
         admins = new ArrayList<>();
-        Admin adminMock = new Admin(894, "admin", "admin", "admin@gmail.com");
-        admins.add(adminMock);
-        //
-
-
         catalogo = new ArrayList<>();
-        catalogo.addAll(DataProductos.getProductosMock());//TODO REVISAR
+        mock();
+    }
+
+    private void mock() {
+        clientes.add(new Cliente(generaIdCliente(), "ahmedlb26205@gmail.com", "123", "Ahmed", "Torredelcampo", "Jaén", "Federico Garcia Lorca", 631788372));
+        clientes.add(new Cliente(generaIdCliente(), "marcos@gmail.com", "123", "Marcos", "Martos", "Jaén", "Ramon Garay", 672929324));
+        trabajadores.add(new Trabajador(generaIdTrabajador(), "Carlos", "123", "ahmed.lhaouchi.2602@fernando3martos.com", 672839234));
+        admins.add(new Admin(generaIdAdmin(), "admin", "admin", "admin@admin"));
+        catalogo = DataProductos.getProductosMock();
     }
 
     //Getters y Setters
@@ -196,10 +190,19 @@ public class Controlador {
     }
 
     public Pedido buscaPedidoById(int idPedido) {
+        for (Pedido p : getTodosPedidos()) {
+            if (p.getId() == idPedido) return p;
+        }
         return null;
     }
 
     public boolean cambiaEstadoPedido(int idPedido, int nuevoEstado) {
+        for (Pedido p : getTodosPedidos()) {
+            if (p.getId() == idPedido) {
+                p.setEstado(nuevoEstado);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -215,8 +218,8 @@ public class Controlador {
         return new ArrayList<>();
     }
 
-    /*Metodo que nos devuelve el total de pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
-    luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores*/
+    //Metodo que nos devuelve el total de pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
+    //luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores
     public int numPedidosSinTrabajador() {
         ArrayList<Pedido> pedidosAsignados = new ArrayList<>();
         ArrayList<Pedido> pedidosSinAsignar = new ArrayList<>();
@@ -229,6 +232,7 @@ public class Controlador {
         pedidosSinAsignar.removeAll(pedidosAsignados);
         return pedidosSinAsignar.size();
     }
+
 
     public boolean asignaPedido(int idPedido, int idTrabajador) {
         return false;
@@ -264,7 +268,7 @@ public class Controlador {
         return new ArrayList<>();
     }
 
-    //Metodo que genera el id del cliente
+    //Metodo que genera el id del cliente SI EMPIEZA POR 2 ES CLIENTE
     private int generaIdCliente() {
         int idCliente;
         do {
@@ -274,19 +278,22 @@ public class Controlador {
         return idCliente;
     }
 
+    //Metodo que genera el id del producto
     private int generaIdProducto() {
         return 0;
     }
 
+    //Metodo que genera el id del pedido
     private int generaIdPedido() {
         return 0;
     }
 
+    //Metodo que genera el id del admin SI EMPIEZA POR 3 ES ADMIN
     private int generaIdAdmin() {
         return 0;
     }
 
-    //Metodo que genera el id del trabajador
+    //Metodo que genera el id del trabajador SI EMPIEZA POR 1 ES TRABAJADOR
     private int generaIdTrabajador() {
         int idTrabajador;
         do {
@@ -296,9 +303,9 @@ public class Controlador {
         return idTrabajador;
     }
 
+
     //Metodos creados por nosotros
 
-    //TODO metodo creado por Ahmed
     //Metodo que devuelve el total de pedidos pendientes de entrega a un cliente (se hace mirando el estado)
     public int getTotalPedidosPendientesEntregaCliente(Cliente cliente) {
         int cont = 0;
@@ -308,7 +315,6 @@ public class Controlador {
         return cont;
     }
 
-    //TODO CREADO POR AHMED
     //Metodo que se utiliza al cambiar los datos personales de un cliente
     public boolean actualizaDatosCliente(Cliente cliente, Cliente clienteCambiaDatos) {
         for (Cliente c : clientes) {
@@ -321,8 +327,29 @@ public class Controlador {
         return false;
     }
 
+    //Metodo para el registro de clientes
     public boolean registraCliente(String emailIntro, String claveIntro, String nombreIntro, String localidadIntro, String provinciaIntro, String direccionIntro, int movilIntro) {
         Cliente cliente = new Cliente(generaIdCliente(), emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro);
         return agregaClienteSistema(cliente);
+    }
+
+    //Metodo que se utiliza al cambiar los datos personales de un trabajador
+    public boolean actualizaDatosTrabajador(Trabajador trabajador, Trabajador trabajadorCambiaDatos) {
+        for (Trabajador t : trabajadores) {
+            if (t.getId() == trabajador.getId() && t.getEmail().equalsIgnoreCase(trabajador.getEmail())) {
+                trabajadores.remove(t);
+                trabajadores.add(trabajadorCambiaDatos);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Metodo que busca un trabajador por su email
+    public Trabajador buscaTrabajadorByEmail(String email) {
+        for (Trabajador t : trabajadores) {
+            if (t.getEmail().equalsIgnoreCase(email)) return t;
+        }
+        return null;
     }
 }
