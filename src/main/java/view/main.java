@@ -254,8 +254,9 @@ public class main {
 
     //Metodo que contiene el switch del menu administrador
     private static void menuAdmin(Controlador controlador, int opAdmin) {
-        switch (opAdmin){
+        switch (opAdmin) {
             case 1: //Ver todoo el catálogo
+                consultaCatalogo(controlador);
                 break;
             case 2: //Editar un producto
                 modificaProducto(controlador);
@@ -292,7 +293,7 @@ public class main {
                 modificaEstadoComentarioPedido(controlador, trabajador);
                 break;
             case 3: //Consultar el catálogo de productos
-                consultaCatalogoTrabajador(controlador);
+                consultaCatalogo(controlador);
                 break;
             case 4: //Modificar un producto
                 modificaProducto(controlador);
@@ -692,7 +693,7 @@ public class main {
         int opcion;
         switch (opCliente) {
             case 1: //Consultar el catálogo de productos
-                consultaCatalogoTrabajador(controlador);
+                consultaCatalogo(controlador);
                 break;
             case 2: //Realizar un pedido TODO
                 realizaPedidoCliente(cliente, controlador);
@@ -748,7 +749,7 @@ public class main {
     }
 
     //Metodo que nos indica varias maneras de consultar el catálogo siendo cliente
-    private static void consultaCatalogoTrabajador(Controlador controlador) {
+    private static void consultaCatalogo(Controlador controlador) {
         int opcion;
         do {
             System.out.println();
