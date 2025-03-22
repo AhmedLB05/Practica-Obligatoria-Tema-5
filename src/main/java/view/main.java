@@ -224,8 +224,18 @@ public class main {
                 System.out.println("Número de pedidos sin asignar: ");
                 System.out.println("===============================================");
                 System.out.println("\n\n");
-
-
+                System.out.print("""
+                        1. - Ver todo el catálogo
+                        2. - Editar un producto
+                        3. - Ver un resumen de todos los clientes
+                        4. - Ver un resumen de todos los pedidos
+                        5. - Ver un resumen de todos los trabajadores
+                        6. - Ver las estadísticas de la aplicación
+                        7. - Cambiar el estado de un pedido
+                        8. - Dar de alta un trabajador
+                        9. - Dar de baja un trabajador
+                        10. - Asignar un pedido a un trabajador
+                        11. - Salir""");
                 do {
                     try {
                         System.out.print("Introduzca una opción: ");
@@ -244,7 +254,32 @@ public class main {
 
     //Metodo que contiene el switch del menu administrador
     private static void menuAdmin(Controlador controlador, int opAdmin) {
-
+        switch (opAdmin){
+            case 1: //Ver todoo el catálogo
+                break;
+            case 2: //Editar un producto
+                modificaProducto(controlador);
+                break;
+            case 3: //Ver un resumen de todos los clientes
+                break;
+            case 4: //Ver un resumen de todos los pedidos
+                break;
+            case 5: //Ver un resumen de todos los trabajadores
+                break;
+            case 6: //Ver las estadísticas de la aplicación
+                break;
+            case 7: //Cambiar el estado de un pedido
+                break;
+            case 8: //Dar de alta un trabajador
+                break;
+            case 9: //Dar de baja un trabajador
+                break;
+            case 10: //Asignar un pedido a un trabajador
+                break;
+            case 11:
+                Utils.mensajeCierraPrograma();
+                break;
+        }
     }
 
     //Metodo que contiene el switch del menu trabajador
