@@ -182,7 +182,11 @@ public class Controlador {
     }
 
     public ArrayList<Pedido> getTodosPedidos() {
-        return new ArrayList<>();
+        ArrayList<Pedido> todosPedidos = new ArrayList<>();
+        for (Cliente c : clientes) {
+            if (!c.getPedidos().isEmpty()) todosPedidos.addAll(c.getPedidos());
+        }
+        return todosPedidos;
     }
 
     //Metodo para ver la cantidad de pedidos en el sistema
@@ -370,5 +374,9 @@ public class Controlador {
             if (!t.getPedidosCompletados().isEmpty()) cont += t.getPedidosCompletados().size();
         }
         return cont;
+    }
+
+    public ArrayList<PedidoClienteDataClass> getTodosPedidosClienteDataClass() {
+        ArrayList<PedidoClienteDataClass> todosPedidosCliente = new ArrayList<>();
     }
 }

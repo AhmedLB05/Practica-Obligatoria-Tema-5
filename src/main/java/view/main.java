@@ -275,6 +275,7 @@ public class main {
                 pintaEstadisticasAdmin(controlador);
                 break;
             case 7: //Cambiar el estado de un pedido
+                modificaEstadoComentarioPedidoByAdmin(controlador);
                 break;
             case 8: //Dar de alta un trabajador
                 break;
@@ -285,6 +286,104 @@ public class main {
             case 11:
                 Utils.mensajeCierraPrograma();
                 break;
+        }
+    }
+
+    //Metodo que modifica el estado o comentario de un pedido a diferencia del trabajador en este
+    //metodo no se verifica que el pedido esté asignado al trabajador o no
+    private static void modificaEstadoComentarioPedidoByAdmin(Controlador controlador) {
+        int op;
+        do {
+            System.out.println(" === MODIFICADOR DE ESTADO PEDIDOS === ");
+            System.out.println("""
+                    1. - Modificar el estado
+                    2. - Añadir o modificar un comentario
+                    3. - Salir
+                    =======================================""");
+            do {
+                try {
+                    System.out.print("Introduzca una opción: ");
+                    op = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                }
+            } while (true);
+            switch (op) {
+                case 1:
+                    modificaEstadoPedidoByAdmin(controlador);
+                    break;
+                case 2:
+                    modificaComentarioPedidoByAdmin(controlador);
+                    break;
+                case 3:
+                    Utils.mensajeCierraPrograma();
+                    break;
+            }
+        } while (op != 3);
+    }
+
+    private static void modificaEstadoPedidoByAdmin(Controlador controlador) {
+        System.out.println();
+        System.out.println(" - BIENVENIDO A MODIFICAR EL ESTADO DE UN PEDIDO A TU CARGO");
+        System.out.println();
+        int idPedido = 0;
+        ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
+        do {
+            try {
+                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
+                idPedido = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+            }
+        } while (true);
+        if (idPedido == -1) {
+            Utils.mensajeCierraPrograma();
+        } else { //Si no ha seleccionado salir
+            int cont = 0;
+            for (Pedido pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
+                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+                System.out.println(pedidoSeleccionado);
+                pedidosCopia.add(pedidoSeleccionado);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            int numPedido;
+
+            do {
+                try {
+                    System.out.print("Introduce el pedido: ");
+                    numPedido = Integer.parseInt(S.nextLine());
+                    numPedido--;
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
+                }
+            } while (true);
+            System.out.println("Este es el pedido seleccionado: ");
+            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+            System.out.println(p);
+            int numEstado;
+            System.out.println(" === Selecciona el nuevo estado === ");
+            System.out.print("""
+                    1. En preparación
+                    2. Enviado
+                    3. Entregado
+                    4. Cancelado""");
+            do {
+                try {
+                    System.out.print("Introduzca una opción: ");
+                    numEstado = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                }
+            } while (true);
+            p.setEstado(numEstado);
         }
     }
 
@@ -552,7 +651,6 @@ public class main {
                     break;
             }
         } while (op != 3);
-
     }
 
     //Metodo que se encarga de modificar el comentario de un pedido asignado a un trabajador
