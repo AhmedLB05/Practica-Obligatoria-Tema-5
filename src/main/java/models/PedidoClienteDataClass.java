@@ -36,6 +36,22 @@ public class PedidoClienteDataClass {
         this.productos = productos;
     }
 
+    public PedidoClienteDataClass(Cliente c, Pedido p) {
+        this.idCliente = c.getId();
+        this.email = c.getEmail();
+        this.nombre = c.getNombre();
+        this.localidad = c.getLocalidad();
+        this.provincia = c.getProvincia();
+        this.direccion = c.getDireccion();
+        this.movil = c.getMovil();
+        this.idPedido = p.getId();
+        this.fechaPedido = p.getFechaPedido();
+        this.fechaEntregaEstimada = p.getFechaEntregaEstimada();
+        this.estado = p.getEstado();
+        this.comentario = p.getComentario();
+        this.productos = p.getProductos();
+    }
+
     //Getters y Setters
     public int getIdCliente() {
         return idCliente;

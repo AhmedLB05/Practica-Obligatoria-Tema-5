@@ -378,5 +378,11 @@ public class Controlador {
 
     public ArrayList<PedidoClienteDataClass> getTodosPedidosClienteDataClass() {
         ArrayList<PedidoClienteDataClass> todosPedidosCliente = new ArrayList<>();
+        for (Cliente c : clientes) {
+            if (!c.getPedidos().isEmpty())
+                for (Pedido p : c.getPedidos()) {
+                    todosPedidosCliente.add(new PedidoClienteDataClass(c, p);
+                }
+        }
     }
 }
