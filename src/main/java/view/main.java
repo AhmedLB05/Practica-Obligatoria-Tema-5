@@ -213,17 +213,7 @@ public class main {
             Admin admin = new Admin((Admin) user);
             int opAdmin = 0;
             do {
-                //TODO
-                System.out.println("Bienvenido Administrador. Tenemos " + controlador.numPedidosSinTrabajador() + " pedido/s sin asignar. " + "Debe asignarlos a un trabajador.");
-                System.out.println("===============================================");
-                System.out.println("Número de clientes: " + controlador.getClientes().size());
-                System.out.println("Número de trabajadores: " + controlador.getTrabajadores().size());
-                System.out.println("Numero de pedidos: " + controlador.numPedidosTotales());
-                System.out.println("Número de pedidos pendientes: ");
-                System.out.println("Número de pedidos completados o cancelados: ");
-                System.out.println("Número de pedidos sin asignar: ");
-                System.out.println("===============================================");
-                System.out.println("\n\n");
+                pintaEstadisticasAdmin(controlador);
                 System.out.print("""
                         1. - Ver todo el catálogo
                         2. - Editar un producto
@@ -235,7 +225,8 @@ public class main {
                         8. - Dar de alta un trabajador
                         9. - Dar de baja un trabajador
                         10. - Asignar un pedido a un trabajador
-                        11. - Salir""");
+                        11. - Salir
+                        """);
                 do {
                     try {
                         System.out.print("Introduzca una opción: ");
@@ -246,10 +237,23 @@ public class main {
                     }
                 } while (true);
                 menuAdmin(controlador, opAdmin);
-            } while (opAdmin != 8);
+            } while (opAdmin != 11);
 
 
         }
+    }
+
+    private static void pintaEstadisticasAdmin(Controlador controlador) {
+        System.out.println();
+        System.out.println("Bienvenido Administrador. Tenemos " + controlador.pedidosSinTrabajador().size() + " pedido/s sin asignar. " + "Debe asignarlos a un trabajador.");
+        System.out.println("===============================================");
+        System.out.println("Número de clientes: " + controlador.getClientes().size());
+        System.out.println("Número de trabajadores: " + controlador.getTrabajadores().size());
+        System.out.println("Numero de pedidos: " + controlador.numPedidosTotales());
+        System.out.println("Número de pedidos pendientes: " + controlador.numPedidosPendientes());
+        System.out.println("Número de pedidos completados o cancelados: " + controlador.numPedidosCompletadosCancelados());
+        System.out.println("Número de pedidos sin asignar: " + controlador.pedidosSinTrabajador().size());
+        System.out.println("===============================================");
     }
 
     //Metodo que contiene el switch del menu administrador
@@ -268,6 +272,7 @@ public class main {
             case 5: //Ver un resumen de todos los trabajadores
                 break;
             case 6: //Ver las estadísticas de la aplicación
+                pintaEstadisticasAdmin(controlador);
                 break;
             case 7: //Cambiar el estado de un pedido
                 break;

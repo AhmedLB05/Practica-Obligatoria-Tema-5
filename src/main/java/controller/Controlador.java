@@ -185,10 +185,16 @@ public class Controlador {
         return new ArrayList<>();
     }
 
+    //Metodo para ver la cantidad de pedidos en el sistema
     public int numPedidosTotales() {
-        return 0;
+        int cont = 0;
+        for (Cliente c : clientes) {
+            if (c.getPedidos() != null) cont += c.getPedidos().size();
+        }
+        return cont;
     }
 
+    //Metodo que busca un pedido por su ID
     public Pedido buscaPedidoById(int idPedido) {
         for (Pedido p : getTodosPedidos()) {
             if (p.getId() == idPedido) return p;
@@ -214,13 +220,9 @@ public class Controlador {
         return null;
     }
 
-    public ArrayList<Pedido> pedidosSinTrabajador(int id) {
-        return new ArrayList<>();
-    }
-
     //Metodo que nos devuelve el total de pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
     //luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores
-    public int numPedidosSinTrabajador() {
+    public ArrayList<Pedido> pedidosSinTrabajador() {
         ArrayList<Pedido> pedidosAsignados = new ArrayList<>();
         ArrayList<Pedido> pedidosSinAsignar = new ArrayList<>();
         for (Trabajador t : trabajadores) {
@@ -230,9 +232,8 @@ public class Controlador {
             pedidosSinAsignar.addAll(c.getPedidos());
         }
         pedidosSinAsignar.removeAll(pedidosAsignados);
-        return pedidosSinAsignar.size();
+        return pedidosSinAsignar;
     }
-
 
     public boolean asignaPedido(int idPedido, int idTrabajador) {
         return false;
@@ -351,5 +352,23 @@ public class Controlador {
             if (t.getEmail().equalsIgnoreCase(email)) return t;
         }
         return null;
+    }
+
+    //Metodo que devuelve la cantidad de pedidos pendientes de todos los trabajadores
+    public int numPedidosPendientes() {
+        int cont = 0;
+        for (Trabajador t : trabajadores) {
+            if (!t.getPedidosPendientes().isEmpty()) cont += t.getPedidosPendientes().size();
+        }
+        return cont;
+    }
+
+    //Metodo que devuelve la cantidad de pedidos completados o pendientes de todos los trabajadores
+    public int numPedidosCompletadosCancelados() {
+        int cont = 0;
+        for (Trabajador t : trabajadores) {
+            if (!t.getPedidosCompletados().isEmpty()) cont += t.getPedidosCompletados().size();
+        }
+        return cont;
     }
 }
