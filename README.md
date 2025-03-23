@@ -32,50 +32,27 @@ En la opción 2, podremos hacer un registro, con un código de verificación env
 En la opción 3, podremos iniciar sesión, ya sea como administrador, trabajador o cliente
   ## Administrador
 
-
-  ## Trabajador
-
-  ![Captura de pantalla 2025-03-23 134631](https://github.com/user-attachments/assets/54577a43-6166-442c-a34c-6e695acbceb1)
-
-  ### Opción 1
-
-
-  ### Opción 2
-
-
-  ### Opción 3
-
-
-  ### Opción 4
-
-
-  ### Opción 5
-
-
-  ### Opción 6
-
-
-  ### Opción 7
+  Aquí podremos administrar todo el programa desde un menú
+  
+  ![Captura de pantalla 2025-03-23 150717](https://github.com/user-attachments/assets/1b968d6c-66c1-4f52-b6f9-14e19f4a19d6)
 
   
+  ## Trabajador
+  
+  Aquí desde el menú trabajador podremos gestionar todos los pedidos 
+  
+  ![Captura de pantalla 2025-03-23 134631](https://github.com/user-attachments/assets/54577a43-6166-442c-a34c-6e695acbceb1)
 
   ## Cliente
 
   ![Captura de pantalla 2025-03-23 132819](https://github.com/user-attachments/assets/9e2ac485-a989-4708-8d4a-011c135b0bce)
 
-  ### Opción 1
   En la opción 1 podremos ver el catálogo
   
-  ![Captura de pantalla 2025-03-23 133017](https://github.com/user-attachments/assets/b7a62828-db7d-41d4-a6a1-2362658e11dc)1
+  ![Captura de pantalla 2025-03-23 133017](https://github.com/user-attachments/assets/b7a62828-db7d-41d4-a6a1-2362658e11dc)
 
-  ### Opción 2
-
-
-  ### Opción 3
-
-
-  ### Opción 4
-
-
-  ### Opción 5
-
+  Opción para añadir productos al carro
+  
+  ![Captura de pantalla 2025-03-23 150004](https://github.com/user-attachments/assets/a66c2865-32b7-45b0-a899-580c322b0f8e)
+  
+  ![Captura de pantalla 2025-03-23 150201](https://github.com/user-attachments/assets/ae50f4e2-5a81-423f-973b-60227a12a9c3)
