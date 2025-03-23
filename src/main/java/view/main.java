@@ -309,21 +309,32 @@ public class main {
 
         if (pedidosSinAsignar.isEmpty())
             System.out.println("No se ha realizado ningún pedido o no hay pedidos para asignar...");
-        else if (controlador.getTrabajadores().isEmpty()) System.out.println("No hay trabajadores...");
+        else if (controlador.getTrabajadores().isEmpty()) System.out.println(" * ERROR NO HAY TRABAJADORES");
         else {
             Pedido pedidoTemp = null;
             Trabajador trabajadorTemp = null;
             int cont = 1;
 
+
             pintaPedidosSinAsignar(controlador, pedidosSinAsignar);
 
-            System.out.print("Introduce el pedido que deseas asignar: ");
-            String pedidoSeleccionado = S.nextLine();
+            int pedidoSeleccionado;
+
+            do {
+                System.out.print("Introduce el pedido que deseas asignar: ");
+                try {
+                    pedidoSeleccionado = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println(" * ERROR AL ELEGIR EL PEDIDO");
+                }
+            } while (true);
+
 
             try {
-                pedidoTemp = pedidosSinAsignar.get(Integer.parseInt(pedidoSeleccionado) - 1);
-            } catch (IndexOutOfBoundsException | NumberFormatException e) {
-                System.out.println("Error al elegir pedido...");
+                pedidoTemp = pedidosSinAsignar.get(pedidoSeleccionado - 1);
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println(" * ERROR AL ELEGIR EL PEDIDO");
             }
 
             pintaResumenTrabajadores(controlador);
@@ -356,19 +367,21 @@ public class main {
         }
     }
 
+    //Metodo que pinta los pedidos sin asignar
     private static void pintaPedidosSinAsignar(Controlador controlador, ArrayList<Pedido> pedidosSinAsignar) {
         pintaPedidosSinData(controlador, pedidosSinAsignar);
     }
 
+    //Metodo que pinta los pedidos de la clase Pedido
     private static void pintaPedidosSinData(Controlador controlador, ArrayList<Pedido> pedidos) {
         int cont = 1;
         if (pedidos.isEmpty()) System.out.println("No tienes pedidos...");
         else {
             for (Pedido p : pedidos) {
-                cont++;
                 System.out.println(" - Pedido " + cont);
                 System.out.println(p);
                 Utils.pulsaParaContinuar();
+                cont++;
             }
         }
     }
