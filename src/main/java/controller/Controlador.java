@@ -206,6 +206,7 @@ public class Controlador {
         return null;
     }
 
+    //Metodo que cambia el estado de un pedido
     public boolean cambiaEstadoPedido(int idPedido, int nuevoEstado) {
         for (Pedido p : getTodosPedidos()) {
             if (p.getId() == idPedido) {
@@ -216,11 +217,18 @@ public class Controlador {
         return false;
     }
 
+    //Metodo que crea un trabajador y lo añade al array de trabajadores
     public boolean nuevoTrabajador(String email, String clave, String nombre, int movil) {
-        return false;
+        return trabajadores.add(new Trabajador(generaIdTrabajador(), nombre, clave, email, movil));
     }
 
+    //Metodo que devuelve el trabajador al que esta asignado un pedido
     public Trabajador buscaTrabajadorAsignadoAPedido(int idPedido) {
+        for (Trabajador t : trabajadores) {
+            for (Pedido p : t.getPedidosAsignados()) {
+                if (p.getId() == idPedido) return t;
+            }
+        }
         return null;
     }
 
@@ -295,7 +303,19 @@ public class Controlador {
 
     //Metodo que genera el id del admin SI EMPIEZA POR 3 ES ADMIN
     private int generaIdAdmin() {
-        return 0;
+        int idAdmin;
+        do {
+            idAdmin = (int) ((Math.random() * 90000) + 10000);
+        } while (buscaAdminById(idAdmin) != null);
+        idAdmin = Integer.parseInt(("3" + idAdmin));
+        return idAdmin;
+    }
+
+    private Admin buscaAdminById(int idAdmin) {
+        for (Admin a : admins) {
+            if (a.getId() == idAdmin) return a;
+        }
+        return null;
     }
 
     //Metodo que genera el id del trabajador SI EMPIEZA POR 1 ES TRABAJADOR
@@ -307,9 +327,6 @@ public class Controlador {
         idTrabajador = Integer.parseInt(("1" + idTrabajador));
         return idTrabajador;
     }
-
-
-    //Metodos creados por nosotros
 
     //Metodo que devuelve el total de pedidos pendientes de entrega a un cliente (se hace mirando el estado)
     public int getTotalPedidosPendientesEntregaCliente(Cliente cliente) {
@@ -376,13 +393,15 @@ public class Controlador {
         return cont;
     }
 
+    //Metodo que devuelve todos los pedidos pero con el modelo PedidoClienteDataClass
     public ArrayList<PedidoClienteDataClass> getTodosPedidosClienteDataClass() {
         ArrayList<PedidoClienteDataClass> todosPedidosCliente = new ArrayList<>();
         for (Cliente c : clientes) {
             if (!c.getPedidos().isEmpty())
                 for (Pedido p : c.getPedidos()) {
-                    todosPedidosCliente.add(new PedidoClienteDataClass(c, p);
+                    todosPedidosCliente.add(new PedidoClienteDataClass(c, p));
                 }
         }
+        return todosPedidosCliente;
     }
 }

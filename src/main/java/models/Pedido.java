@@ -22,7 +22,7 @@ public class Pedido {
         this.deliveryDate = deliveryDate;
         this.estado = estado;
         this.comentario = comentario;
-        this.productos = new ArrayList<>();
+        this.productos = productos;
     }
 
     // Constructor copia

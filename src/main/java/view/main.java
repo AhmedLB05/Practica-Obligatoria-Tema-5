@@ -238,11 +238,10 @@ public class main {
                 } while (true);
                 menuAdmin(controlador, opAdmin);
             } while (opAdmin != 11);
-
-
         }
     }
 
+    //Metodo que pinta las estadisticas que le aparecen al admin
     private static void pintaEstadisticasAdmin(Controlador controlador) {
         System.out.println();
         System.out.println("Bienvenido Administrador. Tenemos " + controlador.pedidosSinTrabajador().size() + " pedido/s sin asignar. " + "Debe asignarlos a un trabajador.");
@@ -266,10 +265,15 @@ public class main {
                 modificaProducto(controlador);
                 break;
             case 3: //Ver un resumen de todos los clientes
+                pintaResumenClientes(controlador);
+                Utils.pulsaParaContinuar();
                 break;
             case 4: //Ver un resumen de todos los pedidos
+                pintaResumenPedidos(controlador);
                 break;
             case 5: //Ver un resumen de todos los trabajadores
+                pintaResumenTrabajadores(controlador);
+                Utils.pulsaParaContinuar();
                 break;
             case 6: //Ver las estadísticas de la aplicación
                 pintaEstadisticasAdmin(controlador);
@@ -278,8 +282,10 @@ public class main {
                 modificaEstadoComentarioPedidoByAdmin(controlador);
                 break;
             case 8: //Dar de alta un trabajador
+                altaTrabajador(controlador);
                 break;
             case 9: //Dar de baja un trabajador
+                bajaTrabajador(controlador);
                 break;
             case 10: //Asignar un pedido a un trabajador
                 break;
@@ -289,8 +295,167 @@ public class main {
         }
     }
 
-    //Metodo que modifica el estado o comentario de un pedido a diferencia del trabajador en este
-    //metodo no se verifica que el pedido esté asignado al trabajador o no
+    //Metodo para dar de baja a un trabajador
+    private static void bajaTrabajador(Controlador controlador) {
+        if (controlador.getTrabajadores().isEmpty()) System.out.println(" * ERROR NO HAY TRABAJADORES EN EL SISTEMA");
+        else {
+            int id;
+            do {
+                try {
+                    System.out.print(" - Introduzca el id del trabajador a dar de baja: ");
+                    id = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException(e);
+                }
+            } while (true);
+
+            Trabajador t = controlador.buscaTrabajadorByID(id);
+            System.out.println(" - El trabajador seleccionado es: ");
+            System.out.println(t);
+
+            String opcion;
+            do {
+                System.out.println("¿Desea dar de baja a ese trabajador? (SI / NO): ");
+                opcion = S.nextLine();
+
+                if (opcion.equalsIgnoreCase("si")) {
+                    if (t.numPedidosPendientes() == 0 && controlador.getTrabajadores().remove(t))
+                        System.out.println(" - Trabajador dado de baja correctamente");
+                    else System.out.println(" * ERROR NO SE HA DADO DE BAJA AL TRABAJADOR");
+                } else if (opcion.equalsIgnoreCase("no")) {
+                    System.out.println(" * CANCELANDO BAJA DEL TRABAJADOR");
+                } else System.out.println(" * ERROR NO INTRODUCIDA UNA OPCION CORRECTA");
+            } while (!opcion.equalsIgnoreCase("si") || !opcion.equalsIgnoreCase("no"));
+        }
+    }
+
+    //Metodo para dar de alta a un trabajador
+    private static void altaTrabajador(Controlador controlador) {
+        System.out.print(" - Introduzca el nombre del nuevo trabajador: ");
+        String nombre = S.nextLine();
+        System.out.print(" - Introduce la clave del nuevo trabajador: ");
+        String clave = S.nextLine();
+        String email;
+        do {
+            System.out.print(" - Introduzca el email del nuevo trabajador: ");
+            email = S.nextLine();
+        } while (controlador.buscaTrabajadorByEmail(email) != null);
+        System.out.print(" - Introduzca el móvil del nuevo trabajador: ");
+        int movil = Integer.parseInt(S.nextLine());
+
+        if (EnvioMail.enviaTokenRegistro(email, Utils.generaTokenRegistro())) {
+            if (controlador.nuevoTrabajador(email, clave, nombre, movil)) {
+                System.out.println(" - TRABAJADOR DADO DE ALTA CORRECTAMENTE");
+            } else System.out.println(" * ERROR NO SE HA PODIDO DAR DE ALTA AL TRABAJADOR");
+        } else System.out.println(" * ERROR AL VERIFICAR EMAIL, TRABAJADOR NO DADO DE ALTA");
+    }
+
+    //Metodo que pinta un resumen de todos los pedidos para el admin
+    private static void pintaResumenPedidos(Controlador controlador) {
+        if (controlador.getTodosPedidos().isEmpty()) System.out.println(" * ERROR NO HAY PEDIDOS QUE MOSTRAR");
+        else {
+            System.out.println("¿QUE PEDIDOS QUIERES QUE TE MOSTREMOS?");
+            System.out.println("""
+                    1. - Todos los pedidos
+                    2. - Pedidos entregados
+                    3. - Pedidos cancelados
+                    4. - Pedidos pendientes
+                    """);
+            int op;
+            do {
+                try {
+                    System.out.print("Introduzca una opción: ");
+                    op = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                }
+            } while (true);
+            if (op == 1 || op == 2) {
+                System.out.println("╔════════════════════════════════════════════════════╗");
+                System.out.println("""
+                                            ┏┓   ┓• ┓                   ┓
+                                            ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┓┏┓╋┏┓┏┓┏┓┏┓┏┫┏┓┏
+                                            ┣┛┗ ┗┻┗┗┻┗┛┛  ┗ ┛┗┗┛ ┗ ┗┫┗┻┗┻┗┛┛
+                                                                    ┛
+                        """);
+                System.out.println("╚════════════════════════════════════════════════════╝");
+                for (Pedido p : controlador.getTodosPedidos()) {
+                    if (p.getEstado() == 3) System.out.println(p);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                Utils.pulsaParaContinuar();
+            }
+            if (op == 1 || op == 3) {
+                System.out.println("╔════════════════════════════════════════════════════╗");
+                System.out.println("""
+                                            ┏┓   ┓• ┓             ┓   ┓  \s
+                                            ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┏┓┏┓┏┏┓┃┏┓┏┫┏┓┏
+                                            ┣┛┗ ┗┻┗┗┻┗┛┛  ┗┗┻┛┗┗┗ ┗┗┻┗┻┗┛┛
+                                                                         \s
+                        """);
+                System.out.println("╚════════════════════════════════════════════════════╝");
+                for (Pedido p : controlador.getTodosPedidos()) {
+                    if (p.getEstado() == 4) System.out.println(p);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                Utils.pulsaParaContinuar();
+            }
+            if (op == 1 || op == 4) {
+                System.out.println("╔════════════════════════════════════════════════════╗");
+                System.out.println("""
+                                            ┏┓   ┓• ┓            ┓•       \s
+                                            ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┓┏┓┏┓┏┫┓┏┓┏┓╋┏┓┏
+                                            ┣┛┗ ┗┻┗┗┻┗┛┛  ┣┛┗ ┛┗┗┻┗┗ ┛┗┗┗ ┛
+                                                          ┛               \s
+                        """);
+                System.out.println("╚════════════════════════════════════════════════════╝");
+                for (Pedido p : controlador.getTodosPedidos()) {
+                    if (p.getEstado() == 0 || p.getEstado() == 1 || p.getEstado() == 2) System.out.println(p);
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                Utils.pulsaParaContinuar();
+            }
+
+        }
+    }
+
+    //Metodo que pinta un resumen de los trabajadores para el admin
+    private static void pintaResumenTrabajadores(Controlador controlador) {
+        if (controlador.getTrabajadores().isEmpty())
+            System.out.println(" * ERROR NO HAY TRABAJADORES REGISTRADOS EN EL SISTEMA");
+        else {
+            for (Trabajador t : controlador.getTrabajadores()) {
+                System.out.println("- ID: " + t.getId() + " - " + t.getNombre() + " movil: " + t.getMovil() + " - email: " + t.getEmail() + "\n");
+            }
+        }
+    }
+
+    //Metodo que pinta un resumen de los clientes para el admin
+    private static void pintaResumenClientes(Controlador controlador) {
+        if (controlador.getClientes().isEmpty())
+            System.out.println(" * ERROR NO HAY CLIENTES REGISTRADOS EN EL SISTEMA");
+        else {
+            for (Cliente c : controlador.getClientes()) {
+                System.out.println("- ID: " + c.getId() + " - " + c.getNombre() + " - " + c.getLocalidad() + "(" + c.getProvincia() + ") - email: " + c.getEmail() + " - movil: " + c.getMovil());
+            }
+        }
+    }
+
+    //Metodo que modifica el estado o comentario de un pedido a diferencia del trabajador en este metodo no se verifica que el pedido esté asignado al trabajador o no
     private static void modificaEstadoComentarioPedidoByAdmin(Controlador controlador) {
         int op;
         do {
@@ -323,7 +488,61 @@ public class main {
         } while (op != 3);
     }
 
+    //Metodo que modifica el comentario de un pedido (menu admin)
+    private static void modificaComentarioPedidoByAdmin(Controlador controlador) {
+        int numPedido;
+        System.out.println();
+        System.out.println("=======================================================================");
+        System.out.println(" - BIENVENIDO A MODIFICAR EL COMENTARIO DE UN PEDIDO A TU CARGO");
+        System.out.println("=======================================================================");
+        System.out.println();
+        int idPedido = 0;
+        ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
+        do {
+            try {
+                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
+                idPedido = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+            }
+        } while (true);
+        if (idPedido == -1) {
+            Utils.mensajeCierraPrograma();
+        } else { //Si no ha seleccionado salir
+            int cont = 0;
+            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
+                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+                System.out.println(pedidoSeleccionado);
+                pedidosCopia.add(pedidoSeleccionado);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            do {
+                try {
+                    System.out.print("Introduce el pedido: ");
+                    numPedido = Integer.parseInt(S.nextLine());
+                    numPedido--;
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
+                }
+            } while (true);
+            System.out.println("Este es el pedido seleccionado: ");
+            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+            System.out.println(p);
+            System.out.print("Introduzca el comentario a añadir: ");
+            String comentarioNuevo = S.nextLine();
+            p.setComentario(comentarioNuevo);
+        }
+    }
+
+    //Metodo que modifica el estado de un pedido (menu admin)
     private static void modificaEstadoPedidoByAdmin(Controlador controlador) {
+        int numPedido;
         System.out.println();
         System.out.println(" - BIENVENIDO A MODIFICAR EL ESTADO DE UN PEDIDO A TU CARGO");
         System.out.println();
@@ -342,7 +561,7 @@ public class main {
             Utils.mensajeCierraPrograma();
         } else { //Si no ha seleccionado salir
             int cont = 0;
-            for (Pedido pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
+            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
                 System.out.println(" ***** PEDIDO " + cont + " ***** \n");
                 System.out.println(pedidoSeleccionado);
                 pedidosCopia.add(pedidoSeleccionado);
@@ -352,8 +571,6 @@ public class main {
                     throw new RuntimeException(e);
                 }
             }
-            int numPedido;
-
             do {
                 try {
                     System.out.print("Introduce el pedido: ");
@@ -816,19 +1033,6 @@ public class main {
         }
     }
 
-    //Metodo que pinta los datos personales de un cliente que le pasemos
-    private static void pintaDatosPersonalesCliente(Cliente cliente) {
-        System.out.println("╭───────────────────────────────────────────────────────────────────────╮");
-        System.out.println("""
-                                ╔╦╗┌─┐┌┬┐┌─┐┌─┐  ╔═╗┌─┐┬─┐┌─┐┌─┐┌┐┌┌─┐┬  ┌─┐┌─┐
-                                 ║║├─┤ │ │ │└─┐  ╠═╝├┤ ├┬┘└─┐│ ││││├─┤│  ├┤ └─┐
-                                ═╩╝┴ ┴ ┴ └─┘└─┘  ╩  └─┘┴└─└─┘└─┘┘└┘┴ ┴┴─┘└─┘└─┘
-                                           \s
-                """);
-        System.out.println(cliente);
-        System.out.println("╰───────────────────────────────────────────────────────────────────────╯");
-    }
-
     //Metodo para realizar un pedido siendo cliente TODO
     private static void realizaPedidoCliente(Cliente cliente, Controlador controlador) {
         int op = 0;
@@ -849,6 +1053,19 @@ public class main {
                 System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
             }
         } while (true);
+    }
+
+    //Metodo que pinta los datos personales de un cliente que le pasemos
+    private static void pintaDatosPersonalesCliente(Cliente cliente) {
+        System.out.println("╭───────────────────────────────────────────────────────────────────────╮");
+        System.out.println("""
+                                ╔╦╗┌─┐┌┬┐┌─┐┌─┐  ╔═╗┌─┐┬─┐┌─┐┌─┐┌┐┌┌─┐┬  ┌─┐┌─┐
+                                 ║║├─┤ │ │ │└─┐  ╠═╝├┤ ├┬┘└─┐│ ││││├─┤│  ├┤ └─┐
+                                ═╩╝┴ ┴ ┴ └─┘└─┘  ╩  └─┘┴└─└─┘└─┘┘└┘┴ ┴┴─┘└─┘└─┘
+                                           \s
+                """);
+        System.out.println(cliente);
+        System.out.println("╰───────────────────────────────────────────────────────────────────────╯");
     }
 
     //Metodo que nos indica varias maneras de consultar el catálogo siendo cliente
@@ -1092,7 +1309,6 @@ public class main {
         if (!productosCoincideMarca.isEmpty()) pintaListaProductos(productosCoincideMarca);
         else System.out.println("No se han encontrado coincidencias");
     }
-
 
     //Metodo que pinta una lista de productos que le pasemos
     private static void pintaListaProductos(ArrayList<Producto> productos) {
