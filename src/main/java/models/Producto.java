@@ -85,6 +85,13 @@ public class Producto {
 
     //Otros métodos
 
+
+    @Override
+    public String toString() {
+        return "- " + marca + " " + modelo +
+                " (" + descripcion + ") - Precio: " + precio + "\n";
+    }
+
     //Metodo que calcula la relevancia
     public void calculaRelevancia() {
 

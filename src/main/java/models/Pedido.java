@@ -122,7 +122,7 @@ public class Pedido {
     }
 
     //Metodo que devuelve el estado según el número
-    private String devuelveEstado(int estado) {
+    public String devuelveEstado(int estado) {
         return switch (estado) {
             case 0 -> "Creado";
             case 1 -> "En preparación";

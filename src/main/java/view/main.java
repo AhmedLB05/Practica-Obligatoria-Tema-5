@@ -28,8 +28,7 @@ public class main {
     }
 
     private static Object menuInicio(Controlador controlador) {
-        Scanner s = new Scanner(System.in);
-        int op = 0;
+        int op;
         System.out.println(" 1. Ver el catálogo");
         System.out.println(" 2. Registrarse");
         System.out.println(" 3. Iniciar sesión");
@@ -134,7 +133,7 @@ public class main {
     //Metodo que pinta el catálogo
     private static void pintaCatalogo(Controlador controlador) {
         int cont = 0;
-        String continuar = "";
+        String continuar;
         for (Producto p : controlador.getCatalogo()) {
             if (cont == 5) {
                 System.out.print("Pulsa ENTER para continuar o introduzca cualquier tecla para SALIR: ");
@@ -155,7 +154,7 @@ public class main {
 
         //Pintamos el menú de cliente y cogemos la opción
         if (user instanceof Cliente) {
-            int opCliente = 0;
+            int opCliente;
             Cliente cliente = new Cliente((Cliente) user);
             do {
                 System.out.println();
@@ -184,7 +183,7 @@ public class main {
         //Pintamos el menu de trabajador y cogemos la opcion
         if (user instanceof Trabajador) {
             Trabajador trabajador = new Trabajador((Trabajador) user);
-            int opTrabajador = 0;
+            int opTrabajador;
             do {
                 System.out.println("\n\nBienvenido trabajador " + trabajador.getNombre() + ". Tiene " + trabajador.numPedidosPendientes() + " pedido/s pendiente/s.");
                 System.out.println("""
@@ -211,8 +210,8 @@ public class main {
 
         //Pintamos el menu de admin y cogemos la opcion
         if (user instanceof Admin) {
-            Admin admin = new Admin((Admin) user);
-            int opAdmin = 0;
+            //Admin admin = new Admin((Admin) user);
+            int opAdmin;
             do {
                 pintaEstadisticasAdmin(controlador);
                 System.out.print("""
@@ -338,7 +337,7 @@ public class main {
                 if (t != null) {
                     if (controlador.asignaPedido(idPedido, idTrabajador)) {
                         System.out.println(" - Pedido asignado con exito a " + t.getNombre());
-                        EnvioTelegram.enviaMensajeTrabajador(t, p);
+                        EnvioTelegram.enviaMensajeTrabajadorPedidoAsignado(t, p);
 
                         PedidoClienteDataClass pedidoCliente = null;
                         for (Trabajador trabajador : controlador.getTrabajadores()) {
@@ -554,7 +553,7 @@ public class main {
         System.out.println(" - BIENVENIDO A MODIFICAR EL COMENTARIO DE UN PEDIDO A TU CARGO");
         System.out.println("=======================================================================");
         System.out.println();
-        int idPedido = 0;
+        int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
         do {
             try {
@@ -604,7 +603,7 @@ public class main {
         System.out.println();
         System.out.println(" - BIENVENIDO A MODIFICAR EL ESTADO DE UN PEDIDO A TU CARGO");
         System.out.println();
-        int idPedido = 0;
+        int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
         do {
             try {
@@ -934,7 +933,7 @@ public class main {
         System.out.println(" - BIENVENIDO A MODIFICAR EL COMENTARIO DE UN PEDIDO A TU CARGO");
         System.out.println("===============================================================");
         System.out.println();
-        int idPedido = 0;
+        int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
         //PedidoClienteDataClass temp = null;
         do {
@@ -986,7 +985,7 @@ public class main {
         System.out.println();
         System.out.println(" - BIENVENIDO A MODIFICAR EL ESTADO DE UN PEDIDO A TU CARGO");
         System.out.println();
-        int idPedido = 0;
+        int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
         do {
             try {
@@ -1068,7 +1067,7 @@ public class main {
 
     //Metodo que contiene el switch del menu cliente TODO
     private static void menuCliente(Controlador controlador, int opCliente, Cliente cliente) {
-        int opcion;
+
         switch (opCliente) {
             case 1: //Consultar el catálogo de productos
                 consultaCatalogo(controlador);
@@ -1369,7 +1368,7 @@ public class main {
     }
 
     //Metodo que pinta una lista de productos que le pasemos
-    private static void pintaListaProductos(ArrayList<Producto> productos) {
+    public static void pintaListaProductos(ArrayList<Producto> productos) {
         for (Producto p : productos) {
             if (p != null) System.out.println(p.pintaProductoADetalle());
             try {
@@ -1378,6 +1377,20 @@ public class main {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    //Metodo que pinta una lista de productos que le pasemos
+    public static String pintaListaProductosTelegram(ArrayList<Producto> productos) {
+        String listaProductos = "";
+        for (Producto p : productos) {
+            if (p != null) listaProductos += p;
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return listaProductos;
     }
 }
 

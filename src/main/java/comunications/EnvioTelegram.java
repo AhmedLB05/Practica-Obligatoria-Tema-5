@@ -1,6 +1,7 @@
 package comunications;
 
 import models.Pedido;
+import models.Producto;
 import models.Trabajador;
 
 import java.io.BufferedReader;
@@ -8,42 +9,69 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Scanner;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+import static view.main.pintaListaProductosTelegram;
 
 public class EnvioTelegram {
     public static void main(String[] args) {
-        String mensaje;
-        Scanner s = new Scanner(System.in);
-        do {
-            System.out.print("Introduce el mensaje para Telegram: ");
-            mensaje = s.nextLine();
-            if (mensaje.equals("null")) break;
-            if (enviaMensajeTelegram(mensaje)) {
-                System.out.println("Mensaje enviado con exito");
-            } else System.out.println("Fallo al enviar el mensaje");
-        } while (!mensaje.equals("null"));
+        /*Trabajador t = new Trabajador(123, "Juan", "123", "ahmed@gmail.com", 672838292);
+        Pedido p = new Pedido(
+                101, // ID del pedido
+                LocalDate.of(2023, 10, 20), // Fecha del pedido
+                LocalDate.of(2023, 10, 25), // Fecha de entrega estimada
+                null, // Fecha de entrega real (aún no entregado)
+                1, // Estado del pedido (1 = En proceso)
+                "El cliente solicita entrega antes de las 14:00.", // Comentario
+                new ArrayList<>() {{
+                    add(new Producto(1, "HP", "Pavilion", "Laptop Gamer con tarjeta gráfica dedicada", 1200.0f, 5));
+                    add(new Producto(2, "Logitech", "M185", "Mouse inalámbrico ergonómico", 25.0f, 4));
+                    add(new Producto(3, "Corsair", "K95 RGB", "Teclado mecánico con retroiluminación RGB", 80.0f, 5));
+                }} // Lista de productos
+        );
+        enviaMensajeTrabajadorPedidoAsignado(t, p);*/
     }
 
     static boolean enviaMensajeTelegram(String mensaje) {
-        String direccion; //URL de la API de mi bot en mi conversación
+        String direccion; // URL de la API de mi bot en mi conversación
         String fijo = "https://api.telegram.org/bot7780416856:AAFf5vqnxNPuL-wYwrLuT4tD2C9PAnG69Zs/sendMessage?chat_id=1423538108&text=";
-        direccion = fijo + mensaje; //Metemos el mensaje al final
-        URL url;
-        boolean dev;
-        dev = false;
         try {
-            url = new URL(direccion); //Creando un objeto URL con la dirección de la API de mi bot
-            URLConnection con = url.openConnection(); //Realizando la petición GET
-            //Con esto, copiamos en in la respuesta HTTP, por si lo necesitamos
+            // Codificar el mensaje para que sea válido en una URL
+            String mensajeCodificado = URLEncoder.encode(mensaje, StandardCharsets.UTF_8.toString());
+            direccion = fijo + mensajeCodificado; // Metemos el mensaje codificado al final
+            URL url = new URL(direccion); // Creando un objeto URL con la dirección de la API de mi bot
+            URLConnection con = url.openConnection(); // Realizando la petición GET
+            // Con esto, copiamos en in la respuesta HTTP, por si lo necesitamos
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            dev = true; //Ha tenido exito
+            return true; // Ha tenido éxito
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error al enviar el mensaje: " + e.getMessage());
+            return false; // Fallo al enviar el mensaje
         }
-        return dev; //Devuelvo si ha tenido exito o no
     }
 
-    public static void enviaMensajeTrabajador(Trabajador t, Pedido p) {
-
+    public static void enviaMensajeTrabajadorPedidoAsignado(Trabajador t, Pedido p) {
+        String mensajeEnviar = "📦 Asignación de Pedido 📦\n" +
+                "\n" +
+                "¡Hola, " + t.getNombre() + "! 👋\n" +
+                "\n" +
+                "Se te ha asignado un nuevo pedido. A continuación, los detalles:\n" +
+                "\n" +
+                "🔢 ID del Pedido: " + p.getId() + "\n" +
+                "📅 Fecha del Pedido: " + p.getFechaPedido() + "\n" +
+                "📅 Fecha de Entrega Estimada: " + p.getFechaEntregaEstimada() + "\n" +
+                "🟢 Estado del Pedido: " + p.devuelveEstado(p.getEstado()) + "\n" +
+                "📝 Comentarios: " + p.getComentario() + "\n" +
+                "\n" +
+                "📦 Productos:\n" +
+                pintaListaProductosTelegram(p.getProductos()) + "\n" +
+                "\n" +
+                "Por favor, revisa la información y procede según lo planificado.\n" +
+                "\n" +
+                "Gracias por tu atención. 🙌";
+        enviaMensajeTelegram(mensajeEnviar);
     }
 }
