@@ -92,6 +92,7 @@ public class Pedido {
     @Override
     public String toString() {
         String resultado = "";
+        resultado += "\n\n";
         resultado += "======== PEDIDO " + id + " ========\n";
         resultado += "Fecha de pedido: " + fechaPedido + "\n";
         resultado += "Fecha de entrega: " + fechaEntregaEstimada + "\n";

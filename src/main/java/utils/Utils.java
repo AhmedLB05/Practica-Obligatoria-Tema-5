@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Utils {
     public static final Scanner S = new Scanner(System.in);
+    public static final int IVA = 21;
 
     //Metodo pulsar para continuar
     public static void pulsaParaContinuar() {
@@ -50,6 +51,4 @@ public class Utils {
         int numAleatorio = 100000 + random.nextInt(900000);
         return numAleatorio;
     }
-
-    public static final int IVA = 21;
 }

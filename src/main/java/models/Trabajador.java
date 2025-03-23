@@ -114,7 +114,7 @@ public class Trabajador {
 
     //Metodo que agrega un pedido a los pedidosAsignados
     public boolean asignaPedido(Pedido p) {
-        if (p == null || pedidosAsignados.contains(p) || pedidosAsignados == null) return false;
+        if (p == null || pedidosAsignados.contains(p)) return false;
         pedidosAsignados.add(p);
         return true;
     }
@@ -123,7 +123,7 @@ public class Trabajador {
     public ArrayList<Pedido> getPedidosPendientes() {
         ArrayList<Pedido> pedidosAsignadosPendientes = new ArrayList<>();
         for (Pedido p : pedidosAsignados) {
-            if (p.getEstado() == 1) pedidosAsignadosPendientes.add(p);
+            if (p.getEstado() == 0 || p.getEstado() == 1 || p.getEstado() == 2) pedidosAsignadosPendientes.add(p);
         }
         return pedidosAsignadosPendientes;
     }

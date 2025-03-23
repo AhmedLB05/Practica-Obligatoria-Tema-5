@@ -183,10 +183,10 @@ public class main {
 
         //Pintamos el menu de trabajador y cogemos la opcion
         if (user instanceof Trabajador) {
-            Trabajador trabajador = new Trabajador((Trabajador) user);
+            Trabajador trabajadorRegistrado = controlador.buscaTrabajadorByID(((Trabajador) user).getId());
             int opTrabajador;
             do {
-                System.out.println("\n\nBienvenido trabajador " + trabajador.getNombre() + ". Tiene " + trabajador.numPedidosPendientes() + " pedido/s pendiente/s.");
+                System.out.println("\n\nBienvenido trabajador " + trabajadorRegistrado.getNombre() + ". Tiene " + trabajadorRegistrado.numPedidosPendientes() + " pedido/s pendiente/s.");
                 System.out.println("""
                         1. Consultar los pedidos que tengo asignados
                         2. Modificar el estado de un pedido
@@ -205,7 +205,7 @@ public class main {
                         System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                     }
                 } while (true);
-                menuTrabajador(controlador, opTrabajador, trabajador);
+                menuTrabajador(controlador, opTrabajador, trabajadorRegistrado);
             } while (opTrabajador != 8);
         }
 
@@ -321,6 +321,7 @@ public class main {
             if (p != null) {
                 System.out.println(" - Este es el pedido seleccionado: ");
                 System.out.println(p);
+                Utils.pulsaParaContinuar();
                 do {
                     try {
                         System.out.print(" - Introduzca el ID del trabajador a asignar: ");
@@ -556,46 +557,36 @@ public class main {
         System.out.println();
         int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
+
+        int cont = 0;
+        for (PedidoClienteDataClass pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
+            System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+            System.out.println(pedidoSeleccionado);
+            pedidosCopia.add(pedidoSeleccionado);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         do {
             try {
-                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
-                idPedido = Integer.parseInt(S.nextLine());
+                System.out.print("Introduce el pedido: ");
+                numPedido = Integer.parseInt(S.nextLine());
+                numPedido--;
                 break;
             } catch (NumberFormatException e) {
-                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+                System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
             }
         } while (true);
-        if (idPedido == -1) {
-            Utils.mensajeCierraPrograma();
-        } else { //Si no ha seleccionado salir
-            int cont = 0;
-            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
-                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
-                System.out.println(pedidoSeleccionado);
-                pedidosCopia.add(pedidoSeleccionado);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            do {
-                try {
-                    System.out.print("Introduce el pedido: ");
-                    numPedido = Integer.parseInt(S.nextLine());
-                    numPedido--;
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
-                }
-            } while (true);
-            System.out.println("Este es el pedido seleccionado: ");
-            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
-            System.out.println(p);
-            System.out.print("Introduzca el comentario a añadir: ");
-            String comentarioNuevo = S.nextLine();
-            p.setComentario(comentarioNuevo);
-        }
+        System.out.println("Este es el pedido seleccionado: ");
+        PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+        System.out.println(p);
+        Utils.pulsaParaContinuar();
+        System.out.print("Introduzca el comentario a añadir: ");
+        String comentarioNuevo = S.nextLine();
+        p.setComentario(comentarioNuevo);
+
     }
 
     //Metodo que modifica el estado de un pedido (menu admin)
@@ -606,60 +597,50 @@ public class main {
         System.out.println();
         int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
+
+        int cont = 0;
+        for (PedidoClienteDataClass pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
+            System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+            System.out.println(pedidoSeleccionado);
+            pedidosCopia.add(pedidoSeleccionado);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         do {
             try {
-                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
-                idPedido = Integer.parseInt(S.nextLine());
+                System.out.print("Introduce el pedido: ");
+                numPedido = Integer.parseInt(S.nextLine());
+                numPedido--;
                 break;
             } catch (NumberFormatException e) {
-                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+                System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
             }
         } while (true);
-        if (idPedido == -1) {
-            Utils.mensajeCierraPrograma();
-        } else { //Si no ha seleccionado salir
-            int cont = 0;
-            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
-                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
-                System.out.println(pedidoSeleccionado);
-                pedidosCopia.add(pedidoSeleccionado);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        System.out.println("Este es el pedido seleccionado: ");
+        PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+        System.out.println(p);
+        Utils.pulsaParaContinuar();
+        int numEstado;
+        System.out.println(" === Selecciona el nuevo estado === ");
+        System.out.print("""
+                1. En preparación
+                2. Enviado
+                3. Entregado
+                4. Cancelado""");
+        do {
+            try {
+                System.out.print("Introduzca una opción: ");
+                numEstado = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
             }
-            do {
-                try {
-                    System.out.print("Introduce el pedido: ");
-                    numPedido = Integer.parseInt(S.nextLine());
-                    numPedido--;
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
-                }
-            } while (true);
-            System.out.println("Este es el pedido seleccionado: ");
-            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
-            System.out.println(p);
-            int numEstado;
-            System.out.println(" === Selecciona el nuevo estado === ");
-            System.out.print("""
-                    1. En preparación
-                    2. Enviado
-                    3. Entregado
-                    4. Cancelado""");
-            do {
-                try {
-                    System.out.print("Introduzca una opción: ");
-                    numEstado = Integer.parseInt(S.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
-                }
-            } while (true);
-            p.setEstado(numEstado);
-        }
+        } while (true);
+        p.setEstado(numEstado);
+
     }
 
     //Metodo que contiene el switch del menu trabajador
@@ -667,6 +648,7 @@ public class main {
         switch (opTrabajador) {
             case 1: //Consultar los pedidos que tengo asignados
                 consultaPedidosAsignados(controlador, trabajador);
+                Utils.pulsaParaContinuar();
                 break;
             case 2: //Modificar el estado de un pedido
                 modificaEstadoComentarioPedido(controlador, trabajador);
@@ -937,48 +919,37 @@ public class main {
         int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
         //PedidoClienteDataClass temp = null;
+        int cont = 1;
+        for (PedidoClienteDataClass pedidoSeleccionado : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
+            System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+            System.out.println(pedidoSeleccionado);
+            pedidosCopia.add(pedidoSeleccionado);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        int numPedido;
+
         do {
             try {
-                System.out.print(" - Introduzca id del pedido (-1 para salir): ");
-                idPedido = Integer.parseInt(S.nextLine());
+                System.out.print("Introduce el pedido: ");
+                numPedido = Integer.parseInt(S.nextLine());
+                numPedido--;
                 break;
             } catch (NumberFormatException e) {
-                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+                System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
             }
         } while (true);
-        if (idPedido == -1) {
-            Utils.mensajeCierraPrograma();
-        } else { //Si no ha seleccionado salir
-            int cont = 0;
-            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
-                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
-                System.out.println(pedidoSeleccionado);
-                pedidosCopia.add(pedidoSeleccionado);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            int numPedido;
+        System.out.println("Este es el pedido seleccionado: ");
+        PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+        System.out.println(p);
+        Utils.pulsaParaContinuar();
+        System.out.print("Introduzca el comentario a añadir: ");
+        String comentarioNuevo = S.nextLine();
+        p.setComentario(comentarioNuevo);
 
-            do {
-                try {
-                    System.out.print("Introduce el pedido: ");
-                    numPedido = Integer.parseInt(S.nextLine());
-                    numPedido--;
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
-                }
-            } while (true);
-            System.out.println("Este es el pedido seleccionado: ");
-            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
-            System.out.println(p);
-            System.out.print("Introduzca el comentario a añadir: ");
-            String comentarioNuevo = S.nextLine();
-            p.setComentario(comentarioNuevo);
-        }
     }
 
     //Metodo que se encarga de modificar el estado de un pedido asignado a un trabajador
@@ -988,76 +959,70 @@ public class main {
         System.out.println();
         int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
+
+        int cont = 1;
+        for (PedidoClienteDataClass pedidoSeleccionado : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
+            System.out.println(" ***** PEDIDO " + cont + " ***** \n");
+            System.out.println(pedidoSeleccionado);
+            pedidosCopia.add(pedidoSeleccionado);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        int numPedido;
+
         do {
             try {
-                System.out.println(" - Introduzca id del pedido (-1 para salir): ");
-                idPedido = Integer.parseInt(S.nextLine());
+                System.out.print("Introduce el pedido: ");
+                numPedido = Integer.parseInt(S.nextLine());
+                numPedido--;
                 break;
             } catch (NumberFormatException e) {
-                System.out.println(" * ERROR AL INTRODUCIR EL ID");
+                System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
             }
         } while (true);
-        if (idPedido == -1) {
-            Utils.mensajeCierraPrograma();
-        } else { //Si no ha seleccionado salir
-            int cont = 0;
-            for (PedidoClienteDataClass pedidoSeleccionado : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
-                System.out.println(" ***** PEDIDO " + cont + " ***** \n");
-                System.out.println(pedidoSeleccionado);
-                pedidosCopia.add(pedidoSeleccionado);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+        System.out.println("Este es el pedido seleccionado: ");
+        PedidoClienteDataClass p = pedidosCopia.get(numPedido);
+        System.out.println(p);
+        System.out.println();
+        Utils.pulsaParaContinuar();
+        int numEstado;
+        System.out.println(" === Selecciona el nuevo estado === ");
+        System.out.print("""
+                1. En preparación
+                2. Enviado
+                3. Entregado
+                4. Cancelado""");
+        do {
+            try {
+                System.out.print("Introduzca una opción: ");
+                numEstado = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
             }
-            int numPedido;
+        } while (true);
+        Cliente c = null;
+        PedidoClienteDataClass pedidoCambiado = null;
+        if (controlador.cambiaEstadoPedido(p.getIdPedido(), numEstado)) {
+            System.out.println(" - Se ha modificado el estado del pedido");
 
-            do {
-                try {
-                    System.out.print("Introduce el pedido: ");
-                    numPedido = Integer.parseInt(S.nextLine());
-                    numPedido--;
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println(" * ERROR AL INTRODUCIR EL NUMERO DEL PEDIDO");
-                }
-            } while (true);
-            System.out.println("Este es el pedido seleccionado: ");
-            PedidoClienteDataClass p = pedidosCopia.get(numPedido);
-            System.out.println(p);
-            int numEstado;
-            System.out.println(" === Selecciona el nuevo estado === ");
-            System.out.print("""
-                    1. En preparación
-                    2. Enviado
-                    3. Entregado
-                    4. Cancelado""");
-            do {
-                try {
-                    System.out.print("Introduzca una opción: ");
-                    numEstado = Integer.parseInt(S.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
-                }
-            } while (true);
-            Cliente c = null;
-            if (controlador.cambiaEstadoPedido(p.getIdPedido(), numEstado)) {
-                System.out.println(" - Se ha modificado el estado del pedido");
-
-                for (Cliente cliente : controlador.getClientes()) {
-                    for (Pedido pedido : cliente.getPedidos()) {
-                        if (pedido.getId() == p.getIdPedido()) c = cliente;
+            for (Cliente cliente : controlador.getClientes()) {
+                for (Pedido pedido : cliente.getPedidos()) {
+                    if (pedido.getId() == p.getIdPedido()) {
+                        c = cliente;
+                        break;
                     }
                 }
-                if (c != null) {
-                    EnvioMail.enviaCorreoPedidoEstado(c, p);
-                } else System.out.println(" * ERROR CON EL CLIENTE");
-
-
             }
-
+            for (PedidoClienteDataClass pedidoData : controlador.getTodosPedidosClienteDataClass()) {
+                if (pedidoData.getIdPedido() == p.getIdPedido()) pedidoCambiado = pedidoData;
+            }
+            if (c != null) {
+                EnvioMail.enviaCorreoPedidoEstado(c, pedidoCambiado);
+            } else System.out.println(" * ERROR CON EL CLIENTE");
         }
     }
 
@@ -1093,6 +1058,7 @@ public class main {
                 break;
             case 3: //Ver mis pedidos
                 pintaPedidosCliente(cliente);
+                Utils.pulsaParaContinuar();
                 break;
             case 4: //Ver mis datos personales
                 pintaDatosPersonalesCliente(cliente);
@@ -1333,7 +1299,6 @@ public class main {
         } while (temp == null);
 
         if (temp != null && controlador.addProductoCarrito(cliente, temp.getId())) {
-            controlador.addProductoCarrito(cliente, temp.getId());
             System.out.println(" - El producto se ha añadido al carrito correctamente");
         } else System.out.println(" * ERROR NO SE HA PODIDO AGREGAR AL CARRITO EL PRODUCTO");
 
@@ -1490,8 +1455,7 @@ public class main {
                 System.out.print("Introduzca clave anterior: ");
                 claveAnterior = S.nextLine();
 
-                if (!cliente.getClave().equals(claveAnterior))
-                    System.out.println(" * ERROR CLAVE NO VÁLIDA");
+                if (!cliente.getClave().equals(claveAnterior)) System.out.println(" * ERROR CLAVE NO VÁLIDA");
                 else {
                     System.out.println();
                     System.out.println(" * CLAVE CORRECTA");

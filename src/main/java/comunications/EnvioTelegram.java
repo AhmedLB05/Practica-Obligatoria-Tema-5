@@ -1,7 +1,6 @@
 package comunications;
 
 import models.Pedido;
-import models.Producto;
 import models.Trabajador;
 
 import java.io.BufferedReader;
@@ -11,8 +10,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 import static view.main.pintaListaProductosTelegram;
 

@@ -330,7 +330,7 @@ public class EnvioMail {
 
             // Enviar el mensaje
             Transport.send(message);
-            System.out.println("Correo enviado con éxito a " + t.getNombre() + " (" + t.getEmail() + ")");
+            System.out.println("Correo enviado con éxito al trabajador");
         } catch (MessagingException e) {
             e.printStackTrace();
             System.out.println("Hubo un error al enviar el correo.");
@@ -435,7 +435,7 @@ public class EnvioMail {
                 "                <p><strong>ID del Pedido:</strong> " + p.getIdPedido() + "</p>\n" +
                 "                <p><strong>Fecha del Pedido:</strong> " + p.getFechaPedido().format(formatter) + "</p>\n" +
                 "                <p><strong>Fecha de Entrega Estimada:</strong> " + p.getFechaEntregaEstimada().format(formatter) + "</p>\n" +
-                "                <p><strong>Nuevo Estado:</strong> " + p.getEstado() + "</p>\n" +
+                "                <p><strong>Nuevo Estado:</strong> " + p.devuelveEstado(p.getEstado()) + "</p>\n" +
                 "                <p><strong>Comentarios:</strong> " + p.getComentario() + "</p>\n" +
                 "                <p><strong>Productos:</strong></p>\n" +
                 "                <ul>\n";
