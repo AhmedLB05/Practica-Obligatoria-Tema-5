@@ -84,29 +84,26 @@ En la opción 3, podremos iniciar sesión, ya sea como administrador, trabajador
 
   ## Cliente
 
+![Captura de pantalla 2025-03-23 132819](https://github.com/user-attachments/assets/9e2ac485-a989-4708-8d4a-011c135b0bce)
+
   ### Opción 1
 
-
+  ![Captura de pantalla 2025-03-23 133017](https://github.com/user-attachments/assets/b7a62828-db7d-41d4-a6a1-2362658e11dc)
+  
   ### Opción 2
 
+  ![Captura de pantalla 2025-03-23 150004](https://github.com/user-attachments/assets/a66c2865-32b7-45b0-a899-580c322b0f8e)
+
+  ![Captura de pantalla 2025-03-23 150201](https://github.com/user-attachments/assets/ae50f4e2-5a81-423f-973b-60227a12a9c3)
 
   ### Opción 3
 
+  ![74d4415c-69de-4b26-a72e-62ea2f312921](https://github.com/user-attachments/assets/efbd2ce6-a3ec-46f9-af3e-6e0ca1112b82)
 
   ### Opción 4
 
+  ![a7fc8b36-db61-41e8-8d91-4ddedd31c65f](https://github.com/user-attachments/assets/d92daeda-38ea-4f7f-b79d-c2ab27fa4302)
 
   ### Opción 5
 
-
-  ![Captura de pantalla 2025-03-23 132819](https://github.com/user-attachments/assets/9e2ac485-a989-4708-8d4a-011c135b0bce)
-
-  En la opción 1 podremos ver el catálogo
-  
-  ![Captura de pantalla 2025-03-23 133017](https://github.com/user-attachments/assets/b7a62828-db7d-41d4-a6a1-2362658e11dc)
-
-  Opción para añadir productos al carro
-  
-  ![Captura de pantalla 2025-03-23 150004](https://github.com/user-attachments/assets/a66c2865-32b7-45b0-a899-580c322b0f8e)
-  
-  ![Captura de pantalla 2025-03-23 150201](https://github.com/user-attachments/assets/ae50f4e2-5a81-423f-973b-60227a12a9c3)
+  ![874e9033-0017-4c9c-b7e6-b9d6415383b0](https://github.com/user-attachments/assets/ef2bbe5c-878d-4f93-8e4e-855e754d11b1)
