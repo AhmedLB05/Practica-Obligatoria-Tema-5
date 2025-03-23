@@ -175,7 +175,7 @@ public class PedidoClienteDataClass {
     }
 
     //Metodo que devuelve el estado de un Pedido
-    private String devuelveEstado(int estado) {
+    public String devuelveEstado(int estado) {
         return switch (estado) {
             case 0 -> "Creado";
             case 1 -> "En preparación";
@@ -196,4 +196,5 @@ public class PedidoClienteDataClass {
         }
         return resultado;
     }
+
 }

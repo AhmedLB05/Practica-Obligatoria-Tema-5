@@ -8,6 +8,7 @@ public class Utils {
 
     //Metodo pulsar para continuar
     public static void pulsaParaContinuar() {
+        System.out.println();
         System.out.print("Pulse para continuar...");
         S.nextLine();
     }

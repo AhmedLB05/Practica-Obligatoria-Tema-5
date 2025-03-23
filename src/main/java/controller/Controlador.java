@@ -101,9 +101,9 @@ public class Controlador {
     //Metodo para confirmar el pedido de un cliente y asignarlo a un trabajador
     public boolean confirmaPedidoCliente(int id) {
         Cliente clienteTemp = buscaClienteById(id);
-
-        if (clienteTemp == null) System.out.println(" * ERROR NO SE HA ENCONTRADO AL CLIENTE");
-        else {
+        if (clienteTemp == null) {
+            System.out.println(" * ERROR NO SE HA ENCONTRADO AL CLIENTE");
+        } else {
             if (clienteTemp.getCarro().isEmpty()) return false;
 
             ArrayList<Producto> copiaCarro = new ArrayList<>();
@@ -126,13 +126,10 @@ public class Controlador {
 
                     EnvioMail.enviaCorreoPedido(trabajadorTemp, dataTemp, "SE LE HA ASIGNADO UN NUEVO PEDIDO");
                     EnvioTelegram.enviaMensajeTrabajadorPedidoAsignado(trabajadorTemp, pedidoTemp);
-
                 }
             }
-
-
         }
-        return false;
+        return true;
     }
 
     //Metodo que busca un trabajador con menos pedidos para asignarle uno nuevo
@@ -212,14 +209,20 @@ public class Controlador {
     //Metodo que busca en el catálogo producto un término que se encuentre en descripcion o marca o modelo
     public ArrayList<Producto> buscaProductosByTermino(String termino) {
         ArrayList<Producto> productosCoincideTermino = new ArrayList<>();
-        for (Producto p : catalogo) {
-            if (p.getDescripcion().toLowerCase().contains(termino.toLowerCase())) productosCoincideTermino.add(p);
-            if (p.getMarca().toLowerCase().contains(termino.toLowerCase())) productosCoincideTermino.add(p);
-            if (p.getModelo().toLowerCase().contains(termino.toLowerCase())) productosCoincideTermino.add(p);
+        String terminoLower = termino.toLowerCase();
 
+        for (Producto p : catalogo) {
+            if ((p.getDescripcion().toLowerCase().contains(terminoLower) ||
+                    p.getMarca().toLowerCase().contains(terminoLower) ||
+                    p.getModelo().toLowerCase().contains(terminoLower))
+                    && !productosCoincideTermino.contains(p)) {
+
+                productosCoincideTermino.add(p);
+            }
         }
         return productosCoincideTermino;
     }
+
 
     //Metodo que busca en el catálogo producto que esten entre un rango de precios
     public ArrayList<Producto> buscaProductosByPrecio(float precioMin, float precioMax) {

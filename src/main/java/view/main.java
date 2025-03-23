@@ -1051,7 +1051,7 @@ public class main {
                         if (pedido.getId() == p.getIdPedido()) c = cliente;
                     }
                 }
-                if (c != null){
+                if (c != null) {
                     EnvioMail.enviaCorreoPedidoEstado(c, p);
                 } else System.out.println(" * ERROR CON EL CLIENTE");
 
@@ -1110,7 +1110,8 @@ public class main {
     private static void realizaPedidoCliente(Cliente cliente, Controlador controlador) {
         int op = 0;
         do {
-            System.out.println("Actualmente tiene " + cliente.getCarro().size() + "productos en su carro.");
+
+            System.out.println("\nActualmente tiene " + cliente.getCarro().size() + " productos en su carro.");
             System.out.println("""
                     1. Inserta un producto en el carro
                     2. Ver el carro
@@ -1234,7 +1235,7 @@ public class main {
     private static void confirmaPedido(Controlador controlador, Cliente cliente) {
         if (cliente.numProductosCarro() == 0) System.out.println("\n * ERROR EL CARRO ESTÁ VACIO");
         else {
-            System.out.println("¿Quieres confirmar el pedido? (SI/NO): ");
+            System.out.print("¿Quieres confirmar el pedido? (SI/NO): ");
             String confirmaPedido = S.nextLine();
             if (confirmaPedido.equalsIgnoreCase("si")) {
                 if (controlador.confirmaPedidoCliente(cliente.getId()))
@@ -1260,7 +1261,10 @@ public class main {
                 }
             } while (true);
 
-            Producto temp = cliente.getCarro().get(posProducto - 1);
+            Producto temp = null;
+            if (posProducto != -1) {
+                temp = cliente.getCarro().get(posProducto - 1);
+            }
 
             if (temp == null) System.out.println(" * ERROR NO SE HA ENCONTRADO NINGÚN PRODUCTO");
             else {
@@ -1327,9 +1331,11 @@ public class main {
             }
         } while (temp == null);
 
-        if (temp != null && controlador.addProductoCarrito(cliente, temp.getId()))
+        Cliente clienteCopia = controlador.buscaClienteById(cliente.getId());
+        if (temp != null && controlador.addProductoCarrito(clienteCopia, temp.getId())) {
+            controlador.addProductoCarrito(cliente, temp.getId());
             System.out.println(" - El producto se ha añadido al carrito correctamente");
-        else System.out.println(" * ERROR NO SE HA PODIDO AGREGAR AL CARRITO EL PRODUCTO");
+        } else System.out.println(" * ERROR NO SE HA PODIDO AGREGAR AL CARRITO EL PRODUCTO");
 
     }
 

@@ -276,7 +276,7 @@ public class EnvioMail {
                 "                <p><strong>ID del Pedido:</strong> " + pedidoCliente.getIdPedido() + "</p>\n" +
                 "                <p><strong>Fecha del Pedido:</strong> " + pedidoCliente.getFechaPedido().format(formatter) + "</p>\n" +
                 "                <p><strong>Fecha de Entrega Estimada:</strong> " + pedidoCliente.getFechaEntregaEstimada().format(formatter) + "</p>\n" +
-                "                <p><strong>Estado:</strong> " + pedidoCliente.getEstado() + "</p>\n" +
+                "                <p><strong>Estado:</strong> " + pedidoCliente.devuelveEstado(pedidoCliente.getEstado()) + "</p>\n" +
                 "                <p><strong>Comentarios:</strong> " + pedidoCliente.getComentario() + "</p>\n" +
                 "                <p><strong>Cliente:</strong></p>\n" +
                 "                <ul>\n" +
@@ -290,7 +290,7 @@ public class EnvioMail {
 
         // Añadir los productos al mensaje
         for (Producto producto : pedidoCliente.getProductos()) {
-            mensaje += producto;
+            mensaje += producto + "\n";
         }
 
         mensaje += "                </ul>\n" +
