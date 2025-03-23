@@ -3,6 +3,8 @@ package comunications;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import models.PedidoClienteDataClass;
+import models.Trabajador;
 import utils.Utils;
 
 import java.util.Properties;
@@ -173,5 +175,9 @@ public class EnvioMail {
 
         // Llamamos al metodo para enviar el correo
         enviaTokenRegistro(destinatario, num);
+    }
+
+    public static void enviaCorreoPedido(Trabajador t, PedidoClienteDataClass pedidoCliente, String asunto) {
+        //TODO
     }
 }

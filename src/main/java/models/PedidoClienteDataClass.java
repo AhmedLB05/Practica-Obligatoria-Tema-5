@@ -174,7 +174,7 @@ public class PedidoClienteDataClass {
                 pintaProductos(productos);
     }
 
-    // Funcion que devuelve el estado de un Pedido
+    //Metodo que devuelve el estado de un Pedido
     private String devuelveEstado(int estado) {
         return switch (estado) {
             case 0 -> "Creado";
@@ -187,12 +187,12 @@ public class PedidoClienteDataClass {
 
     }
 
-    // Funcion que pinta productos
+    //Metodo que pinta productos
     private String pintaProductos(ArrayList<Producto> productos) {
         String resultado = "";
 
         for (Producto p : productos) {
-            resultado += p.toString() + "\n";
+            resultado += p.pintaProductoADetalle() + "\n";
         }
         return resultado;
     }

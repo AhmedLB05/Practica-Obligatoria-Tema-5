@@ -1,6 +1,7 @@
 package view;
 
 import comunications.EnvioMail;
+import comunications.EnvioTelegram;
 import controller.Controlador;
 import models.*;
 import utils.Utils;
@@ -301,9 +302,9 @@ public class main {
         if (pedidosSinAsignar.isEmpty() || controlador.getTrabajadores().isEmpty())
             System.out.println(" * ERROR NO HAY PEDIDOS PENDIENTES DE ASIGNACIÓN O NO HAY TRABAJADORES EN EL SISTEMA");
         else {
-            Pedido p;
-            Trabajador t;
-            int idPedido;
+            Pedido p = null;
+            Trabajador t = null;
+            int idPedido, idTrabajador;
             do {
                 try {
                     System.out.print(" - Introduzca el ID del pedido a asignar: ");
@@ -317,17 +318,39 @@ public class main {
             for (Pedido pedido : pedidosSinAsignar) {
                 if (pedido.getId() == idPedido) p = pedido;
             }
-            System.out.println(" - Este es el pedido seleccionado: ");
-            pintaPedido(p);
+            if (p != null) {
+                System.out.println(" - Este es el pedido seleccionado: ");
+                System.out.println(p);
+                do {
+                    try {
+                        System.out.print(" - Introduzca el ID del trabajador a asignar: ");
+                        idTrabajador = Integer.parseInt(S.nextLine());
+                        break;
+                    } catch (NumberFormatException e) {
+                        throw new RuntimeException(e);
+                    }
+                } while (true);
 
+                for (Trabajador trabajador : controlador.getTrabajadores()) {
+                    if (trabajador.getId() == idTrabajador) t = trabajador;
+                }
 
+                if (t != null) {
+                    if (controlador.asignaPedido(idPedido, idTrabajador)) {
+                        System.out.println(" - Pedido asignado con exito a " + t.getNombre());
+                        EnvioTelegram.enviaMensajeTrabajador(t, p);
+
+                        PedidoClienteDataClass pedidoCliente = null;
+                        for (Trabajador trabajador : controlador.getTrabajadores()) {
+                            for (PedidoClienteDataClass pedido : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
+                                if (pedido.getIdPedido() == p.getId()) pedidoCliente = pedido;
+                            }
+                        }
+                        EnvioMail.enviaCorreoPedido(t, pedidoCliente, "PEDIDO ASIGNADO");
+                    } else System.out.println(" * ERROR AL ASIGNAR EL PEDIDO");
+                } else System.out.println(" * ERROR TRABAJADOR NO ENCONTRADO O NO EXISTE");
+            } else System.out.println(" * ERROR PEDIDO NO ENCONTRADO O NO EXISTE");
         }
-
-
-    }
-
-    private static void pintaPedido(Pedido p) {
-
     }
 
     //Metodo para dar de baja a un trabajador

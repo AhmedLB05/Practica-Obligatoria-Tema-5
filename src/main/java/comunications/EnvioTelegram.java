@@ -1,5 +1,8 @@
 package comunications;
 
+import models.Pedido;
+import models.Trabajador;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,4 +43,7 @@ public class EnvioTelegram {
         return dev; //Devuelvo si ha tenido exito o no
     }
 
+    public static void enviaMensajeTrabajador(Trabajador t, Pedido p) {
+
+    }
 }

@@ -134,7 +134,7 @@ public class Cliente {
         this.carro = carro;
     }
 
-    //Metodo para pintar los datos personales del cliente TODO
+    //Metodo para pintar los datos personales del cliente
     @Override
     public String toString() {
         String resultado = "";

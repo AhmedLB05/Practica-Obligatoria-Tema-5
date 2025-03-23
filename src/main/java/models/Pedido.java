@@ -116,7 +116,7 @@ public class Pedido {
     private String pintaProductos(ArrayList<Producto> productos) {
         String resultado = "";
         for (Producto p : productos) {
-            resultado += p + "\n";
+            resultado += p.pintaProductoADetalle() + "\n";
         }
         return resultado;
     }
