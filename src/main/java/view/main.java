@@ -120,15 +120,21 @@ public class main {
     private static boolean verificacionCliente(String email) {
         int token = Utils.generaTokenRegistro(), tokenIntro = 0;
         System.out.println("\n\nA continuación se le va a enviar un código de verificación a su correo");
-        EnvioMail.enviaTokenRegistro(email, token);
-        try {
-            System.out.print("\nIntroduzca el código recibido: ");
-            tokenIntro = Integer.parseInt(S.nextLine());
-        } catch (NumberFormatException e) {
-            System.out.println("ERROR AL INTRODUCIR CODIGO");
-        }
+        if (EnvioMail.enviaTokenRegistro(email, token) == true) {
+            do {
+                try {
+                    System.out.print("\nIntroduzca el código recibido: ");
+                    tokenIntro = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR CODIGO");
+                }
+            } while (true);
 
-        return (token == tokenIntro);
+
+            return (token == tokenIntro);
+        }
+        return false;
     }
 
     //Metodo que pinta el catálogo
@@ -278,6 +284,7 @@ public class main {
                 break;
             case 6: //Ver las estadísticas de la aplicación
                 pintaEstadisticasAdmin(controlador);
+                Utils.pulsaParaContinuar();
                 break;
             case 7: //Cambiar el estado de un pedido
                 modificaEstadoComentarioPedidoByAdmin(controlador);
@@ -299,9 +306,10 @@ public class main {
 
     private static void asignaPedidoTrabajador(Controlador controlador) {
         ArrayList<Pedido> pedidosSinAsignar = controlador.pedidosSinTrabajador();
-        if (pedidosSinAsignar.isEmpty() || controlador.getTrabajadores().isEmpty())
+        if (pedidosSinAsignar.isEmpty() || controlador.getTrabajadores().isEmpty()) {
             System.out.println(" * ERROR NO HAY PEDIDOS PENDIENTES DE ASIGNACIÓN O NO HAY TRABAJADORES EN EL SISTEMA");
-        else {
+            Utils.pulsaParaContinuar();
+        } else {
             Pedido p = null;
             Trabajador t = null;
             int idPedido, idTrabajador;
@@ -311,7 +319,7 @@ public class main {
                     idPedido = Integer.parseInt(S.nextLine());
                     break;
                 } catch (NumberFormatException e) {
-                    throw new RuntimeException(e);
+                    System.out.println(" * ERROR AL INTRODUCIR EL PEDIDO");
                 }
             } while (true);
 
@@ -400,20 +408,42 @@ public class main {
             System.out.print(" - Introduzca el email del nuevo trabajador: ");
             email = S.nextLine();
         } while (controlador.buscaTrabajadorByEmail(email) != null);
-        System.out.print(" - Introduzca el móvil del nuevo trabajador: ");
-        int movil = Integer.parseInt(S.nextLine());
+        int movilIntro;
 
-        if (EnvioMail.enviaTokenRegistro(email, Utils.generaTokenRegistro())) {
-            if (controlador.nuevoTrabajador(email, clave, nombre, movil)) {
-                System.out.println(" - TRABAJADOR DADO DE ALTA CORRECTAMENTE");
-            } else System.out.println(" * ERROR NO SE HA PODIDO DAR DE ALTA AL TRABAJADOR");
+        do {
+            try {
+                System.out.print(" - Introduzca el móvil del nuevo trabajador: ");
+                movilIntro = Integer.parseInt(S.nextLine());
+                if (movilIntro > 99999999 && movilIntro <= 999999999) {
+                    break;
+                } else {
+                    System.out.println(" * ERROR: El número de teléfono debe tener 9 dígitos.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println(" * ERROR AL INTRODUCIR NUMERO DE TELEFONO");
+            }
+        } while (true);
+
+
+        int token = Utils.generaTokenRegistro();
+
+        if (EnvioMail.enviaTokenRegistro(email, token)) {
+            System.out.print(" - Introduzca el token que ha recibido por correo: ");
+            String tokenIntro = S.nextLine();
+            if (tokenIntro.equalsIgnoreCase(String.valueOf(token))) {
+                if (controlador.nuevoTrabajador(email, clave, nombre, movilIntro)) {
+                    System.out.println(" - TRABAJADOR DADO DE ALTA CORRECTAMENTE");
+                } else System.out.println(" * ERROR NO SE HA PODIDO DAR DE ALTA AL TRABAJADOR");
+            }
         } else System.out.println(" * ERROR AL VERIFICAR EMAIL, TRABAJADOR NO DADO DE ALTA");
     }
 
     //Metodo que pinta un resumen de todos los pedidos para el admin
     private static void pintaResumenPedidos(Controlador controlador) {
-        if (controlador.getTodosPedidos().isEmpty()) System.out.println(" * ERROR NO HAY PEDIDOS QUE MOSTRAR");
-        else {
+        if (controlador.getTodosPedidos().isEmpty()) {
+            System.out.println(" * ERROR NO HAY PEDIDOS QUE MOSTRAR");
+            Utils.pulsaParaContinuar();
+        } else {
             System.out.println("¿QUE PEDIDOS QUIERES QUE TE MOSTREMOS?");
             System.out.println("""
                     1. - Todos los pedidos
@@ -432,61 +462,73 @@ public class main {
                 }
             } while (true);
             if (op == 1 || op == 2) {
-                System.out.println("╔════════════════════════════════════════════════════╗");
+                int contEntregados = 0;
+                System.out.println("\n╔════════════════════════════════════════════════════╗");
                 System.out.println("""
-                                            ┏┓   ┓• ┓                   ┓
-                                            ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┓┏┓╋┏┓┏┓┏┓┏┓┏┫┏┓┏
-                                            ┣┛┗ ┗┻┗┗┻┗┛┛  ┗ ┛┗┗┛ ┗ ┗┫┗┻┗┻┗┛┛
+                                         ┏┓   ┓• ┓                   ┓
+                                         ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┓┏┓╋┏┓┏┓┏┓┏┓┏┫┏┓┏
+                                         ┣┛┗ ┗┻┗┗┻┗┛┛  ┗ ┛┗┗┛ ┗ ┗┫┗┻┗┻┗┛┛
                                                                     ┛
                         """);
                 System.out.println("╚════════════════════════════════════════════════════╝");
                 for (Pedido p : controlador.getTodosPedidos()) {
-                    if (p.getEstado() == 3) System.out.println(p);
+                    if (p.getEstado() == 3) {
+                        System.out.println(p);
+                        contEntregados++;
+                    }
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                Utils.pulsaParaContinuar();
+                if (contEntregados != 0) Utils.pulsaParaContinuar();
             }
             if (op == 1 || op == 3) {
-                System.out.println("╔════════════════════════════════════════════════════╗");
+                int contCancelados = 0;
+                System.out.println("\n╔════════════════════════════════════════════════════╗");
                 System.out.println("""
-                                            ┏┓   ┓• ┓             ┓   ┓  \s
-                                            ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┏┓┏┓┏┏┓┃┏┓┏┫┏┓┏
-                                            ┣┛┗ ┗┻┗┗┻┗┛┛  ┗┗┻┛┗┗┗ ┗┗┻┗┻┗┛┛
+                                          ┏┓   ┓• ┓             ┓   ┓  \s
+                                          ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┏┓┏┓┏┏┓┃┏┓┏┫┏┓┏
+                                          ┣┛┗ ┗┻┗┗┻┗┛┛  ┗┗┻┛┗┗┗ ┗┗┻┗┻┗┛┛
                                                                          \s
                         """);
                 System.out.println("╚════════════════════════════════════════════════════╝");
                 for (Pedido p : controlador.getTodosPedidos()) {
-                    if (p.getEstado() == 4) System.out.println(p);
+                    if (p.getEstado() == 4) {
+                        System.out.println(p);
+                        contCancelados++;
+                    }
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                Utils.pulsaParaContinuar();
+                if (contCancelados != 0) Utils.pulsaParaContinuar();
             }
             if (op == 1 || op == 4) {
-                System.out.println("╔════════════════════════════════════════════════════╗");
+                int contPendientes = 0;
+                System.out.println("\n╔════════════════════════════════════════════════════╗");
                 System.out.println("""
-                                            ┏┓   ┓• ┓            ┓•       \s
-                                            ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┓┏┓┏┓┏┫┓┏┓┏┓╋┏┓┏
-                                            ┣┛┗ ┗┻┗┗┻┗┛┛  ┣┛┗ ┛┗┗┻┗┗ ┛┗┗┗ ┛
+                                          ┏┓   ┓• ┓            ┓•       \s
+                                          ┃┃┏┓┏┫┓┏┫┏┓┏  ┏┓┏┓┏┓┏┫┓┏┓┏┓╋┏┓┏
+                                          ┣┛┗ ┗┻┗┗┻┗┛┛  ┣┛┗ ┛┗┗┻┗┗ ┛┗┗┗ ┛
                                                           ┛               \s
                         """);
                 System.out.println("╚════════════════════════════════════════════════════╝");
                 for (Pedido p : controlador.getTodosPedidos()) {
-                    if (p.getEstado() == 0 || p.getEstado() == 1 || p.getEstado() == 2) System.out.println(p);
+                    if (p.getEstado() == 0 || p.getEstado() == 1 || p.getEstado() == 2) {
+                        System.out.println(p);
+                        contPendientes++;
+                    }
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                Utils.pulsaParaContinuar();
+                if (contPendientes != 0) Utils.pulsaParaContinuar();
             }
 
         }
@@ -568,6 +610,7 @@ public class main {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            cont++;
         }
         do {
             try {
@@ -586,6 +629,24 @@ public class main {
         System.out.print("Introduzca el comentario a añadir: ");
         String comentarioNuevo = S.nextLine();
         p.setComentario(comentarioNuevo);
+
+        Cliente c = null;
+        PedidoClienteDataClass pedidoCambiado = null;
+
+        for (Cliente cliente : controlador.getClientes()) {
+            for (Pedido pedido : cliente.getPedidos()) {
+                if (pedido.getId() == p.getIdPedido()) {
+                    c = cliente;
+                    break;
+                }
+            }
+        }
+        for (PedidoClienteDataClass pedidoData : controlador.getTodosPedidosClienteDataClass()) {
+            if (pedidoData.getIdPedido() == p.getIdPedido()) pedidoCambiado = pedidoData;
+        }
+        if (c != null) {
+            EnvioMail.enviaCorreoPedidoEstado(c, pedidoCambiado);
+        } else System.out.println(" * ERROR CON EL CLIENTE");
 
     }
 
@@ -629,7 +690,8 @@ public class main {
                 1. En preparación
                 2. Enviado
                 3. Entregado
-                4. Cancelado""");
+                4. Cancelado
+                """);
         do {
             try {
                 System.out.print("Introduzca una opción: ");
@@ -639,7 +701,26 @@ public class main {
                 System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
             }
         } while (true);
-        p.setEstado(numEstado);
+        if (controlador.cambiaEstadoPedido(p.getIdPedido(), numEstado)) {
+            System.out.println(" - Se ha modificado el estado del pedido");
+            Cliente c = null;
+            PedidoClienteDataClass pedidoCambiado = null;
+
+            for (Cliente cliente : controlador.getClientes()) {
+                for (Pedido pedido : cliente.getPedidos()) {
+                    if (pedido.getId() == p.getIdPedido()) {
+                        c = cliente;
+                        break;
+                    }
+                }
+            }
+            for (PedidoClienteDataClass pedidoData : controlador.getTodosPedidosClienteDataClass()) {
+                if (pedidoData.getIdPedido() == p.getIdPedido()) pedidoCambiado = pedidoData;
+            }
+            if (c != null) {
+                EnvioMail.enviaCorreoPedidoEstado(c, pedidoCambiado);
+            } else System.out.println(" * ERROR CON EL CLIENTE");
+        }
 
     }
 
@@ -949,6 +1030,23 @@ public class main {
         System.out.print("Introduzca el comentario a añadir: ");
         String comentarioNuevo = S.nextLine();
         p.setComentario(comentarioNuevo);
+        Cliente c = null;
+        PedidoClienteDataClass pedidoCambiado = null;
+
+        for (Cliente cliente : controlador.getClientes()) {
+            for (Pedido pedido : cliente.getPedidos()) {
+                if (pedido.getId() == p.getIdPedido()) {
+                    c = cliente;
+                    break;
+                }
+            }
+        }
+        for (PedidoClienteDataClass pedidoData : controlador.getTodosPedidosClienteDataClass()) {
+            if (pedidoData.getIdPedido() == p.getIdPedido()) pedidoCambiado = pedidoData;
+        }
+        if (c != null) {
+            EnvioMail.enviaCorreoPedidoEstado(c, pedidoCambiado);
+        } else System.out.println(" * ERROR CON EL CLIENTE");
 
     }
 
@@ -994,7 +1092,8 @@ public class main {
                 1. En preparación
                 2. Enviado
                 3. Entregado
-                4. Cancelado""");
+                4. Cancelado
+                """);
         do {
             try {
                 System.out.print("Introduzca una opción: ");
