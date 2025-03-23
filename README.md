@@ -80,6 +80,10 @@ En la opción 3, podremos iniciar sesión, ya sea como administrador, trabajador
 
   ![c73f8d9d-6c49-4704-aff4-5b23540ebd73](https://github.com/user-attachments/assets/cbe096cd-ccdf-4f46-8b17-e448c5fbeb0c)
 
+  Y por telegram
+
+  ![b39cc548-7111-4020-a520-4d79f1ec4b79](https://github.com/user-attachments/assets/bf686952-90b4-421c-8254-ce2f237832fe)
+
   ## Trabajador
 
   ![37517d35-47b2-4990-87eb-a26ed1390690](https://github.com/user-attachments/assets/47d61ba8-92de-4641-8e0f-76cd6560b744)
