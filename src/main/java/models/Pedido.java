@@ -9,18 +9,16 @@ public class Pedido {
     private int id;
     private LocalDate fechaPedido;
     private LocalDate fechaEntregaEstimada;
-    private LocalDate deliveryDate;
     private int estado;
     private String comentario;
     private ArrayList<Producto> productos;
 
     //Constructor
-    public Pedido(int id, LocalDate fechaPedido, LocalDate fechaEntregaEstimada, LocalDate deliveryDate, int estado, String comentario, ArrayList<Producto> productos) {
+    public Pedido(int id, LocalDate fechaPedido, String comentario, ArrayList<Producto> productos) {
         this.id = id;
         this.fechaPedido = fechaPedido;
-        this.fechaEntregaEstimada = fechaEntregaEstimada;
-        this.deliveryDate = deliveryDate;
-        this.estado = estado;
+        this.fechaEntregaEstimada = fechaPedido.plusDays(5);
+        this.estado = 0;
         this.comentario = comentario;
         this.productos = productos;
     }

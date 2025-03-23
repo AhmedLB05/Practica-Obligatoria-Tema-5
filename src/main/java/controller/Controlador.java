@@ -1,8 +1,11 @@
 package controller;
 
+import comunications.EnvioMail;
+import comunications.EnvioTelegram;
 import data.DataProductos;
 import models.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controlador {
@@ -95,12 +98,56 @@ public class Controlador {
         return null;
     }
 
+    //Metodo para confirmar el pedido de un cliente y asignarlo a un trabajador
     public boolean confirmaPedidoCliente(int id) {
+        Cliente clienteTemp = buscaClienteById(id);
+
+        if (clienteTemp == null) System.out.println(" * ERROR NO SE HA ENCONTRADO AL CLIENTE");
+        else {
+            if (clienteTemp.getCarro().isEmpty()) return false;
+
+            ArrayList<Producto> copiaCarro = new ArrayList<>();
+            copiaCarro.addAll(clienteTemp.getCarro());
+
+            Pedido pedidoTemp = new Pedido(generaIdPedido(), LocalDate.now(), "Pedido creado", copiaCarro);
+
+            clienteTemp.addPedido(pedidoTemp);
+            clienteTemp.vaciaCarro();
+
+            Trabajador trabajadorTemp = buscaTrabajadorCandidatoParaAsignar();
+
+            if (trabajadorTemp != null) {
+                if (asignaPedido(pedidoTemp.getId(), trabajadorTemp.getId())) {
+                    PedidoClienteDataClass dataTemp = null;
+
+                    for (PedidoClienteDataClass p : getPedidosAsignadosTrabajador(trabajadorTemp.getId())) {
+                        if (p.getIdPedido() == pedidoTemp.getId()) dataTemp = p;
+                    }
+
+                    EnvioMail.enviaCorreoPedido(trabajadorTemp, dataTemp, "SE LE HA ASIGNADO UN NUEVO PEDIDO");
+                    EnvioTelegram.enviaMensajeTrabajadorPedidoAsignado(trabajadorTemp, pedidoTemp);
+
+                }
+            }
+
+
+        }
         return false;
     }
 
+    //Metodo que busca un trabajador con menos pedidos para asignarle uno nuevo
     public Trabajador buscaTrabajadorCandidatoParaAsignar() {
-        return null;
+        int numPedidosMin = Integer.MAX_VALUE;
+        Trabajador candidato = null;
+
+        for (Trabajador t : trabajadores) {
+            if (t.numPedidosPendientes() < numPedidosMin) {
+                numPedidosMin = t.numPedidosPendientes();
+                candidato = t;
+            }
+        }
+        if (trabajadores.size() > 1) if (hayEmpateTrabajadoresCandidatos(candidato)) return null;
+        return candidato;
     }
 
     //Metodo que nos indica si hay algún trabajador empatado en cuanto a pedidos pendientes con el trabajador que le pasamos
@@ -178,7 +225,8 @@ public class Controlador {
     public ArrayList<Producto> buscaProductosByPrecio(float precioMin, float precioMax) {
         ArrayList<Producto> productosCoincidePrecio = new ArrayList<>();
         for (Producto p : catalogo) {
-            if (p != null && p.getPrecio() <= precioMax && p.getPrecio() >= precioMin) productosCoincidePrecio.add(p);
+            if (p != null && p.getPrecio() <= precioMax && p.getPrecio() >= precioMin)
+                productosCoincidePrecio.add(p);
         }
         return productosCoincidePrecio;
     }
@@ -254,7 +302,13 @@ public class Controlador {
     }
 
     public boolean asignaPedido(int idPedido, int idTrabajador) {
-        return false;
+        Pedido pedidoTemp = buscaPedidoById(idPedido);
+        Trabajador trabajadorTemp = buscaTrabajadorByID(idTrabajador);
+
+        if (pedidoTemp == null) return false;
+        if (trabajadorTemp == null) return false;
+
+        return trabajadorTemp.asignaPedido(pedidoTemp);
     }
 
     //Metodo que busca el trabajador por ID
@@ -356,7 +410,8 @@ public class Controlador {
     }
 
     //Metodo para el registro de clientes
-    public boolean registraCliente(String emailIntro, String claveIntro, String nombreIntro, String localidadIntro, String provinciaIntro, String direccionIntro, int movilIntro) {
+    public boolean registraCliente(String emailIntro, String claveIntro, String nombreIntro, String
+            localidadIntro, String provinciaIntro, String direccionIntro, int movilIntro) {
         Cliente cliente = new Cliente(generaIdCliente(), emailIntro, claveIntro, nombreIntro, localidadIntro, provinciaIntro, direccionIntro, movilIntro);
         return agregaClienteSistema(cliente);
     }
