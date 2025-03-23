@@ -301,16 +301,19 @@ public class Controlador {
     //Metodo que nos devuelve los pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
     //luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores
     public ArrayList<Pedido> pedidosSinTrabajador() {
-        ArrayList<Pedido> pedidosAsignados = new ArrayList<>();
-        ArrayList<Pedido> pedidosSinAsignar = new ArrayList<>();
-        for (Trabajador t : trabajadores) {
-            pedidosAsignados.addAll(t.getPedidosAsignados());
+        ArrayList<Pedido> pedidos = new ArrayList<>();
+        if (!trabajadores.isEmpty()) {
+            for (Cliente c : clientes) {
+                for (Pedido p : c.getPedidos()) {
+                    if (buscaTrabajadorAsignadoAPedido(p.getId()) == null) pedidos.add(p);
+                }
+            }
+        } else {
+            for (Cliente c : clientes) {
+                pedidos.addAll(c.getPedidos());
+            }
         }
-        for (Cliente c : clientes) {
-            pedidosSinAsignar.addAll(c.getPedidos());
-        }
-        pedidosSinAsignar.removeAll(pedidosAsignados);
-        return pedidosSinAsignar;
+        return pedidos;
     }
 
     //Metodo para asignar un pedido
