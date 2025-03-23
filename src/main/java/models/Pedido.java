@@ -28,7 +28,6 @@ public class Pedido {
         this.id = otroPedido.id;
         this.fechaPedido = otroPedido.fechaPedido;
         this.fechaEntregaEstimada = otroPedido.fechaEntregaEstimada;
-        this.deliveryDate = otroPedido.deliveryDate;
         this.estado = otroPedido.estado;
         this.comentario = otroPedido.comentario;
 
@@ -62,14 +61,6 @@ public class Pedido {
 
     public void setFechaEntregaEstimada(LocalDate fechaEntregaEstimada) {
         this.fechaEntregaEstimada = fechaEntregaEstimada;
-    }
-
-    public LocalDate getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(LocalDate deliveryDate) {
-        this.deliveryDate = deliveryDate;
     }
 
     public int getEstado() {
@@ -140,8 +131,8 @@ public class Pedido {
 
     //Metodo para cambiar la fecha de entrega deliveryDate
     public boolean cambiaFechaEntrega(LocalDate nuevaFecha) {
-        if (nuevaFecha.isBefore(fechaPedido) || nuevaFecha.isEqual(fechaPedido)) return false;
-        setDeliveryDate(nuevaFecha);
+        if (nuevaFecha.isBefore(fechaPedido)) return false;
+        fechaPedido = nuevaFecha;
         return true;
     }
 

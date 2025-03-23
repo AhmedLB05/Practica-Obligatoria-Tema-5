@@ -464,4 +464,15 @@ public class Controlador {
         }
         return todosPedidosCliente;
     }
+
+    //Metodo que cancela un pedido de un cliente
+    public boolean cancelaPedidoCliente(int idCliente, int idPedido) {
+        Cliente clienteTemp = buscaClienteById(idCliente);
+        Pedido pedidoTemp = buscaPedidoById(idPedido);
+
+        if (clienteTemp == null) return false;
+        if (pedidoTemp == null) return false;
+
+        return pedidoTemp.cambiaEstado(4);
+    }
 }

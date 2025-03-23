@@ -1126,8 +1126,11 @@ public class main {
                     break;
                 case 4: //Confirmar el pedido
                     confirmaPedido(controlador, cliente);
+                    Utils.pulsaParaContinuar();
                     break;
                 case 5: //Cancelar el pedido
+                    cancelaPedido(controlador, cliente);
+                    Utils.pulsaParaContinuar();
                     break;
                 case 6: //Salir
                     Utils.mensajeCierraPrograma();
@@ -1135,6 +1138,81 @@ public class main {
             }
         } while (op != 6);
 
+    }
+
+    //Metodo para cancelar un pedido
+    private static void cancelaPedido(Controlador controlador, Cliente cliente) {
+        ArrayList<Pedido> pedidosRealizados = cliente.getPedidos();
+
+        if (pedidosRealizados.isEmpty()) System.out.println(" * ERROR NO SE HAN REALIZADO PEDIDOS");
+        else {
+            Pedido temp = seleccionaPedidoCliente(controlador, cliente);
+
+            if (temp == null) System.out.println(" * ERROR NO HAY PEDIDOS PARA CANCELAR");
+            else {
+                System.out.println("¿Deseas cancelar el pedido? (SI/NO)");
+                String cancelaPedido = S.nextLine();
+
+                if (cancelaPedido.equalsIgnoreCase("si")) {
+                    if (controlador.cancelaPedidoCliente(cliente.getId(), temp.getId()))
+                        System.out.println(" - El pedido ha sido cancelado con éxito");
+                } else if (cancelaPedido.equalsIgnoreCase("no")) {
+                    System.out.println(" * ERROR SE HA CANCELADO EL PROCESO");
+                }
+            }
+        }
+    }
+
+    //Metodo para seleccionar un pedido hecho por el cliente
+    private static Pedido seleccionaPedidoCliente(Controlador controlador, Cliente cliente) {
+        ArrayList<Pedido> pedidos = cliente.getPedidos();
+        int cont = 1;
+        int pedidoSeleccionado;
+
+        if (pedidos == null) return null;
+        if (pedidos.isEmpty()) return null;
+
+        ArrayList<Pedido> pedidosNoCancelado = new ArrayList<>();
+
+        for (Pedido p : pedidos) {
+            if (p.getEstado() != 4) pedidosNoCancelado.add(p);
+        }
+
+        if (pedidosNoCancelado.isEmpty()) return null;
+
+        System.out.print("""
+                ┏┓┏┓┳┓┳┳┓┏┓┏┓
+                ┃┃┣ ┃┃┃┃┃┃┃┗┓
+                ┣┛┗┛┻┛┻┻┛┗┛┗┛
+                            \s
+                """);
+        for (Pedido p : pedidos) {
+            System.out.println("Pedido " + cont);
+
+            System.out.println(p);
+            cont++;
+        }
+        do {
+            try {
+                System.out.print("Introduce el pedido: ");
+                pedidoSeleccionado = Integer.parseInt(S.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println(" * ERROR INTRODUCIR UNA OPCIÓN");
+            }
+        } while (true);
+
+        Pedido pedidoElegido = null;
+
+        try {
+            pedidoElegido = pedidos.get(pedidoSeleccionado - 1);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(" * ERROR AL ELEGIR EL PEDIDO");
+        }
+
+        if (pedidoElegido == null) return null;
+
+        return controlador.buscaPedidoById(pedidoElegido.getId());
     }
 
     private static void confirmaPedido(Controlador controlador, Cliente cliente) {
