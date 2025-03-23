@@ -36,6 +36,45 @@ En la opción 3, podremos iniciar sesión, ya sea como administrador, trabajador
   
   ![Captura de pantalla 2025-03-23 150717](https://github.com/user-attachments/assets/1b968d6c-66c1-4f52-b6f9-14e19f4a19d6)
 
+  ### Opción 1
+
+![5f14b351-87be-4ac1-a7de-e791e1b190a4](https://github.com/user-attachments/assets/8e9b1278-6c8d-4e6f-af0a-d2796520e465)
+
+  ### Opción 2
+
+![49ba1c77-2f6c-4e3e-ae12-411a6d3c0599](https://github.com/user-attachments/assets/60bc0992-39be-49f1-80f1-15ddb9795087)
+
+  ### Opción 3
+
+![a9ec6a79-5d1c-4a78-9d72-e8bf5008e67b](https://github.com/user-attachments/assets/387ce823-066a-4cf1-a027-72d7e85852d6)
+
+  ### Opción 4
+
+![3108bd9f-3951-445b-ac8e-b126f470b558](https://github.com/user-attachments/assets/080d8ef9-b85f-429c-9e46-a9df646ed764)
+
+  ### Opción 5
+
+![b912b662-de8b-4dd2-9441-9bced733150e](https://github.com/user-attachments/assets/5c205ac3-2931-49d1-b82c-5bd868a824be)
+
+  ### Opción 6
+
+![7af1b7c6-5436-4e80-944f-1c00151cf233](https://github.com/user-attachments/assets/ad64abca-ed5a-4fbc-9935-6a5e7e1149fe)
+
+  ### Opción 7
+
+![1dd7912b-fd70-4d1e-a2f0-6edadf4f4581](https://github.com/user-attachments/assets/cedeb9da-336d-458c-91d3-8966fd94ff2c)
+
+  ### Opción 8
+
+![e75168d2-226a-417f-b9d1-3f4c2cf223e2](https://github.com/user-attachments/assets/b586c61f-3c06-4878-a399-55f33f8c50ce)
+
+  ### Opción 9
+
+![0a7e3ee5-3e7c-4013-b335-5ca0fe520b8a](https://github.com/user-attachments/assets/3d076dd3-8c5a-41f1-a823-25cff91160f2)
+
+  ### Opción 10
+
+  Aquí deberiamos introducir el id del trabajador y el número del pedido y se le asigna a ese trabajador
   
   ## Trabajador
   
