@@ -1051,8 +1051,11 @@ public class main {
                         if (pedido.getId() == p.getIdPedido()) c = cliente;
                     }
                 }
-                if (c != null)
+                if (c != null){
                     EnvioMail.enviaCorreoPedidoEstado(c, p);
+                } else System.out.println(" * ERROR CON EL CLIENTE");
+
+
             }
 
         }
