@@ -156,7 +156,7 @@ public class main {
         //Pintamos el menú de cliente y cogemos la opción
         if (user instanceof Cliente) {
             int opCliente;
-            Cliente cliente = new Cliente((Cliente) user);
+            Cliente cliente = controlador.buscaClienteById(((Cliente) user).getId());
             do {
                 System.out.println();
                 System.out.println("Bienvenido " + cliente.getNombre() + ". Tiene " + controlador.getTotalPedidosPendientesEntregaCliente(cliente) + " pedido/s pendiente/s de entrega.");
@@ -1233,6 +1233,7 @@ public class main {
     }
 
     private static void confirmaPedido(Controlador controlador, Cliente cliente) {
+
         if (cliente.numProductosCarro() == 0) System.out.println("\n * ERROR EL CARRO ESTÁ VACIO");
         else {
             System.out.print("¿Quieres confirmar el pedido? (SI/NO): ");
@@ -1331,8 +1332,7 @@ public class main {
             }
         } while (temp == null);
 
-        Cliente clienteCopia = controlador.buscaClienteById(cliente.getId());
-        if (temp != null && controlador.addProductoCarrito(clienteCopia, temp.getId())) {
+        if (temp != null && controlador.addProductoCarrito(cliente, temp.getId())) {
             controlador.addProductoCarrito(cliente, temp.getId());
             System.out.println(" - El producto se ha añadido al carrito correctamente");
         } else System.out.println(" * ERROR NO SE HA PODIDO AGREGAR AL CARRITO EL PRODUCTO");
@@ -1403,7 +1403,6 @@ public class main {
     //Metodo que modifica los datos del cliente
     private static void modificaDatosCliente(Controlador controlador, Cliente cliente) {
         int opcion;
-        Cliente clienteCambiaDatos = new Cliente(cliente);
         do {
             System.out.println();
             System.out.println("=================================");
@@ -1431,29 +1430,29 @@ public class main {
             if (opcion == 1 || opcion == 2) {
                 System.out.print("Introduzca nuevo nombre: ");
                 String nombre = S.nextLine();
-                clienteCambiaDatos.setNombre(nombre);
-                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setNombre(nombre);
+                controlador.actualizaDatosCliente(cliente, cliente);
                 cliente.setNombre(nombre);
             }
             if (opcion == 1 || opcion == 3) {
                 System.out.print("Introduzca nueva localidad: ");
                 String localidad = S.nextLine();
-                clienteCambiaDatos.setLocalidad(localidad);
-                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setLocalidad(localidad);
+                controlador.actualizaDatosCliente(cliente, cliente);
                 cliente.setLocalidad(localidad);
             }
             if (opcion == 1 || opcion == 4) {
                 System.out.print("Introduzca nueva provincia: ");
                 String provincia = S.nextLine();
-                clienteCambiaDatos.setProvincia(provincia);
-                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setProvincia(provincia);
+                controlador.actualizaDatosCliente(cliente, cliente);
                 cliente.setProvincia(provincia);
             }
             if (opcion == 1 || opcion == 5) {
                 System.out.print("Introduzca nueva dirección: ");
                 String direccion = S.nextLine();
-                clienteCambiaDatos.setDireccion(direccion);
-                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                cliente.setDireccion(direccion);
+                controlador.actualizaDatosCliente(cliente, cliente);
                 cliente.setDireccion(direccion);
             }
             if (opcion == 1 || opcion == 6) {
@@ -1469,8 +1468,8 @@ public class main {
                 } while (true);
                 if (!(movil > 99999999 && movil <= 999999999))
                     System.out.println(" * ERROR: NUMERO INTRODUCIDO ERRÓNEO");
-                else clienteCambiaDatos.setMovil(movil);
-                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                else cliente.setMovil(movil);
+                controlador.actualizaDatosCliente(cliente, cliente);
                 cliente.setMovil(movil);
             }
             if (opcion == 1 || opcion == 7) {
@@ -1480,10 +1479,10 @@ public class main {
                 if (controlador.buscaClienteByEmail(email) != null)
                     System.out.println(" * ERROR YA EXISTE UN CLIENTE CON ESTE EMAIL");
                 else if (verificacionCliente(email)) {
-                    clienteCambiaDatos.setEmail(email);
+                    cliente.setEmail(email);
                     System.out.println(" - SU EMAIL HA SIDO CAMBIADO CON ÉXITO");
                 } else System.out.println(" * ERROR AL VERTIFICAR EL NUEVO EMAIL");
-                controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                controlador.actualizaDatosCliente(cliente, cliente);
                 cliente.setEmail(email);
             }
             if (opcion == 1 || opcion == 8) {
@@ -1491,7 +1490,7 @@ public class main {
                 System.out.print("Introduzca clave anterior: ");
                 claveAnterior = S.nextLine();
 
-                if (!clienteCambiaDatos.getClave().equals(claveAnterior))
+                if (!cliente.getClave().equals(claveAnterior))
                     System.out.println(" * ERROR CLAVE NO VÁLIDA");
                 else {
                     System.out.println();
@@ -1502,8 +1501,8 @@ public class main {
                     if (claveNueva.equals(claveAnterior))
                         System.out.println(" * ERROR LA NUEVA CLAVE ES IGUAL A LA ANTERIOR");
                     else {
-                        clienteCambiaDatos.setClave(claveNueva);
-                        controlador.actualizaDatosCliente(cliente, clienteCambiaDatos);
+                        cliente.setClave(claveNueva);
+                        controlador.actualizaDatosCliente(cliente, cliente);
                         cliente.setClave(claveNueva);
                         System.out.println(" - SU CLAVE HA SIDO CAMBIADA CON ÉXITO: " + claveNueva);
                     }

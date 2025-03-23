@@ -129,6 +129,7 @@ public class Controlador {
                 }
             }
         }
+
         return true;
     }
 
@@ -455,7 +456,11 @@ public class Controlador {
     //Metodo que devuelve el total de pedidos pendientes de entrega a un cliente (se hace mirando el estado)
     public int getTotalPedidosPendientesEntregaCliente(Cliente cliente) {
         int cont = 0;
-        for (Pedido p : cliente.getPedidos()) {
+        Cliente clientePedidos = null;
+        for (Cliente c : clientes) {
+            if (c.getId() == cliente.getId()) clientePedidos = c;
+        }
+        for (Pedido p : clientePedidos.getPedidos()) {
             if (p.getEstado() == 2) cont++;
         }
         return cont;
