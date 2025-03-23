@@ -29,6 +29,7 @@ public class Controlador {
         clientes.add(new Cliente(generaIdCliente(), "ahmedlb26205@gmail.com", "123", "Ahmed", "Torredelcampo", "Jaén", "Federico Garcia Lorca", 631788372));
         clientes.add(new Cliente(generaIdCliente(), "marcos@gmail.com", "123", "Marcos", "Martos", "Jaén", "Ramon Garay", 672929324));
         trabajadores.add(new Trabajador(generaIdTrabajador(), "Carlos", "123", "ahmed.lhaouchi.2602@fernando3martos.com", 672839234));
+        trabajadores.add(new Trabajador(generaIdTrabajador(), "Juan", "123", "salimalb2009@gmail.com", 672324234));
         admins.add(new Admin(generaIdAdmin(), "admin", "admin", "admin@admin"));
         catalogo = DataProductos.getProductosMock();
     }

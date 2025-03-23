@@ -217,7 +217,7 @@ public class main {
 
         //Pintamos el menu de admin y cogemos la opcion
         if (user instanceof Admin) {
-            //Admin admin = new Admin((Admin) user);
+            Admin admin = new Admin((Admin) user);
             int opAdmin;
             do {
                 pintaEstadisticasAdmin(controlador);
@@ -243,7 +243,7 @@ public class main {
                         System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                     }
                 } while (true);
-                menuAdmin(controlador, opAdmin);
+                menuAdmin(controlador, opAdmin, admin);
             } while (opAdmin != 11);
         }
     }
@@ -263,7 +263,7 @@ public class main {
     }
 
     //Metodo que contiene el switch del menu administrador
-    private static void menuAdmin(Controlador controlador, int opAdmin) {
+    private static void menuAdmin(Controlador controlador, int opAdmin, Admin admin) {
         switch (opAdmin) {
             case 1: //Ver todoo el catálogo
                 consultaCatalogo(controlador);
@@ -306,59 +306,70 @@ public class main {
 
     private static void asignaPedidoTrabajador(Controlador controlador) {
         ArrayList<Pedido> pedidosSinAsignar = controlador.pedidosSinTrabajador();
-        if (pedidosSinAsignar.isEmpty() || controlador.getTrabajadores().isEmpty()) {
-            System.out.println(" * ERROR NO HAY PEDIDOS PENDIENTES DE ASIGNACIÓN O NO HAY TRABAJADORES EN EL SISTEMA");
-            Utils.pulsaParaContinuar();
-        } else {
-            Pedido p = null;
-            Trabajador t = null;
-            int idPedido, idTrabajador;
-            do {
-                try {
-                    System.out.print(" - Introduzca el ID del pedido a asignar: ");
-                    idPedido = Integer.parseInt(S.nextLine());
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println(" * ERROR AL INTRODUCIR EL PEDIDO");
-                }
-            } while (true);
 
-            for (Pedido pedido : pedidosSinAsignar) {
-                if (pedido.getId() == idPedido) p = pedido;
+        if (pedidosSinAsignar.isEmpty())
+            System.out.println("No se ha realizado ningún pedido o no hay pedidos para asignar...");
+        else if (controlador.getTrabajadores().isEmpty()) System.out.println("No hay trabajadores...");
+        else {
+            Pedido pedidoTemp = null;
+            Trabajador trabajadorTemp = null;
+            int cont = 1;
+
+            pintaPedidosSinAsignar(controlador, pedidosSinAsignar);
+
+            System.out.print("Introduce el pedido que deseas asignar: ");
+            String pedidoSeleccionado = S.nextLine();
+
+            try {
+                pedidoTemp = pedidosSinAsignar.get(Integer.parseInt(pedidoSeleccionado) - 1);
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Error al elegir pedido...");
             }
-            if (p != null) {
-                System.out.println(" - Este es el pedido seleccionado: ");
+
+            pintaResumenTrabajadores(controlador);
+
+            System.out.print("Introduce el trabajador para asignar un pedido: ");
+            String trabajadorSeleccionado = S.nextLine();
+            try {
+                trabajadorTemp = controlador.getTrabajadores().get(Integer.parseInt(trabajadorSeleccionado) - 1);
+            } catch (IndexOutOfBoundsException | NumberFormatException e) {
+                System.out.println("Error al elegir trabajador...");
+            }
+
+
+            if (pedidoTemp == null || trabajadorTemp == null) System.out.println("No se han encontrado los datos...");
+            else {
+                if (controlador.asignaPedido(pedidoTemp.getId(), trabajadorTemp.getId())) {
+                    System.out.println("Pedido asignado a " + trabajadorTemp.getNombre() + " con éxito...");
+                    EnvioTelegram.enviaMensajeTrabajadorPedidoAsignado(trabajadorTemp, pedidoTemp);
+
+                    PedidoClienteDataClass dataTemp = null;
+                    for (Trabajador t : controlador.getTrabajadores()) {
+                        for (PedidoClienteDataClass p : controlador.getPedidosAsignadosTrabajador(t.getId())) {
+                            if (p.getIdPedido() == pedidoTemp.getId()) dataTemp = p;
+                        }
+                    }
+                    EnvioMail.enviaCorreoPedido(trabajadorTemp, dataTemp, "Asignacion de nuevo pedido");
+                } else System.out.println("Ha ocurrido un error...");
+            }
+
+        }
+    }
+
+    private static void pintaPedidosSinAsignar(Controlador controlador, ArrayList<Pedido> pedidosSinAsignar) {
+        pintaPedidosSinData(controlador, pedidosSinAsignar);
+    }
+
+    private static void pintaPedidosSinData(Controlador controlador, ArrayList<Pedido> pedidos) {
+        int cont = 1;
+        if (pedidos.isEmpty()) System.out.println("No tienes pedidos...");
+        else {
+            for (Pedido p : pedidos) {
+                cont++;
+                System.out.println(" - Pedido " + cont);
                 System.out.println(p);
                 Utils.pulsaParaContinuar();
-                do {
-                    try {
-                        System.out.print(" - Introduzca el ID del trabajador a asignar: ");
-                        idTrabajador = Integer.parseInt(S.nextLine());
-                        break;
-                    } catch (NumberFormatException e) {
-                        throw new RuntimeException(e);
-                    }
-                } while (true);
-
-                for (Trabajador trabajador : controlador.getTrabajadores()) {
-                    if (trabajador.getId() == idTrabajador) t = trabajador;
-                }
-
-                if (t != null) {
-                    if (controlador.asignaPedido(idPedido, idTrabajador)) {
-                        System.out.println(" - Pedido asignado con exito a " + t.getNombre());
-                        EnvioTelegram.enviaMensajeTrabajadorPedidoAsignado(t, p);
-
-                        PedidoClienteDataClass pedidoCliente = null;
-                        for (Trabajador trabajador : controlador.getTrabajadores()) {
-                            for (PedidoClienteDataClass pedido : controlador.getPedidosAsignadosTrabajador(trabajador.getId())) {
-                                if (pedido.getIdPedido() == p.getId()) pedidoCliente = pedido;
-                            }
-                        }
-                        EnvioMail.enviaCorreoPedido(t, pedidoCliente, "PEDIDO ASIGNADO");
-                    } else System.out.println(" * ERROR AL ASIGNAR EL PEDIDO");
-                } else System.out.println(" * ERROR TRABAJADOR NO ENCONTRADO O NO EXISTE");
-            } else System.out.println(" * ERROR PEDIDO NO ENCONTRADO O NO EXISTE");
+            }
         }
     }
 
