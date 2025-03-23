@@ -84,6 +84,21 @@ En la opción 3, podremos iniciar sesión, ya sea como administrador, trabajador
 
   ## Cliente
 
+  ### Opción 1
+
+
+  ### Opción 2
+
+
+  ### Opción 3
+
+
+  ### Opción 4
+
+
+  ### Opción 5
+
+
   ![Captura de pantalla 2025-03-23 132819](https://github.com/user-attachments/assets/9e2ac485-a989-4708-8d4a-011c135b0bce)
 
   En la opción 1 podremos ver el catálogo
