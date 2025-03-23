@@ -29,6 +29,7 @@ public class main {
 
     private static Object menuInicio(Controlador controlador) {
         int op;
+        System.out.println();
         System.out.println(" 1. Ver el catálogo");
         System.out.println(" 2. Registrarse");
         System.out.println(" 3. Iniciar sesión");
@@ -1041,7 +1042,19 @@ public class main {
                     System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                 }
             } while (true);
-            p.setEstado(numEstado);
+            Cliente c = null;
+            if (controlador.cambiaEstadoPedido(p.getIdPedido(), numEstado)) {
+                System.out.println(" - Se ha modificado el estado del pedido");
+
+                for (Cliente cliente : controlador.getClientes()) {
+                    for (Pedido pedido : cliente.getPedidos()) {
+                        if (pedido.getId() == p.getIdPedido()) c = cliente;
+                    }
+                }
+                if (c != null)
+                    EnvioMail.enviaCorreoPedidoEstado(c, p);
+            }
+
         }
     }
 
