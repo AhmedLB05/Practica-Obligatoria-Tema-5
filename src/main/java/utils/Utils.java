@@ -50,10 +50,5 @@ public class Utils {
         return numAleatorio;
     }
 
-/*
-    //TODO Metodo que se encarga de enviar y recibir un codigo de verificacion al registrar un cliente
-    public static boolean CorreoVerificacion(String emailIntro) {
-        String destino = emailIntro;
-        String asunto =
-    }*/
+    public static final int IVA = 21;
 }

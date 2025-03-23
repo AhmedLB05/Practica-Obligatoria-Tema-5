@@ -1093,23 +1093,150 @@ public class main {
     //Metodo para realizar un pedido siendo cliente TODO
     private static void realizaPedidoCliente(Cliente cliente, Controlador controlador) {
         int op = 0;
-        System.out.println("Actualmente tiene " + cliente.getCarro().size() + "productos en su carro.");
-        System.out.println("""
-                1. Inserta un producto en el carro
-                2. Ver el carro
-                3. Eliminar un producto del carro
-                4. Confirmar el pedido
-                5. Cancelar el pedido
-                6. Salir""");
         do {
-            try {
-                System.out.print("Introduzca una opción: ");
-                op = Integer.parseInt(S.nextLine());
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+            System.out.println("Actualmente tiene " + cliente.getCarro().size() + "productos en su carro.");
+            System.out.println("""
+                    1. Inserta un producto en el carro
+                    2. Ver el carro
+                    3. Eliminar un producto del carro
+                    4. Confirmar el pedido
+                    5. Cancelar el pedido
+                    6. Salir""");
+            do {
+                try {
+                    System.out.print("Introduzca una opción: ");
+                    op = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
+                }
+            } while (true);
+            switch (op) {
+                case 1: //Inserta un producto en el carro
+                    insertaProductoCarro(controlador, cliente);
+                    Utils.pulsaParaContinuar();
+                    break;
+                case 2: //Ver el carro
+                    pintaCarroCliente(controlador, cliente);
+                    Utils.pulsaParaContinuar();
+                    break;
+                case 3: //Eliminar un producto del carro
+                    eliminaProducto(controlador, cliente);
+                    Utils.pulsaParaContinuar();
+                    break;
+                case 4: //Confirmar el pedido
+                    confirmaPedido(controlador, cliente);
+                    break;
+                case 5: //Cancelar el pedido
+                    break;
+                case 6: //Salir
+                    Utils.mensajeCierraPrograma();
+                    break;
             }
-        } while (true);
+        } while (op != 6);
+
+    }
+
+    private static void confirmaPedido(Controlador controlador, Cliente cliente) {
+        if (cliente.numProductosCarro() == 0) System.out.println("\n * ERROR EL CARRO ESTÁ VACIO");
+        else {
+            System.out.println("¿Quieres confirmar el pedido? (SI/NO): ");
+            String confirmaPedido = S.nextLine();
+            if (confirmaPedido.equalsIgnoreCase("si")) {
+                if (controlador.confirmaPedidoCliente(cliente.getId()))
+                    System.out.println(" - El pedido se ha confirmado con éxito");
+            } else System.out.println(" * ERROR LA CONFIRMACION DEL PEDIDO SE HA CANCELADO");
+        }
+    }
+
+    //Metodo para eliminar un producto del carro de un cliente
+    private static void eliminaProducto(Controlador controlador, Cliente cliente) {
+        int id;
+        int posProducto;
+        if (cliente.numProductosCarro() == 0) System.out.println("\n * ERROR EL CARRO ESTÁ VACIO");
+        else {
+            pintaCarroCliente(controlador, cliente);
+            do {
+                try {
+                    System.out.print("Introduce el producto a eliminar ( -1 para salir): ");
+                    posProducto = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println(" * ERROR AL INTRODUCIR OPCION");
+                }
+            } while (true);
+
+            Producto temp = cliente.getCarro().get(posProducto - 1);
+
+            if (temp == null) System.out.println(" * ERROR NO SE HA ENCONTRADO NINGÚN PRODUCTO");
+            else {
+                if (cliente.quitaProductoCarro(temp.getId())) System.out.println(" - Producto eliminado correctamente");
+                else System.out.println(" * ERROR AL ELIMINAR EL PRODUCTO DEL CARRO");
+            }
+        }
+
+    }
+
+    //Metodo para pinta el carro de un cliente
+    private static void pintaCarroCliente(Controlador controlador, Cliente cliente) {
+        int cont = 1;
+        if (cliente.numProductosCarro() == 0) System.out.println(" * ERROR EL CARRO ESTÁ VACIO");
+        else {
+            System.out.println("""
+                    ┏┓┏┓┳┓┳┓┏┓  ┏┓┓ ┳┏┓┳┓┏┳┓┏┓
+                    ┃ ┣┫┣┫┣┫┃┃  ┃ ┃ ┃┣ ┃┃ ┃ ┣\s
+                    ┗┛┛┗┛┗┛┗┗┛  ┗┛┗┛┻┗┛┛┗ ┻ ┗┛
+                    """);
+            for (Producto p : cliente.getCarro()) {
+                System.out.println("Producto " + cont);
+                System.out.println(p);
+                cont++;
+            }
+            System.out.println();
+            System.out.printf("Total sin IVA: %.2f\n", cliente.precioCarroSinIVA());
+            System.out.printf("IVA total: %.2f\n", cliente.precioIVACarro(Utils.IVA));
+            System.out.printf("Total con IVA: %.2f\n", cliente.precioCarroConIVA(Utils.IVA));
+
+        }
+    }
+
+    //Metodo para insertar un producto en el carro de cliente
+    private static void insertaProductoCarro(Controlador controlador, Cliente cliente) {
+        Producto temp = null;
+        int cont = 1;
+        int productoSeleccionado;
+
+        for (Producto p : controlador.getCatalogo()) {
+            System.out.println("Producto " + cont);
+            System.out.println(p);
+            cont++;
+        }
+
+        do {
+            do {
+                try {
+                    System.out.print("Introduce el número del producto ( -1 para salir): ");
+                    productoSeleccionado = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println(" * ERROR AL INTRODUCIR OPCION");
+                }
+            } while (true);
+
+            if (productoSeleccionado == -1) break;
+
+            try {
+                temp = controlador.getCatalogo().get(productoSeleccionado - 1);
+                //temp = controlador.buscaProductoById(temp.getId());
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println(" * ERROR INESPERADO");
+            }
+        } while (temp == null);
+
+        if (temp != null && controlador.addProductoCarrito(cliente, temp.getId()))
+            System.out.println(" - El producto se ha añadido al carrito correctamente");
+        else System.out.println(" * ERROR NO SE HA PODIDO AGREGAR AL CARRITO EL PRODUCTO");
+
     }
 
     //Metodo que pinta los datos personales de un cliente que le pasemos
