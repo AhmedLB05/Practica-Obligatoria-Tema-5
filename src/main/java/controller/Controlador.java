@@ -103,7 +103,13 @@ public class Controlador {
         return null;
     }
 
+    //Metodo que nos indica si hay algún trabajador empatado en cuanto a pedidos pendientes con el trabajador que le pasamos
     public boolean hayEmpateTrabajadoresCandidatos(Trabajador candidato) {
+        for (Trabajador t : trabajadores) {
+            if (t.getId() != candidato.getId()) {
+                if (t.getPedidosPendientes().size() == candidato.getPedidosPendientes().size()) return true;
+            }
+        }
         return false;
     }
 
@@ -222,7 +228,7 @@ public class Controlador {
         return trabajadores.add(new Trabajador(generaIdTrabajador(), nombre, clave, email, movil));
     }
 
-    //Metodo que devuelve el trabajador al que esta asignado un pedido
+    //Metodo que devuelve el trabajador al que está asignado un pedido
     public Trabajador buscaTrabajadorAsignadoAPedido(int idPedido) {
         for (Trabajador t : trabajadores) {
             for (Pedido p : t.getPedidosAsignados()) {
@@ -232,7 +238,7 @@ public class Controlador {
         return null;
     }
 
-    //Metodo que nos devuelve el total de pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
+    //Metodo que nos devuelve los pedidos sin asignar recorre todos los trabajadores recabando los pedidos asignados
     //luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores
     public ArrayList<Pedido> pedidosSinTrabajador() {
         ArrayList<Pedido> pedidosAsignados = new ArrayList<>();
@@ -397,10 +403,9 @@ public class Controlador {
     public ArrayList<PedidoClienteDataClass> getTodosPedidosClienteDataClass() {
         ArrayList<PedidoClienteDataClass> todosPedidosCliente = new ArrayList<>();
         for (Cliente c : clientes) {
-            if (!c.getPedidos().isEmpty())
-                for (Pedido p : c.getPedidos()) {
-                    todosPedidosCliente.add(new PedidoClienteDataClass(c, p));
-                }
+            if (!c.getPedidos().isEmpty()) for (Pedido p : c.getPedidos()) {
+                todosPedidosCliente.add(new PedidoClienteDataClass(c, p));
+            }
         }
         return todosPedidosCliente;
     }

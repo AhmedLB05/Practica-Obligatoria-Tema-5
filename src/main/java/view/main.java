@@ -288,11 +288,46 @@ public class main {
                 bajaTrabajador(controlador);
                 break;
             case 10: //Asignar un pedido a un trabajador
+                asignaPedidoTrabajador(controlador);
                 break;
             case 11:
                 Utils.mensajeCierraPrograma();
                 break;
         }
+    }
+
+    private static void asignaPedidoTrabajador(Controlador controlador) {
+        ArrayList<Pedido> pedidosSinAsignar = controlador.pedidosSinTrabajador();
+        if (pedidosSinAsignar.isEmpty() || controlador.getTrabajadores().isEmpty())
+            System.out.println(" * ERROR NO HAY PEDIDOS PENDIENTES DE ASIGNACIÓN O NO HAY TRABAJADORES EN EL SISTEMA");
+        else {
+            Pedido p;
+            Trabajador t;
+            int idPedido;
+            do {
+                try {
+                    System.out.print(" - Introduzca el ID del pedido a asignar: ");
+                    idPedido = Integer.parseInt(S.nextLine());
+                    break;
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException(e);
+                }
+            } while (true);
+
+            for (Pedido pedido : pedidosSinAsignar) {
+                if (pedido.getId() == idPedido) p = pedido;
+            }
+            System.out.println(" - Este es el pedido seleccionado: ");
+            pintaPedido(p);
+
+
+        }
+
+
+    }
+
+    private static void pintaPedido(Pedido p) {
+
     }
 
     //Metodo para dar de baja a un trabajador

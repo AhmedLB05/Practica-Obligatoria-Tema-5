@@ -100,6 +100,39 @@ public class Pedido {
 
     //Otros metodos
 
+    @Override
+    public String toString() {
+        String resultado = "";
+        resultado += "======== PEDIDO " + id + " ========\n";
+        resultado += "Fecha de pedido: " + fechaPedido + "\n";
+        resultado += "Fecha de entrega: " + fechaEntregaEstimada + "\n";
+        resultado += "Estado: " + devuelveEstado(estado) + "\n";
+        resultado += "Comentario: " + comentario + "\n";
+        resultado += "Productos: \n" + pintaProductos(productos) + "\n";
+        return resultado;
+    }
+
+    //Metodo que pinta los productos de un pedido
+    private String pintaProductos(ArrayList<Producto> productos) {
+        String resultado = "";
+        for (Producto p : productos) {
+            resultado += p + "\n";
+        }
+        return resultado;
+    }
+
+    //Metodo que devuelve el estado según el número
+    private String devuelveEstado(int estado) {
+        return switch (estado) {
+            case 0 -> "Creado";
+            case 1 -> "En preparación";
+            case 2 -> "Enviado";
+            case 3 -> "Entregado";
+            case 4 -> "Cancelado";
+            default -> "";
+        };
+    }
+
     //Metodo que cambia el estado del pedido
     public boolean cambiaEstado(int nuevoEstado) {
         if (!(nuevoEstado >= 1 && nuevoEstado <= 4)) return false;
@@ -153,6 +186,6 @@ public class Pedido {
 
     //Metodo para agregar un producto al pedido
     public void addProducto(Producto p) {
-        productos.add(p);
+        if (productos != null) productos.add(p);
     }
 }
