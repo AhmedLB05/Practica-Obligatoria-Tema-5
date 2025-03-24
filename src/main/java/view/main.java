@@ -315,13 +315,11 @@ public class main {
             Trabajador trabajadorTemp = null;
             int cont = 1;
 
-
             pintaPedidosSinAsignar(controlador, pedidosSinAsignar);
 
             int pedidoSeleccionado;
-
             do {
-                System.out.print("Introduce el pedido que deseas asignar: ");
+                System.out.print("\nIntroduce el pedido que deseas asignar: ");
                 try {
                     pedidoSeleccionado = Integer.parseInt(S.nextLine());
                     break;
@@ -329,7 +327,6 @@ public class main {
                     System.out.println(" * ERROR AL ELEGIR EL PEDIDO");
                 }
             } while (true);
-
 
             try {
                 pedidoTemp = pedidosSinAsignar.get(pedidoSeleccionado - 1);
@@ -344,14 +341,13 @@ public class main {
             try {
                 trabajadorTemp = controlador.getTrabajadores().get(Integer.parseInt(trabajadorSeleccionado) - 1);
             } catch (IndexOutOfBoundsException | NumberFormatException e) {
-                System.out.println("Error al elegir trabajador...");
+                System.out.println(" * ERROR AL ELEGIR EL TRABAJADOR");
             }
 
-
-            if (pedidoTemp == null || trabajadorTemp == null) System.out.println("No se han encontrado los datos...");
+            if (pedidoTemp == null || trabajadorTemp == null) System.out.println(" * ERROR NO SE HAN ENCONTRADO LOS DATOS");
             else {
                 if (controlador.asignaPedido(pedidoTemp.getId(), trabajadorTemp.getId())) {
-                    System.out.println("Pedido asignado a " + trabajadorTemp.getNombre() + " con éxito...");
+                    System.out.println(" - Pedido asignado a " + trabajadorTemp.getNombre() + " con éxito");
                     EnvioTelegram.enviaMensajeTrabajadorPedidoAsignado(trabajadorTemp, pedidoTemp);
 
                     PedidoClienteDataClass dataTemp = null;
@@ -397,7 +393,7 @@ public class main {
                     id = Integer.parseInt(S.nextLine());
                     break;
                 } catch (NumberFormatException e) {
-                    throw new RuntimeException(e);
+                    System.out.println(" * ERROR AL INTRODUCIR LA ID DEL TRABAJADOR");
                 }
             } while (true);
 
@@ -407,7 +403,7 @@ public class main {
 
             String opcion;
             do {
-                System.out.println("¿Desea dar de baja a ese trabajador? (SI / NO): ");
+                System.out.print("¿Desea dar de baja a ese trabajador? (SI / NO): ");
                 opcion = S.nextLine();
 
                 if (opcion.equalsIgnoreCase("si")) {
@@ -417,7 +413,7 @@ public class main {
                 } else if (opcion.equalsIgnoreCase("no")) {
                     System.out.println(" * CANCELANDO BAJA DEL TRABAJADOR");
                 } else System.out.println(" * ERROR NO INTRODUCIDA UNA OPCION CORRECTA");
-            } while (!opcion.equalsIgnoreCase("si") || !opcion.equalsIgnoreCase("no"));
+            } while (!opcion.equalsIgnoreCase("si") && !opcion.equalsIgnoreCase("no"));
         }
     }
 
@@ -560,11 +556,13 @@ public class main {
 
     //Metodo que pinta un resumen de los trabajadores para el admin
     private static void pintaResumenTrabajadores(Controlador controlador) {
+        int cont = 1;
         if (controlador.getTrabajadores().isEmpty())
             System.out.println(" * ERROR NO HAY TRABAJADORES REGISTRADOS EN EL SISTEMA");
         else {
             for (Trabajador t : controlador.getTrabajadores()) {
-                System.out.println("- ID: " + t.getId() + " - " + t.getNombre() + " movil: " + t.getMovil() + " - email: " + t.getEmail() + "\n");
+                System.out.println(cont + " - ID: " + t.getId() + " - " + t.getNombre() + " movil: " + t.getMovil() + " - email: " + t.getEmail() + "\n");
+                cont++;
             }
         }
     }
@@ -683,7 +681,7 @@ public class main {
         int idPedido;
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
 
-        int cont = 0;
+        int cont = 1;
         for (PedidoClienteDataClass pedidoSeleccionado : controlador.getTodosPedidosClienteDataClass()) {
             System.out.println(" ***** PEDIDO " + cont + " ***** \n");
             System.out.println(pedidoSeleccionado);

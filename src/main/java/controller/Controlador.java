@@ -303,6 +303,7 @@ public class Controlador {
     //luego recorre los clientes pillando los pedidos y luego de la lista de pedidosClientes le quita los pedidos ya asignados a trabajadores
     public ArrayList<Pedido> pedidosSinTrabajador() {
         ArrayList<Pedido> pedidos = new ArrayList<>();
+
         if (!trabajadores.isEmpty()) {
             for (Cliente c : clientes) {
                 for (Pedido p : c.getPedidos()) {
@@ -314,6 +315,8 @@ public class Controlador {
                 pedidos.addAll(c.getPedidos());
             }
         }
+
+
         return pedidos;
     }
 
