@@ -118,7 +118,7 @@ public class main {
 
     //Metodo que se encarga de verificar el token del cliente (inventado por Ahmed)
     private static boolean verificacionCliente(String email) {
-        int token = Utils.generaTokenRegistro(), tokenIntro = 0;
+        int token = Utils.generaTokenRegistro(), tokenIntro;
         System.out.println("\n\nA continuación se le va a enviar un código de verificación a su correo");
         if (EnvioMail.enviaTokenRegistro(email, token) == true) {
             do {
@@ -217,7 +217,7 @@ public class main {
 
         //Pintamos el menu de admin y cogemos la opcion
         if (user instanceof Admin) {
-            Admin admin = new Admin((Admin) user);
+            //Admin admin = new Admin((Admin) user);
             int opAdmin;
             do {
                 pintaEstadisticasAdmin(controlador);
@@ -243,7 +243,7 @@ public class main {
                         System.out.println("ERROR AL INTRODUCIR LA OPCIÓN");
                     }
                 } while (true);
-                menuAdmin(controlador, opAdmin, admin);
+                menuAdmin(controlador, opAdmin);
             } while (opAdmin != 11);
         }
     }
@@ -263,7 +263,7 @@ public class main {
     }
 
     //Metodo que contiene el switch del menu administrador
-    private static void menuAdmin(Controlador controlador, int opAdmin, Admin admin) {
+    private static void menuAdmin(Controlador controlador, int opAdmin) {
         switch (opAdmin) {
             case 1: //Ver todoo el catálogo
                 consultaCatalogo(controlador);
@@ -313,9 +313,8 @@ public class main {
         else {
             Pedido pedidoTemp = null;
             Trabajador trabajadorTemp = null;
-            int cont = 1;
 
-            pintaPedidosSinAsignar(controlador, pedidosSinAsignar);
+            pintaPedidosSinAsignar(pedidosSinAsignar);
 
             int pedidoSeleccionado;
             do {
@@ -365,12 +364,12 @@ public class main {
     }
 
     //Metodo que pinta los pedidos sin asignar
-    private static void pintaPedidosSinAsignar(Controlador controlador, ArrayList<Pedido> pedidosSinAsignar) {
-        pintaPedidosSinData(controlador, pedidosSinAsignar);
+    private static void pintaPedidosSinAsignar(ArrayList<Pedido> pedidosSinAsignar) {
+        pintaPedidosSinData(pedidosSinAsignar);
     }
 
     //Metodo que pinta los pedidos de la clase Pedido
-    private static void pintaPedidosSinData(Controlador controlador, ArrayList<Pedido> pedidos) {
+    private static void pintaPedidosSinData(ArrayList<Pedido> pedidos) {
         int cont = 1;
         if (pedidos.isEmpty()) System.out.println("No tienes pedidos...");
         else {
@@ -620,7 +619,7 @@ public class main {
         System.out.println(" - BIENVENIDO A MODIFICAR EL COMENTARIO DE UN PEDIDO A TU CARGO");
         System.out.println("=======================================================================");
         System.out.println();
-        int idPedido;
+
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
 
         int cont = 0;
@@ -679,7 +678,7 @@ public class main {
         System.out.println();
         System.out.println(" - BIENVENIDO A MODIFICAR EL ESTADO DE UN PEDIDO A TU CARGO");
         System.out.println();
-        int idPedido;
+
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
 
         int cont = 1;
@@ -1020,7 +1019,7 @@ public class main {
         System.out.println(" - BIENVENIDO A MODIFICAR EL COMENTARIO DE UN PEDIDO A TU CARGO");
         System.out.println("===============================================================");
         System.out.println();
-        int idPedido;
+
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
         //PedidoClienteDataClass temp = null;
         int cont = 1;
@@ -1078,7 +1077,7 @@ public class main {
         System.out.println();
         System.out.println(" - BIENVENIDO A MODIFICAR EL ESTADO DE UN PEDIDO A TU CARGO");
         System.out.println();
-        int idPedido;
+
         ArrayList<PedidoClienteDataClass> pedidosCopia = new ArrayList<>();
 
         int cont = 1;
@@ -1196,7 +1195,7 @@ public class main {
 
     //Metodo para realizar un pedido siendo cliente TODO
     private static void realizaPedidoCliente(Cliente cliente, Controlador controlador) {
-        int op = 0;
+        int op;
         do {
 
             System.out.println("\nActualmente tiene " + cliente.getCarro().size() + " productos en su carro.");
@@ -1222,11 +1221,11 @@ public class main {
                     Utils.pulsaParaContinuar();
                     break;
                 case 2: //Ver el carro
-                    pintaCarroCliente(controlador, cliente);
+                    pintaCarroCliente(cliente);
                     Utils.pulsaParaContinuar();
                     break;
                 case 3: //Eliminar un producto del carro
-                    eliminaProducto(controlador, cliente);
+                    eliminaProducto(cliente);
                     Utils.pulsaParaContinuar();
                     break;
                 case 4: //Confirmar el pedido
@@ -1334,12 +1333,12 @@ public class main {
     }
 
     //Metodo para eliminar un producto del carro de un cliente
-    private static void eliminaProducto(Controlador controlador, Cliente cliente) {
-        int id;
+    private static void eliminaProducto(Cliente cliente) {
+
         int posProducto;
         if (cliente.numProductosCarro() == 0) System.out.println("\n * ERROR EL CARRO ESTÁ VACIO");
         else {
-            pintaCarroCliente(controlador, cliente);
+            pintaCarroCliente(cliente);
             do {
                 try {
                     System.out.print("Introduce el producto a eliminar ( -1 para salir): ");
@@ -1365,7 +1364,7 @@ public class main {
     }
 
     //Metodo para pinta el carro de un cliente
-    private static void pintaCarroCliente(Controlador controlador, Cliente cliente) {
+    private static void pintaCarroCliente(Cliente cliente) {
         int cont = 1;
         if (cliente.numProductosCarro() == 0) System.out.println(" * ERROR EL CARRO ESTÁ VACIO");
         else {
