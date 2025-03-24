@@ -438,22 +438,29 @@ public class main {
             } while (true);
 
             Trabajador t = controlador.buscaTrabajadorByID(id);
-            System.out.println(" - El trabajador seleccionado es: ");
-            System.out.println(t);
+            if (t != null) {
+                System.out.println(" - El trabajador seleccionado es: ");
+                System.out.println(t);
 
-            String opcion;
-            do {
-                System.out.print("¿Desea dar de baja a ese trabajador? (SI / NO): ");
-                opcion = S.nextLine();
+                String opcion;
+                do {
+                    System.out.print("¿Desea dar de baja a ese trabajador? (SI / NO): ");
+                    opcion = S.nextLine();
 
-                if (opcion.equalsIgnoreCase("si")) {
-                    if (t.numPedidosPendientes() == 0 && controlador.getTrabajadores().remove(t))
-                        System.out.println(" - Trabajador dado de baja correctamente");
-                    else System.out.println(" * ERROR NO SE HA DADO DE BAJA AL TRABAJADOR");
-                } else if (opcion.equalsIgnoreCase("no")) {
-                    System.out.println(" * CANCELANDO BAJA DEL TRABAJADOR");
-                } else System.out.println(" * ERROR NO INTRODUCIDA UNA OPCION CORRECTA");
-            } while (!opcion.equalsIgnoreCase("si") && !opcion.equalsIgnoreCase("no"));
+                    if (opcion.equalsIgnoreCase("si")) {
+                        if (t.numPedidosPendientes() == 0 && controlador.getTrabajadores().remove(t)) {
+                            System.out.println(" - Trabajador dado de baja correctamente");
+                            Utils.pulsaParaContinuar();
+                        } else System.out.println(" * ERROR NO SE HA DADO DE BAJA AL TRABAJADOR");
+                    } else if (opcion.equalsIgnoreCase("no")) {
+                        System.out.println(" * CANCELANDO BAJA DEL TRABAJADOR");
+                        Utils.pulsaParaContinuar();
+                    } else System.out.println(" * ERROR NO INTRODUCIDA UNA OPCION CORRECTA");
+                } while (!opcion.equalsIgnoreCase("si") && !opcion.equalsIgnoreCase("no"));
+            } else {
+                System.out.println(" * ERROR EL TRABAJADOR NO SE HA ENCONTRADO");
+                Utils.pulsaParaContinuar();
+            }
         }
     }
 
@@ -467,6 +474,8 @@ public class main {
         do {
             System.out.print(" - Introduzca el email del nuevo trabajador: ");
             email = S.nextLine();
+            if (controlador.buscaTrabajadorByEmail(email) != null)
+                System.out.println(" * ERROR EL EMAIL INTRODUCIDO YA EXISTE EN EL SISTEMA");
         } while (controlador.buscaTrabajadorByEmail(email) != null);
         int movilIntro;
 
