@@ -19,6 +19,11 @@ Descomprimimos el archivo y abrimos la carpeta que se genera.
 Entramos en la carpeta POT5O\out\artifacts\POT5O_jar, y pulsamos sobre el ejecutable llamado "EJECUTABLE.bat". El programa comenzará a funcionar.
 
 # Ejecución
+Al iniciar el ejecutable nos saldrá una opción de agregar datos de prueba que consiste en 2 clientes y 2 trabajadores. El usuario elige si agregarlos o no:
+
+![Captura de pantalla 2025-03-24 084725](https://github.com/user-attachments/assets/f835c630-392d-4386-87c8-723ae901cb90)
+
+
 Al iniciar el programa nos saldrá 3 opciones, que al pulsar la opción 1, nos mostrará todos los productos del catálogo
 
 ![Captura de pantalla 2025-03-23 132057](https://github.com/user-attachments/assets/b4eb2f18-8612-4e7f-bd45-fce48a7a1a07)
