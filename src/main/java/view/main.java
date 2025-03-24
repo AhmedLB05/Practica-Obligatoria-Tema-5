@@ -344,7 +344,8 @@ public class main {
                 System.out.println(" * ERROR AL ELEGIR EL TRABAJADOR");
             }
 
-            if (pedidoTemp == null || trabajadorTemp == null) System.out.println(" * ERROR NO SE HAN ENCONTRADO LOS DATOS");
+            if (pedidoTemp == null || trabajadorTemp == null)
+                System.out.println(" * ERROR NO SE HAN ENCONTRADO LOS DATOS");
             else {
                 if (controlador.asignaPedido(pedidoTemp.getId(), trabajadorTemp.getId())) {
                     System.out.println(" - Pedido asignado a " + trabajadorTemp.getNombre() + " con éxito");
