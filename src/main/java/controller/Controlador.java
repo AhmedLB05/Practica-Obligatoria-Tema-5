@@ -16,22 +16,33 @@ public class Controlador {
     private ArrayList<Admin> admins;
     private ArrayList<Producto> catalogo;
 
-    //Constructor TODO ELIMINAR COSAS
+    //Constructor
     public Controlador() {
         clientes = new ArrayList<>();
         trabajadores = new ArrayList<>();
         admins = new ArrayList<>();
         catalogo = new ArrayList<>();
         mock();
+        mock();
     }
 
+    // Mock que va a tener un admin y el catálogo
     private void mock() {
-        clientes.add(new Cliente(generaIdCliente(), "ahmedlb26205@gmail.com", "123", "Ahmed", "Torredelcampo", "Jaén", "Federico Garcia Lorca", 631788372));
-        clientes.add(new Cliente(generaIdCliente(), "marcos.lara.0610@fernando3martos.com", "123", "Marcos", "Martos", "Jaén", "Calle Ramon Garay", 672929324));
-        trabajadores.add(new Trabajador(generaIdTrabajador(), "Carlos", "123", "ahmed.lhaouchi.2602@fernando3martos.com", 672839234));
         admins.add(new Admin(generaIdAdmin(), "admin", "admin", "admin@admin"));
         catalogo = DataProductos.getProductosMock();
     }
+
+    // Mock que va a decidir el usuario si iniciarlo o no
+    public void mock(boolean iniciaMockTeclado) {
+        if (iniciaMockTeclado) {
+            clientes.add(new Cliente(generaIdCliente(), "ahmedlb26205@gmail.com", "123", "Ahmed", "Torredelcampo", "Jaén", "Federico Garcia Lorca", 631788372));
+            clientes.add(new Cliente(generaIdCliente(), "marcos.lara.0610@fernando3martos.com", "123", "Marcos", "Martos", "Jaén", "Calle Ramon Garay", 672929324));
+            trabajadores.add(new Trabajador(generaIdTrabajador(), "Carlos", "123", "ahmed.lhaouchi.2602@fernando3martos.com", 672839234));
+            trabajadores.add(new Trabajador(generaIdTrabajador(), "Juan", "123", "marcoscano2005@gmail.com", 672812344));
+
+        }
+    }
+
 
     //Getters y Setters
     public ArrayList<Cliente> getClientes() {

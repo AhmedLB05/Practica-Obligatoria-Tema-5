@@ -15,6 +15,7 @@ public class main {
 
     public static void main(String[] args) {
         Controlador controlador = new Controlador();
+        datosPrueba(controlador);
         do {
             System.out.println("\n");
             System.out.println("        Bienvenidos a nuestra tienda online");
@@ -55,6 +56,45 @@ public class main {
             default:
         }
         return null;
+    }
+
+    private static void datosPrueba(Controlador controlador) {
+        boolean datosIniciados = false;
+
+        System.out.print("¿Quieres iniciar el programa con datos de prueba? (SI/NO): ");
+        String iniciaMockTeclado = S.nextLine();
+
+        if (iniciaMockTeclado.equalsIgnoreCase("si")) {
+            datosIniciados = true;
+            controlador.mock(datosIniciados);
+            System.out.println("""
+                    Iniciando usuarios de prueba...
+                    Cliente:
+                        Email: ahmedlb26205@gmail.com
+                        Nombre: Ahmed
+                        Clave: 123
+                    
+                    Cliente:
+                        Email: marcos.lara.0610@fernando3martos.com
+                        Nombre: Marcos
+                        Clave: 123
+                    
+                    Trabajador:
+                        Email: ahmed.lhaouchi.2602@fernando3martos.com
+                        Nombre: Carlos
+                        Clave: 123
+                    
+                    Trabajador:
+                        Email: marcoscano2005@gmail.com
+                        Nombre: Juan
+                        Clave: 123
+                    """);
+            Utils.pulsaParaContinuar();
+            System.out.println("\n\n\n");
+        } else if (iniciaMockTeclado.equalsIgnoreCase("no")) {
+            System.out.println(" * NO SE AGREGARAN DATOS DE PRUEBA");
+        } else System.out.println(" * ERROR");
+
     }
 
     //Metodo login
