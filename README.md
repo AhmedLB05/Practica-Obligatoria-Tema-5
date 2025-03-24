@@ -16,7 +16,7 @@ Para poder ejecutar el programa, debemos instalar el **JDK 23**. [Haz clic aquí
 # Iniciar
 Descargamos mediante el enlace a GitHub el archivo .zip.
 Descomprimimos el archivo y abrimos la carpeta que se genera.
-Entramos en la carpeta out\artifacts\PracticaObligatoriaT3_jar, y pulsamos sobre el ejecutable llamado "PracticaOPbligatoriaTema3.bat". El programa comenzará a funcionar.
+Entramos en la carpeta POT5O\out\artifacts\POT5O_jar, y pulsamos sobre el ejecutable llamado "EJECUTABLE.bat". El programa comenzará a funcionar.
 
 # Ejecución
 Al iniciar el programa nos saldrá 3 opciones, que al pulsar la opción 1, nos mostrará todos los productos del catálogo
